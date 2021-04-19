@@ -16,6 +16,12 @@ The~synthesis's primary purpose is through analysis reveals a~concrete subsystem
 A~vital aspect of the design cycle is design space explorations,~i.e. exploring all possible designs.
 
 
+A~\textit{one-by-one} approach can naively solve the~synthesis problem by analysing all unique designs~\cite{spl3,onebyone}.
+On the contrary,~the whole design space can also be modelled as a~single \textit{all-in-one} Markov decision process~\cite{spl3,allinone}.
+However,~enumerating all members of design space (realisations) is unfeasible due to its combinatorial explosion, and the size of such all-in-one MDP is proportional to the number of candidate designs.
+Unfortunately,~the~double state-space explosion problem renders both of these approaches infeasible for large families.
+
+
 \chapter{Synthesis of Probabilistic Programs}
 
 
