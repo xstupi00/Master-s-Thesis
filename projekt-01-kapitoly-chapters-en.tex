@@ -6,6 +6,14 @@ Systems with unreliable and unpredictable behaviour require the~use of such a~ma
 Designing such systems exhibiting a~desirable behaviour \,--\, e.g. selecting the~optimal power management strategy or a~network protocol increasing the~packet throughput \,--\, is challenging for reasoning over multiple alternative designs.
 Their applications cover a~broad range of research areas,~including,~e.g. analysis of (quantitative) software product lines~\cite{spl1,spl2},~strategy synthesis in planning under partial observability~\cite{pomdp1,pomdp2},~or design of communication protocols~\cite{herman1,herman2}.
 
+A~set of declarative temporal constraints often expresses the~efficiency and correctness of the~probabilistic programs.
+The~model checkers for probabilistic systems,~such as \storm{}~\cite{STORM} or \prism{}~\cite{KNP11},~provide automated verification of such constraints.
+However,~these probabilistic model checkers require a~fixed model or a~fixed program,~contrary to their usage requirements when modelling probabilistic programs.
+Developers need to verify the~system designs as early as possible at the~developing process to maintain its costs tractable and as best as possible.
+System designs are prevailingly incomplete at the~initial development phases because,~in most cases,~there are no known all system specifications or intentionally left out potentially.
+The~synthesis's primary purpose is through analysis reveals a~concrete subsystem with fully-defined behaviour and eventually reveals optimal designs when they are requested.
+Therefore, design space exploration is an~essential feature when designing the~system.
+
 \chapter{Synthesis of Probabilistic Programs}
 
 
