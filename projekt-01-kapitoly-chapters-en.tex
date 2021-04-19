@@ -11,8 +11,10 @@ The~model checkers for probabilistic systems,~such as \storm{}~\cite{STORM} or \
 However,~these probabilistic model checkers require a~fixed model or a~fixed program,~contrary to their usage requirements when modelling probabilistic programs.
 Developers need to verify the~system designs as early as possible at the~developing process to maintain its costs tractable and as best as possible.
 System designs are prevailingly incomplete at the~initial development phases because,~in most cases,~there are no known all system specifications or intentionally left out potentially.
+These undefined system specifications are called \textit{holes},~and they can,~e.g.,~reflect an~unspecified component for wireless specification or a~partially implemented controller.
 The~synthesis's primary purpose is through analysis reveals a~concrete subsystem with fully-defined behaviour and eventually reveals optimal designs when they are requested.
-Therefore, design space exploration is an~essential feature when designing the~system.
+A~vital aspect of the design cycle is design space explorations,~i.e. exploring all possible designs.
+
 
 \chapter{Synthesis of Probabilistic Programs}
 
