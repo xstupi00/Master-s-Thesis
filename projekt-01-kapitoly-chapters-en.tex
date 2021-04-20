@@ -39,6 +39,15 @@ This area has been discussed by approaches of model repairing~\cite{model-repair
 When modelling real-world systems,~combining the two tasks can quickly occur,~but the~support to solve such a~\textit{combined synthesis} task does not exist.
 
 \subsubsection*{Key Contributions.}
+This thesis considers a~novel integrated method introduced in the~previous works~\cite{roman-DP,tacas21} as a~base stone.
+Initially,~this method was designed only for feasibility synthesis task with one specification.
+However,~probabilistic programs often have to satisfy specifications expressed as a~conjunction of several temporal logic constraints.
+Therefore, we designed an~extension of this method to support \textit{multi-property specifications} and \textit{optimal synthesis} task.
+The~designed extension for multi-properties is performed in the~same loop as the~origin single-property synthesis, with~necessary modifications: \textit{AR} need to analyse satisfiable specifications within inference sub-families no longer,~and \textit{CEGIS} analyses each specification individually and constructs counter-examples whenever a~given specification is unsatisfiable.
+Consequently,~the~novel integrated method inherits the~benefits of \textit{AR} and \textit{CEGIS} in its favour also at multi-property synthesis.
+\textit{Optimal synthesis} is a~particular instance of \textit{multi-property synthesis},~and it can find an application in various domains.
+Specification set includes so-called violation property representing the currently optimal solution,~and its threshold is updated when a~new optimal solution is found.
+Moreover,~we designed support for the~relaxed variant of the~minimal synthesis,~so-called $\varepsilon$-minimal synthesis,~which is in most cases even faster.
 
 \subsubsection*{Structure of this paper.}
 
