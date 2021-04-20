@@ -46,8 +46,14 @@ Therefore, we designed an~extension of this method to support \textit{multi-prop
 The~designed extension for multi-properties is performed in the~same loop as the~origin single-property synthesis, with~necessary modifications: \textit{AR} need to analyse satisfiable specifications within inference sub-families no longer,~and \textit{CEGIS} analyses each specification individually and constructs counter-examples whenever a~given specification is unsatisfiable.
 Consequently,~the~novel integrated method inherits the~benefits of \textit{AR} and \textit{CEGIS} in its favour also at multi-property synthesis.
 \textit{Optimal synthesis} is a~particular instance of \textit{multi-property synthesis},~and it can find an application in various domains.
-Specification set includes so-called violation property representing the currently optimal solution,~and its threshold is updated when a~new optimal solution is found.
-Moreover,~we designed support for the~relaxed variant of the~minimal synthesis,~so-called $\varepsilon$-minimal synthesis,~which is in most cases even faster.
+In particular,~specification set includes so-called violation property representing the currently optimal solution,~and its threshold is updated whenever a~new optimal solution is found.
+Moreover,~we designed support for the~relaxed variant of the~optimal synthesis,~so-called $\varepsilon$-optimal synthesis,~which is in most cases even faster.
+We evaluate designed extensions on an~extensive set of real-world case studies. 
+We confirm the~results of a~novel approach presented in the~previous works and found the~following conclusions relating to these extensions.
+A~novel integrated method is orders of magnitude faster than one-by-one enumeration when analysing the~single property.
+A~multi-property synthesis slows down both approaches,~although the~novel method slow down is almost negligible.
+An~optimal synthesis slows down only the~integrated approach,~yet it is still incomparably faster than enumeration.
+The~assumption that $\varepsilon$-optimal synthesis can significantly speed up the~whole optimal synthesis process was also confirmed.
 
 \subsubsection*{Structure of this paper.}
 
