@@ -74,12 +74,31 @@ and issues that can serve as a~baseline point for the~follow-up research and pot
 \section{Synthesis Methods}
 Existing methods for a~probabilistic programs synthesis can be separated into two orthogonal classes.
 The~first class involves complete methods that prove the~non-existence,~or potentially optimally,~of the~given probabilistic program.
-On the~contrary,~incomplete methods handling various evolutionary techniques and intelligent search strategies form the~second one.
+On the~contrary,~incomplete methods handling various evolutionary techniques and intelligent search strategies form the~second one~\cite{spl2}.
 However,~these incomplete methods cannot treat unfeasible and optimal synthesis problems compared to the~complete methods.
 Therefore, we focus on the~complete state-of-the-art methods even though the~incomplete methods provide a~valuable flexibility level.
 As a~reference and baseline method,~we consider a~\textit{one-by-one} approach that enumerates through each design space member~\cite{onebyone}.
 An~explosion of the~design space renders this technique unfeasible for large families,~necessitating using advanced approaches utilising the~arbitrary structure of~the Markov chain family.
 
+This thesis focuses on the~complete methods considered within the~\textit{oracle-guided} synthesis approach~\cite{oracle1,oracle2}.
+The~control unit called \textit{learner} selects a~realisation $r$ from the~designs family and passes it to the~performing unit called \textit{oracle}.
+This unit provides an~answer to whether realisation $r$ satisfies a given specification $\Phi$.
+Whenever it is not this case,~it provides supplementary information representing counterexample (CEGIS) or bounds from MC model checking (AR).
+For purposes of this thesis, two various orthogonal oracles can be considered:
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Inductive Oracle} (CE): It tries to infer the~declarations (counterexamples) about other family members by analysing individual realisation~\cite{cegis}.
+    \item \textbf{Deductive Oracle} (AR): Abstraction refinement oracle considers more family members at once and then infers the consequences of these members' constructed aggregation~\cite{cegar}.
+\end{enumerate}
+% Both these approaches offer some benefits,~and therefore,~\toolname{} combines them together as a~\emph{hybrid} synthesis method~\cite{hybrid}.
+% % We illustrate the~cooperation between the~individual units within the~hybrid method in Figure~\ref{fig:adaptivesynt}.
+% The~learner unit maintains the~subfamilies queue $\rlz' \subseteq \rlzf$ for subsequent processing and decides which oracle is selected based on their previous efficiency.
+% The~\textsf{CE-Oracle} analyses the~family member $r$ and,~when it satisfies the~given specification $\Phi$,~then returns it as a~solution.
+% On the~other hand,~it can generalise the~analysed realisation $r$ into a~subfamily $\rlz'$,~and the~learner unit can discard it from the~whole design space $\rlzf$.
+% Moreover,~this oracle exploits the~MDP bounds when constructing counterexamples,~thanks to which it can generate more petite generalisations.
+% The~\textsf{Abstr-Oracle} analyses a~given sub-family $\rlz \subseteq \rlzf$,~and according to the~result,~it performs the~subsequent action.
+% When all realisations $r \in \rlz$ satisfy $\Phi$,~then it returns the~overall synthesis result as feasible.
+% In another case,~when all realisations violate $\Phi$,~the~whole analysed sub-family $\rlz$ will be discarded from the~families queue $\rlzf$ by the~learner.
+% The last option returns safe bounds on the best- and worst-case behaviour of all realisations in $\rlz$ considered $\Phi$ when the analysis result is inconclusive.
 
 \chapter{Advanced Methods for Probabilistic Synthesis}\label{chap:advanced}
 
