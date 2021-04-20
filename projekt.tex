@@ -50,6 +50,20 @@
 \newcommand{\storm}{\textsc{Storm}}
 \newcommand{\prism}{\textsc{Prism}}
 
+\newcommand{\sketch}{\mathrm{P}}
+\newcommand{\fml}{\mathrm{D}}
+\newcommand{\rlz}{\mathrm{R}}
+\newcommand{\rlzf}{\overline{\rlz}}
+\newcommand{\fmlr}{\fml_r}
+\newcommand{\prob}{\mathbb{P}}
+\newcommand{\rew}{\mathbb{E}}
+\newcommand{\supp}{\mathrm{supp}}
+\renewcommand{\phi}{\varphi}
+\newcommand{\F}[1]{\mathrm{F}\ #1}
+\newcommand{\reachability}[3]{\prob_{#1 #2}[\F{#3}]}
+\newcommand{\reward}[3]{\rew_{#1 #2}[\F{#3}]}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
 % Kompilace po částech (rychlejší, ale v náhledu nemusí být vše aktuální)
 % Compilation piecewise (faster, but not all parts in preview will be up-to-date)
 % \usepackage{subfiles}
@@ -73,7 +87,8 @@
 \csdoublequotesoff
 
 
-
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,shapes,fit,calc}
 \usepackage{url}
 
 

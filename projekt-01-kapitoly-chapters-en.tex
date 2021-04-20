@@ -86,19 +86,50 @@ This unit provides an~answer to whether realisation $r$ satisfies a given specif
 Whenever it is not this case,~it provides supplementary information representing counterexample (CEGIS) or bounds from MC model checking (AR).
 For purposes of this thesis, two various orthogonal oracles can be considered:
 \begin{enumerate}[label=(\roman*)]
-    \item \textbf{Inductive Oracle} (CE): It tries to infer the~declarations (counterexamples) about other family members by analysing individual realisation~\cite{cegis}.
+    \item \textbf{Inductive Oracle} (CE): It tries to infer the~declarations (counter-examples) about other family members by analysing individual realisation~\cite{cegis}.
     \item \textbf{Deductive Oracle} (AR): Abstraction refinement oracle considers more family members at once and then infers the consequences of these members' constructed aggregation~\cite{cegar}.
 \end{enumerate}
-% Both these approaches offer some benefits,~and therefore,~\toolname{} combines them together as a~\emph{hybrid} synthesis method~\cite{hybrid}.
-% % We illustrate the~cooperation between the~individual units within the~hybrid method in Figure~\ref{fig:adaptivesynt}.
-% The~learner unit maintains the~subfamilies queue $\rlz' \subseteq \rlzf$ for subsequent processing and decides which oracle is selected based on their previous efficiency.
-% The~\textsf{CE-Oracle} analyses the~family member $r$ and,~when it satisfies the~given specification $\Phi$,~then returns it as a~solution.
-% On the~other hand,~it can generalise the~analysed realisation $r$ into a~subfamily $\rlz'$,~and the~learner unit can discard it from the~whole design space $\rlzf$.
-% Moreover,~this oracle exploits the~MDP bounds when constructing counterexamples,~thanks to which it can generate more petite generalisations.
-% The~\textsf{Abstr-Oracle} analyses a~given sub-family $\rlz \subseteq \rlzf$,~and according to the~result,~it performs the~subsequent action.
-% When all realisations $r \in \rlz$ satisfy $\Phi$,~then it returns the~overall synthesis result as feasible.
-% In another case,~when all realisations violate $\Phi$,~the~whole analysed sub-family $\rlz$ will be discarded from the~families queue $\rlzf$ by the~learner.
-% The last option returns safe bounds on the best- and worst-case behaviour of all realisations in $\rlz$ considered $\Phi$ when the analysis result is inconclusive.
+The~novel integrated approach,~the~so-called \textit{hybrid} method,~combines both these oracles and can thus take advantage of the~benefits offered by both approaches~\cite{roman-DP,tacas21}.
+We illustrate the~cooperation between the~individual units within this method in Figure~\ref{fig:adaptivesynt}.
+The~learner unit maintains the~subfamilies queue $\rlz' \subseteq \rlzf$ for subsequent processing and decides which oracle is selected based on their previous efficiency.
+The~\textit{CE-Oracle} analyses the~family member $r$ and,~when it satisfies the~given specification $\Phi$,~then returns it as a~solution.
+On the~other hand,~it can generalise the~analysed realisation $r$ into a~subfamily $\rlz'$,~and the~learner unit can discard it from the~whole design space $\rlzf$.
+Moreover,~this oracle exploits the~MDP bounds when constructing counterexamples,~thanks to which it can generate more petite generalisations.
+The~\textit{Abstr-Oracle} analyses a~given sub-family $\rlz \subseteq \rlzf$,~and according to the~result,~it performs the~subsequent action.
+When all realisations $r \in \rlz$ satisfy $\Phi$,~then it returns the~overall synthesis result as feasible.
+In another case,~when all realisations violate $\Phi$,~the~whole analysed sub-family $\rlz$ will be discarded from the~families queue $\rlzf$ by the~learner.
+The last option returns safe bounds on the best- and worst-case behaviour of all realisations in $\rlz$ considered $\Phi$ when the analysis result is inconclusive.
+
+\begin{figure}[ht!]
+    \centering
+     \begin{tikzpicture}
+    \node[rectangle, draw, inner sep=8pt] (learner) {Learner};
+    \node[rectangle, draw, inner sep=8pt,right=2.7cm of learner] (oracle) {CE-Oracle};
+       \node[rectangle, draw, inner sep=8pt,left=2.7cm of learner] (abst) {Abstr-Oracle};
+    \node[above=0.5cm of learner] (rlz) {$\rlzf$};
+    \draw[->] (rlz) -- (learner);
+    \node[above=0.5cm of oracle] (phi) {$\Phi$};
+    \draw[->] (phi) -- (oracle);
+    \node[above=0.5cm of abst] (phiab) {$\Phi$};
+    \draw[->] (phiab) -- (abst);
+    \draw[->] (learner) edge[bend left=10] node[above] {\scriptsize{$r \in \rlzf$}+bounds} (oracle);
+    \draw[->] (oracle) edge[bend left=10] node[below] {\scriptsize{$\rlz' \subseteq \rlzf$ violate $\Phi$}} (learner);
+      \draw[->] (learner) edge[bend right=10] node[above] {\scriptsize{$\rlz \subseteq \rlzf$}} (abst);
+    \draw[->] (abst) edge[bend right=10] node[below,align=center] {\scriptsize{bounds \emph{or} $\rlz$ violates}} (learner);
+    
+    \node[below=0.4cm of oracle] (sat) {$r \models \Phi$};
+    \draw[->] (oracle) -- (sat);
+    \node[below=0.4cm of abst] (allsat) {each $r \in \rlz$, $r \models \Phi$};
+    \draw[->] (abst) -- (allsat);
+    \node[below=0.4cm of learner] (unsat) {no $r \models \Phi$};
+    \draw[->] (learner) -- (unsat);
+    \end{tikzpicture}
+  \vspace{-0,5em}
+    \caption{Oracle-guided synthesis (adapted from~\cite{tacas21}).}
+    \label{fig:adaptivesynt}.
+    \vspace{-1em}
+\end{figure}
+
 
 \chapter{Advanced Methods for Probabilistic Synthesis}\label{chap:advanced}
 
