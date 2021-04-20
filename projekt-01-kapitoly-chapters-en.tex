@@ -25,6 +25,12 @@ These methods remain incomplete and cannot efficiently solve more challenging sy
 
 In this work,~we will focus on a~complete state-of-the-art approach for the~synthesis of probabilistic programs.
 This approach was first introduced in \textit{Andriushchenko} master’s thesis~\cite{roman-DP}, followed~by its improvement in~\cite{tacas21}.
+It combines two sophisticated methods providing an~analysis of whole design sub-families at once.
+The~first method analyses each design from a~given sub-family individually and constructs critical sub-systems of counter-examples to prune all designs behaving incorrectly \,--\, the~so-called \textit{counter-example guided inductive synthesis} (CEGIS)~\cite{cegis}.
+The~second method,~called abstraction refinement (AR)~\cite{cegar},~immediately analyses the~entire design space and refines it into design sub-families when the~analysis yields inconclusive results.
+Both of these methods have shown convincing results,~although each faces certain limitations.
+They are incomparable because one method can be more suitable for specific probabilistic programs classes and conversely.
+The~approach presented in this work integrates both these methods and it manages to significantly outperform them,~sometimes by a~margin of orders of magnitude.
 
 
 \chapter{Synthesis of Probabilistic Programs}
