@@ -14,7 +14,7 @@ System designs are prevailingly incomplete at the~initial development phases bec
 These undefined system specifications are called \textit{holes},~and they can,~e.g.,~reflect an~unspecified component for wireless specification or a~partially implemented controller.
 The~synthesis's primary purpose is through analysis reveals a~concrete subsystem with fully-defined behaviour and eventually reveals optimal designs when they are requested.
 A~vital aspect of the design cycle is design space explorations,~i.e. exploring all possible designs.
-
+When considering a~Markov chain (MC) as the~mathematical apparatus of a~probabilistic program,~then the~design space represents a~family of such chains,~and the~synthesis task is to find the~one that satisfies a~given specifications.
 
 A~\textit{one-by-one} approach can naively solve the~synthesis problem by analysing all unique designs~\cite{spl3,onebyone}.
 On the contrary,~the whole design space can also be modelled as a~single \textit{all-in-one} Markov decision process~\cite{spl3,allinone}.
@@ -31,6 +31,16 @@ The~second method,~called abstraction refinement (AR)~\cite{cegar},~immediately 
 Both of these methods have shown convincing results,~although each faces certain limitations.
 They are incomparable because one method can be more suitable for specific probabilistic programs classes and conversely.
 The~approach presented in this work integrates both these methods and it manages to significantly outperform them,~sometimes by a~margin of orders of magnitude.
+
+All these presented methods consider \textit{topology synthesis} task assuming a~finite set of parameters that affect the~model topology,~where the~individual parameters represent the~undefined system specifications.
+This task focuses on Markov chains families having different topologies of the~state space and,~as a~consequence,~different sets of reachable states.
+However,~another area of synthesis tasks considers a~Markov chain with fixed topology but undefined transition probabilities.
+This area has been discussed by approaches of model repairing~\cite{model-repair-1,pathak-et-al-nfm-2015} and techniques for \textit{parameter synthesis}~\cite{ceska2014robustness,Quatmann2016}.
+When modelling real-world systems,~combining the two tasks can quickly occur,~but the~support to solve such a~\textit{combined synthesis} task does not exist.
+
+\subsubsection*{Key Contributions.}
+
+\subsubsection*{Structure of this paper.}
 
 
 \chapter{Synthesis of Probabilistic Programs}
