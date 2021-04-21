@@ -123,7 +123,7 @@ In this thesis and our implementation,~we consider a~more flexible high-level mo
 
 \begin{definition}[Family of MCs]
 \cite{cegar}
-    A \emph{family of MCs} $\fml$ is a~quadruple $\family$  where $S$ is a~finite set of \emph{states}, $\sinit \in S$ is an~\emph{initial state}, $K$ is a~finite set of parameters with domains $T_k  \subseteq S$ for each $k \in K$, and $\fpm : S \rightarrow Distr(K)$ is a~family of transition probability functions.
+    A~\emph{family of MCs} $\fml$ is a~quadruple $\family$  where $S$ is a~finite set of \emph{states}, $\sinit \in S$ is an~\emph{initial state},~$K$ is a~finite set of parameters with domains $T_k \subseteq S$ for each $k \in K$,~and $\fpm : S \rightarrow Distr(K)$ is a~family of transition probability functions.
 \end{definition}
 
 The~transition probability function $\fpm$ of MCs family $\fml$ maps each state $s \in S$ to the~probability distribution over parameters from $K$.
@@ -134,9 +134,15 @@ We call such instantiated MC as \textit{realisation},~and the~following definiti
 \begin{definition}[Realisation]
 \cite{cegar}
 A~\emph{realization} of a~family $\fml = \family$ of MCs is a~function $r: K \rightarrow S$ s.t.~$\forall k \in K :  r(k) \in T_k$. 
-A~realization~$r$ yields a MC $\fmlr = (S,\sinit,\fpm(r))$, where $\fpm(r)$ represents the~transition probability matrix where each parameter $k \in K$ is substituted with $r(k)$. 
+A~realization~$r$ yields a MC $\fmlr = (S,\sinit,\fpm(r))$,~where $\fpm(r)$ represents the~transition probability matrix where each parameter $k \in K$ is substituted with $r(k)$. 
 Let $\rlzf$ denote the~set of all realisations for $\fml$.
 \end{definition}
+
+A~set $\prod_{k \in K} T_k$ representing all possible parameter combinations values has the~same semantics as a~set $\rlzf$ representing all family realisations.
+In other words,~we can define the~\textit{size of the family} of MCs in the~following way: $\lvert \fml \rvert := \lvert \prod_{k \in K} T_k \rvert = \lvert \rlzf \rvert = \prod_{k \in K} \lvert T_k \rvert$.
+The~family size $\lvert \fml \rvert$ is finite because of the~finiteness of each parameter domain $T_k \subseteq S$,~but it is exponential in the~number of parameters $\lvert K \rvert$.
+We note $\rlz$ as the~sub-families induced from the~whole family $\rlzf$.
+The~individual MCs within the~family share the~same state space $S$,~but their set of reachable states can vary.
 
 \subsection{Probabilistic Synthesis}
 
