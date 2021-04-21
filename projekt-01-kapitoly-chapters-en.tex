@@ -74,6 +74,8 @@ This section formalises necessary ingredients and the~problem statement for prob
 We introduce definitions that assume parameters affecting MCs' topology,~and their adjustable versions for parameter synthesis we will introduce in Section~\ref{chap:combined}.
 The following definitions are taken from the existing sources, mainly from~\cite{roman-DP,tacas21}, where a more detailed description can also be found.
 
+\subsection{Discrete-Time Markov Chains}
+
 \begin{definition}[Distribution]
 A \textit{discrete} distribution over a~finite or countably infinite set $X$ is a~function $\mu: X \rightarrow [0,1]$ s.t. $\sum_{x \in X} \mu(x) = \mu(X) = 1$.
 The~set of all distributions on $X$ is denoted $Distr(X)$.
@@ -93,6 +95,11 @@ The support of a distribution $\mu$ is $supp(\mu) = \{ x \in X \lvert \mu(x) > 0
     We write $\mathbf{P}(s, t)$ to denote $\mathbf{P}(s)(t)$.
     The state $s$ is \textit{absorbing} if $\mathbf{P}(s, s) = 1$.
 \end{definition}
+
+Instinctively,~we can imagine an~$MC$ as a~state-transition system with the~following semantics.
+A~probability distribution for each state $\forall s \in S: \mathbf{P}(S)$ represents a~stochastic choice of firing the~transition from such state $s \in S$ to one of its successors states $s' \in supp(\mathbf{P(S)})$.
+Consequently,~an~$MC$ defined with such semantics has a~\textit{Markov property} (memorylessness), which is essential when modelling systems and efficient analysis.
+This property declares that the~probability of the~transition from state $s \in S$ to state $s' \in supp(\mathbf{P(S)})$ depends only on the~current state,~and it is independent of the~taken path of chain to state $s$.
 
 \section{Synthesis Methods}
 Existing methods for a~probabilistic programs synthesis can be separated into two orthogonal classes.
