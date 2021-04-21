@@ -187,6 +187,10 @@ For property $\phi_{\max}$, find a realisation $r^* \in \rlzf$ such that:
 $$r^* \in \argmax_{r \in \rlzf} \left \{ \prob[\sketch[r] \models \phi_{\max}] \mid \sketch[r] \models \Phi \right \}.$$.
 \end{definition}
 
+We defined only minimal synthesis task for probability property,~but its variants for maximisation and expected rewards may be defined analogously.
+Moreover, we focus also to a relaxed variant of minimal synthesis, the so-called \textit{$\varepsilon$-minimal synthesis}, defined as follows: $\mathcal{P}[r^*] \models \varPhi \; and \; 
+\mathbb{P}[\mathcal{P}[r^*] \models \varphi_{min}] \leq (1 - \varepsilon) \cdot \min_{r \in \mathcal{\overline{R}}} \{ \mathbb{P}[\mathcal{P}[r] \models \varphi_{min}] \; \lvert \; \mathcal{P}[r] \models \varPhi \}.$
+
 \section{Synthesis Methods}
 Existing methods for a~probabilistic programs synthesis can be separated into two orthogonal classes.
 The~first class involves complete methods that prove the~non-existence,~or potentially optimally,~of the~given probabilistic program.
