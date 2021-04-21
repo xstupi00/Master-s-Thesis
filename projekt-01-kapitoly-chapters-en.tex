@@ -116,6 +116,17 @@ Still,~this property can be suppressed by applying a~\textit{scheduler},~which s
 For more material about schedulers and other details about Markov chains,~see~\cite{roman-DP}.
 
 \subsection{Families of Markov Chains}
+This thesis considers a~parametric transition probability function as an~explicit representation of an~MCs family.
+Such explicit representation relieves the~presentation and provides to describe exciting and practical problems for probabilistic synthesis.
+On the~other hand,~arbitrary probabilistic programs permit the~modelling of more complex and independent parameter structures~\cite{cegar}.
+In this thesis and our implementation,~we consider a~more flexible high-level modelling language,~see Section~\todo{?}.
+
+\begin{definition}[Family of MCs]
+\cite{cegar}
+    A \emph{family of MCs} $\fml$ is a~quadruple $\family$  where $S$ is a~finite set of \emph{states}, $\sinit \in S$ is an~\emph{initial state}, $K$ is a~finite set of parameters with domains $V_k  \subseteq S$ for each $k \in K$, and $\fpm : S \rightarrow Distr(K)$ is a~family of transition probability functions.
+\end{definition}
+
+% Function $\fpm$ of a~family $\fml$ 
 
 \subsection{Probabilistic Synthesis}
 
