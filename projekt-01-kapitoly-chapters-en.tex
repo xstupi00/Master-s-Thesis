@@ -172,7 +172,20 @@ Let $\mathcal{P}[r]$ be a~program induced by the~realisation $r$,~we denote $\ma
 Let $\Phi = \{ \varphi_i \}_{i \in I}$ be a~finite set of specifications,~when $\forall i \in I: \mathcal{P}[r] \models \varphi_i$ then we write $\mathcal{P}[r] \models \Phi$.
 \end{definition}
 
+We aim to two kinds of synthesis tasks for a~given probabilistic program described with a~realisation set $\rlzf$,~and a~specification set $\Phi$.
+The first task tries to identify just one realisation $r \in \rlzf$ that satisfy the~given specification set $\Phi$.
+This task represents a~special instance of the~threshold synthesis,~which tries to divide the~realisation set $\rlzf$ into two subsets based on their satisfiability.
+We do not address this synthesis task in our work.
+The second task on which we focus our attention is finding a~realisation that minimises or maximises a~given objective.
 
+\begin{definition}[Feasibility]
+Find a realisation $r \in \rlzf$ such that $\mathcal{P}[r] \models \Phi$. 
+\end{definition}
+
+\begin{definition}[Minimality]
+For property $\phi_{\max}$, find a realisation $r^* \in \rlzf$ such that:
+$$r^* \in \argmax_{r \in \rlzf} \left \{ \prob[\sketch[r] \models \phi_{\max}] \mid \sketch[r] \models \Phi \right \}.$$.
+\end{definition}
 
 \section{Synthesis Methods}
 Existing methods for a~probabilistic programs synthesis can be separated into two orthogonal classes.
