@@ -70,6 +70,29 @@ and issues that can serve as a~baseline point for the~follow-up research and pot
 \chapter{Synthesis of Probabilistic Programs}\label{chap:synthesis}
 
 \section{Problem Statement}
+This section formalises necessary ingredients and the~problem statement for probabilistic synthesis.
+We introduce definitions that assume parameters affecting MCs' topology,~and their adjustable versions for parameter synthesis we will introduce in Section~\ref{chap:combined}.
+The following definitions are taken from the existing sources, mainly from~\cite{roman-DP,tacas21}, where a more detailed description can also be found.
+
+\begin{definition}[Distribution]
+A \textit{discrete} distribution over a~finite or countably infinite set $X$ is a~function $\mu: X \rightarrow [0,1]$ s.t. $\sum_{x \in X} \mu(x) = \mu(X) = 1$.
+The~set of all distributions on $X$ is denoted $Distr(X)$.
+The support of a distribution $\mu$ is $supp(\mu) = \{ x \in X \lvert \mu(x) > 0 \}$.
+% A distribution is \textit{Dirac} if $\lvert supp(\mu) \rvert = 1$.
+\end{definition}
+
+\begin{example}
+    Let $X = \{x_0, x_1, x_0\}$ be a finite set.
+    Let function $\mu: X \rightarrow [0,1]$ defined as $\mu: [x_0 \mapsto \frac{1}{2}, x_1 \mapsto 0, x_2 \mapsto \frac{1}{2}]$ be a \textit{probability distribution} on $X$, i.e. $\mu \in Distr(X)$.
+    The support of $\mu$ is $supp(\mu) = \{x_0, x_2 \}$, and for simplification, we writes such distributions as $\mu = \frac{1}{2} : x_0 + \frac{1}{2} : x_2$.
+\end{example}
+
+
+\begin{definition}[MC]
+    A Markov chain (MC) D is a~triple $\mc$,~where $S$ is a~finite set of states,~$s_0 \in S$ is an~initial state,~and $\mathbf{P}: S \rightarrow Distr(S)$ is a~transition probability matrix.
+    We write $\mathbf{P}(s, t)$ to denote $\mathbf{P}(s)(t)$.
+    The state $s$ is \textit{absorbing} if $\mathbf{P}(s, s) = 1$.
+\end{definition}
 
 \section{Synthesis Methods}
 Existing methods for a~probabilistic programs synthesis can be separated into two orthogonal classes.

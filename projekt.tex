@@ -50,19 +50,94 @@
 \newcommand{\storm}{\textsc{Storm}}
 \newcommand{\prism}{\textsc{Prism}}
 
-\newcommand{\sketch}{\mathrm{P}}
-\newcommand{\fml}{\mathrm{D}}
-\newcommand{\rlz}{\mathrm{R}}
-\newcommand{\rlzf}{\overline{\rlz}}
-\newcommand{\fmlr}{\fml_r}
+% numbers
+\newcommand{\nat}{\mathbb{N}_0}
+\newcommand{\rat}{\mathbb{Q}}
+\newcommand{\real}{\mathbb{R}}
+\newcommand{\realpos}{\real_{\geq 0}}
+\newcommand{\unitinterval}{[0,1]}
+
+% vectors
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\norm}[1]{\left\| #1 \right\|_1}
+
+% probability
 \newcommand{\prob}{\mathbb{P}}
 \newcommand{\rew}{\mathbb{E}}
 \newcommand{\supp}{\mathrm{supp}}
+
+% properties
 \renewcommand{\phi}{\varphi}
+% \newcommand{\F}[1]{\Diamond#1}
 \newcommand{\F}[1]{\mathrm{F}\ #1}
 \newcommand{\reachability}[3]{\prob_{#1 #2}[\F{#3}]}
 \newcommand{\reward}[3]{\rew_{#1 #2}[\F{#3}]}
-\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\safety}[2]{\reachability{\leq}{#1}{#2}}
+\newcommand{\liveness}[2]{\reachability{\geq}{#1}{#2}}
+\newcommand{\safetys}{\safety{\lambda}{T}}
+\newcommand{\livenesss}{\liveness{\lambda}{T}}
+
+% transition systems
+\newcommand{\sins}{s \in S}
+\newcommand{\sinit}{s_{0}}
+\newcommand{\sBot}{s_{\bot}}
+\newcommand{\sTop}{s_{\top}}
+\newcommand{\statesum}[1]{\sum_{#1 \in S}}
+\newcommand{\lastpi}{\mathrm{last}(\pi)}
+\newcommand{\paths}[1]{\mathrm{Paths}^{#1}}
+\newcommand{\pathsfin}[1]{\mathrm{Paths}^{#1}_{\mathrm{fin}}}
+
+% mc
+\renewcommand{\pm}{\vect{P}}
+\newcommand{\mc}{(S,\sinit,\pm)}
+\newcommand{\subchain}[2]{#1 {\downarrow} #2}
+
+% mdp
+\newcommand{\mpm}{\mathcal{P}}
+\newcommand{\mdp}{(S,\sinit,Act,\mpm)}
+\newcommand{\sigmamin}{\sigma_{\min}}
+\newcommand{\sigmamax}{\sigma_{\max}}
+
+% other
+\newcommand{\vz}{\vect{0}}
+\newcommand{\vo}{\vect{1}}
+
+\newcommand{\vx}{\vect{x}}
+\newcommand{\vxmin}{\vect{x}_{\min}}
+\newcommand{\vxmax}{\vect{x}_{\max}}
+\newcommand{\vxi}{\vx^{(i)}}
+\newcommand{\vg}{\vect{\gamma}}
+\newcommand{\vc}{\vect{\chi}}
+\newcommand{\vu}{\vect{\upsilon}}
+
+% family
+\newcommand{\fml}{\mathcal{D}}
+\newcommand{\fpm}{\mathcal{B}}
+\newcommand{\family}{(S,\sinit,K,\fpm)}
+
+% realization
+\newcommand{\rlz}{\mathcal{R}}
+\newcommand{\rlzf}{\overline{\rlz}}
+\newcommand{\fmlr}{\fml_r}
+
+% CEGIS, CEGAR
+\newcommand{\generalize}[2]{#1 {\uparrow} #2}
+\newcommand{\generalizes}{\generalize{r}{\overline{K}}}
+\newcommand{\quotientmdp}{(S,\sinit,\rlzf,\mpm)}
+
+% algorithms
+\newcommand{\successRate}[1]{\sigma_{#1}}
+
+% Integrated: parameters
+\newcommand{\mml}{mdpMClimit}
+\newcommand{\api}{activatePerIter}
+
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+
 
 % Kompilace po částech (rychlejší, ale v náhledu nemusí být vše aktuální)
 % Compilation piecewise (faster, but not all parts in preview will be up-to-date)
