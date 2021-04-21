@@ -144,12 +144,12 @@ The~family size $\lvert \fml \rvert$ is finite because of the~finiteness of each
 We note $\rlz$ as the~sub-families induced from the~whole family $\rlzf$.
 The~individual MCs within the~family share the~same state space $S$,~but their set of reachable states can vary.
 
-\begin{example}[Family of MCs]
+\begin{example}[Family of MCs]\label{exam:mcfamily}
 Let $\fml = \family$ be a~family of MCs,~where $S = \{s_0, s_1, s_2, s_3\}$ and $K = \{ k_0, k_1\}$ with domains $T_{k_0} = \{s_0, s_2\}$,~and $T_{k_1} = \{s_1, s_3\}$.
 The parametric transition function $\fpm$ is defined as follows:
 \begin{align*}
     \fpm(s_0) &= 0.5 : k_0 + 0.5 : k_1  &  \fpm(s_1)  &= 0.5 : k_1  + 0.5 : k_0 \\
-    \fpm(s_2) &= 1.0: k_1   &  \fpm(s_3)  &= 1.0 : s_2
+    \fpm(s_2) &= 1.0: k_1   &  \fpm(s_3)  &= 1.0 : s_3
 \end{align*}
 Figure~\ref{fig:mcfamily} draws the~MCs family $\fml$ that correspond to all possible realisations: $\lvert T_{k_0} \rvert \cdot \lvert T_{k_1} \rvert = 2 \cdot 2 = 4$.
 We note that these MCs have a~different topology of the~underlying state space,~resulting in different sets of reachable states.
@@ -190,6 +190,12 @@ $$r^* \in \argmax_{r \in \rlzf} \left \{ \prob[\sketch[r] \models \phi_{\max}] \
 We defined only minimal synthesis task for probability property,~but its variants for maximisation and expected rewards may be defined analogously.
 Moreover, we focus also to a relaxed variant of minimal synthesis, the so-called \textit{$\varepsilon$-minimal synthesis}, defined as follows: $\mathcal{P}[r^*] \models \varPhi \; and \; 
 \mathbb{P}[\mathcal{P}[r^*] \models \varphi_{min}] \leq (1 - \varepsilon) \cdot \min_{r \in \mathcal{\overline{R}}} \{ \mathbb{P}[\mathcal{P}[r] \models \varphi_{min}] \; \lvert \; \mathcal{P}[r] \models \varPhi \}.$
+
+\begin{example} (Synthesis problems)
+Assume an~MCs family $\fml$ from Example~\ref{exam:mcfamily} and the specification $\phi = \reachability{\geq}{0.1}{\{s_1\}}$.
+The solution to the~feasibility synthesis problem is,~for example,~the~realisation $r_0$, since $D_{r_0}$ has a~probability of $\frac{2}{3}$ to reach state $s_1$.
+For $\Phi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $D_{r_2}$ has a!probability equal to one to reach state $s_1$.
+\end{example}
 
 \section{Synthesis Methods}
 Existing methods for a~probabilistic programs synthesis can be separated into two orthogonal classes.
