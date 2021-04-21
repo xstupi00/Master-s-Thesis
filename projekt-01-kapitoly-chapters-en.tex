@@ -144,6 +144,23 @@ The~family size $\lvert \fml \rvert$ is finite because of the~finiteness of each
 We note $\rlz$ as the~sub-families induced from the~whole family $\rlzf$.
 The~individual MCs within the~family share the~same state space $S$,~but their set of reachable states can vary.
 
+\begin{example}[Family of MCs]
+Let $\fml = \family$ be a~family of MCs,~where $S = \{s_0, s_1, s_2, s_3\}$ and $K = \{ k_0, k_1\}$ with domains $T_{k_0} = \{s_0, s_2\}$,~and $T_{k_1} = \{s_1, s_3\}$.
+The parametric transition function $\fpm$ is defined as follows:
+\begin{align*}
+    \fpm(s_0) &= 0.5 : k_0 + 0.5 : k_1  &  \fpm(s_1)  &= 0.5 : k_1  + 0.5 : k_0 \\
+    \fpm(s_2) &= 1.0: k_1   &  \fpm(s_3)  &= 1.0 : s_2
+\end{align*}
+Figure~\ref{fig:mcfamily} draws the MCs family $\fml$ that correspond to all possible realisations.
+\end{example}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/MCFamily.pdf}
+\caption{A family $\fml$ of four various realisations. Unreachable states are greyed out.}%
+\label{fig:mcfamily}%
+\end{figure}
+
 \subsection{Probabilistic Synthesis}
 
 \section{Synthesis Methods}
