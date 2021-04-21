@@ -164,6 +164,16 @@ We note that these MCs have a~different topology of the~underlying state space,~
 
 \subsection{Probabilistic Synthesis}
 
+\begin{definition}[Specification]
+In our work,~we focus on the~conjunctions of specifications with \textit{reachability} and \textit{expected rewards}.
+Let $T$ be a~set of target states,~then the~reachability property $\varphi \equiv \reachability{\bowtie}{\lambda}{T}$ where $\bowtie \in \{<, \leq, >, \geq\}$ and $0 \leq \lambda \leq 1$ expresses that the~probability of reaching $T$ refers to $\lambda \in [0,1]$ in agreement with $\bowtie$.
+Expected reward property $\phi \equiv \reward {\bowtie}{\lambda}{T}$ expresses that the~expected reward accumulated before $T$ is reached refers to $\lambda \in \mathbb{R}^+$ in accordance with $\bowtie \, \in \{<, \leq \}$.
+Let $\mathcal{P}[r]$ be a~program induced by the~realisation $r$,~we denote $\mathcal{P}[r] \models \varphi$ when this program satisfies the~specification $\varphi$.
+Let $\Phi = \{ \varphi_i \}_{i \in I}$ be a~finite set of specifications,~when $\forall i \in I: \mathcal{P}[r] \models \varphi_i$ then we write $\mathcal{P}[r] \models \Phi$.
+\end{definition}
+
+
+
 \section{Synthesis Methods}
 Existing methods for a~probabilistic programs synthesis can be separated into two orthogonal classes.
 The~first class involves complete methods that prove the~non-existence,~or potentially optimally,~of the~given probabilistic program.
