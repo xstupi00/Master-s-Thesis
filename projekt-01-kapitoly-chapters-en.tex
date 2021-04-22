@@ -194,7 +194,7 @@ Moreover, we focus also to a relaxed variant of minimal synthesis, the so-called
 \begin{example} (Synthesis problems)
 Assume an~MCs family $\fml$ from Example~\ref{exam:mcfamily} and the specification $\phi = \reachability{\geq}{0.1}{\{s_1\}}$.
 The solution to the~feasibility synthesis problem is,~for example,~the~realisation $r_0$, since $D_{r_0}$ has a~probability of $\frac{2}{3}$ to reach state $s_1$.
-For $\Phi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $D_{r_2}$ has a!probability equal to one to reach state $s_1$.
+For $\Phi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $D_{r_2}$ has a~probability equal to one to reach state $s_1$.
 \end{example}
 
 \section{Synthesis Methods}
@@ -256,6 +256,21 @@ The last option returns safe bounds on the best- and worst-case behaviour of all
     \vspace{-1em}
 \end{figure}
 
+\paragraph{Hybrid Method.}
+An~extended synthesis approach was introduced in~\cite{roman-DP,tacas21} using the~abstraction refinement to family prune and accelerating the~construction of counter-examples by CE-oracle.
+Its main idea is to perform a~limited number of abstraction refinement loops and then invoke CEGIS to one of the~refined sub-families.
+It turned out that a~moment of the~switching can be crucial,~and therefore,~the~method has to detect the~rightest moment.
+
+As we said above,~this \textit{novel integrated} method combines inductive and deductive oracles,~and we briefly summarise their operation.
+CEGIS iterates through all family members (realisations) until it reached the~satisfying realisation,~if such exists,~or when it explores the~whole design space.
+Moreover,~it constructs counter-examples whenever the~analysed realisation $r \in \fmlr$ unsatisfying the~given specification $\Phi$.
+Realisations subset $\rlz' \subseteq \rlzf$ represents such counter-examples that CEGIS subsequently prunes from the~analysed design space $\rlzf$.
+On the~other hand,~an AR loop builds MDP models from the~sub-families queue $\rlz \subseteq \rlzf$ that model-checkers analyse in follows.
+When the~analysis results are inconclusive,~an AR refines the~analysed sub-family and  stores the~obtained satisfiability bounds for further processing.
+
+The~designed method switches between AR and CEGIS loop during the~synthesis execution, where an~AR stage refines the~families, ~and CEGIS uses the~obtained refined bounds.
+Method allocates the~time per both loop according to their performance,~e.g.,~it can consider the~number of pruned MCs per timed unit and estimates an~efficiency from it.
+Namely,~when it notices that AR prunes sub-families twice as slow as CEGIS,~it increases time twice in the~next round for CEGIS.
 
 \chapter{Advanced Methods for Probabilistic Synthesis}\label{chap:advanced}
 
