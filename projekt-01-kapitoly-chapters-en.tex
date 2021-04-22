@@ -260,13 +260,8 @@ The last option returns safe bounds on the best- and worst-case behaviour of all
 An~extended synthesis approach was introduced in~\cite{roman-DP,tacas21} using the~abstraction refinement to family prune and accelerating the~construction of counter-examples by CE-oracle.
 Its main idea is to perform a~limited number of abstraction refinement loops and then invoke CEGIS to one of the~refined sub-families.
 It turned out that a~moment of the~switching can be crucial,~and therefore,~the~method has to detect the~rightest moment.
-
-As we said above,~this \textit{novel integrated} method combines inductive and deductive oracles,~and we briefly summarise their operation.
-CEGIS iterates through all family members (realisations) until it reached the~satisfying realisation,~if such exists,~or when it explores the~whole design space.
-Moreover,~it constructs counter-examples whenever the~analysed realisation $r \in \fmlr$ unsatisfying the~given specification $\varPhi$.
-Realisations subset $\rlz' \subseteq \rlzf$ represents such counter-examples that CEGIS subsequently prunes from the~analysed design space $\rlzf$.
-On the~other hand,~an AR loop builds MDP models from the~sub-families queue $\rlz \subseteq \rlzf$ that model-checkers analyse in follows.
-When the~analysis results are inconclusive,~an AR refines the~analysed sub-family and  stores the~obtained satisfiability bounds for further processing.
+One AR iteration is typically significantly slower than one CEGIS iteration since the~AR iteration involves an~MDP model-checking,~which inspires whole method workflow.
+The~advance of the~hybrid methods is also constructing counter-examples within the~CEGIS loop,~where it uses a~fast greedy approach providing smaller generalisations.
 
 \begin{algorithm}[H]
 \hspace*{\algorithmicindent} \textbf{Input:} A MCs family $\fml$, a reachability property $\varphi$. \\
@@ -295,7 +290,12 @@ When the~analysis results are inconclusive,~an AR refines the~analysed sub-famil
 \label{alg:hybrid}
 \end{algorithm}
 
-The~designed method switches between AR and CEGIS loop during the~synthesis execution, where an~AR stage refines the~families, ~and CEGIS uses the~obtained refined bounds.
+As we said above,~this \textit{novel integrated} method combines inductive and deductive oracles,~and we briefly summarise their operation.
+CEGIS iterates through all family members (realisations) until it reached the~satisfying realisation,~if such exists,~or when it explores the~whole design space.
+Moreover,~it constructs counter-examples whenever the~analysed realisation $r \in \fmlr$ unsatisfying the~given specification $\varPhi$.
+Realisations subset $\rlz' \subseteq \rlzf$ represents such counter-examples that CEGIS subsequently prunes from the~analysed design space $\rlzf$.
+On the~other hand,~an AR loop builds MDP models from the~sub-families queue $\rlz \subseteq \rlzf$ that model-checkers analyse in follows.
+When the~analysis results are inconclusive,~an AR refines the~analysed sub-family and  stores the~obtained satisfiability bounds for further processing within CEGIS loop.
 Method allocates the~time per both loop according to their performance,~e.g.,~it can consider the~number of pruned MCs per timed unit and estimates an~efficiency from it.
 Namely,~when it notices that AR prunes sub-families twice as slow as CEGIS,~it increases time twice in the~next round for CEGIS.
 The resulting algorithm is summarised in Algorithm~\ref{alg:hybrid},~adapted from~\cite{tacas21}.
