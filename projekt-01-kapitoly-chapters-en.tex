@@ -398,6 +398,8 @@ p_1 : \texttt{update}_1 + \dots + p_n : \texttt{update}_n
 The~\emph{actions} ensure the~synchronisation between two or more modules when they perform the~command.
 The~\emph{guard} represents a~boolean expression over the~module variables.
 An~update of the~variables is selected concerning the~probability distribution defined by expressions $p_1$ through $p_n$ when guard evaluates to true.
+Essentially,~the guard identifies states for which this command is applicable,~and updates describe successor states and the~probability distribution over these successors.
+Overlapping of guards is disallowed since it yields non-determinism.
 
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
