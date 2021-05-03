@@ -163,6 +163,19 @@ We note that these MCs have a~different topology of the~underlying state space,~
 \end{figure}
 
 \subsection{Probabilistic Synthesis}
+We use a~\textit{sketch}~\cite{sketching1,sygus}, ~which represents a~incomplete high-level description of a~probabilistic system,~to describe the~family of MCs.
+It usually describes the~modelled system's fixed behaviour,~but it also contains the~undefined one represented by \textit{holes}.
+They represent the~incomplete parts of a~program that must be instantiated so that the~final description satisfies a~given specification.
+We note that the~holes correspond to parameters,~and their instantiation yields a~concrete Markov chain.
+At follow, we formalise the sketch defining the set of designs:
+
+\begin{definition}[Sketch]
+Let $\sketch$ be a~sketch containing holes from the~set $\mathcal{H} = \left\{ H_k \right \}_k$ with $R_k$ being the~set of options available for hole $H_k$.
+Let $\rlzf = \prod_k R_k$ denote the~set of all hole assignments (realizations),~$\sketch[r]$ denote the~program induced by a~substitution $r \in \rlzf$ and $\fmlr$ denote the underlying MC.
+Note that the~set $\rlzf$ is exponential in $\lvert \mathcal{H} \rvert$.
+\end{definition}
+
+\todo{Some description ...}
 
 \begin{definition}[Specification]
 In our work,~we focus on the~conjunctions of specifications with \textit{reachability} and \textit{expected rewards}.
@@ -191,8 +204,8 @@ We defined only minimal synthesis task for probability property,~but its variant
 Moreover, we focus also to a relaxed variant of minimal synthesis, the so-called \textit{$\varepsilon$-minimal synthesis}, defined as follows: $\mathcal{P}[r^*] \models \varPhi \; and \; 
 \mathbb{P}[\mathcal{P}[r^*] \models \varphi_{min}] \leq (1 - \varepsilon) \cdot \min_{r \in \mathcal{\overline{R}}} \{ \mathbb{P}[\mathcal{P}[r] \models \varphi_{min}] \; \lvert \; \mathcal{P}[r] \models \varPhi \}.$
 
-\begin{example} (Synthesis problems)
-Assume an~MCs family $\fml$ from Example~\ref{exam:mcfamily} and the specification $\phi = \reachability{\geq}{0.1}{\{s_1\}}$.
+\begin{example} (Synthesis problem)
+Assume an~MCs family $\fml$ from Example~\ref{exam:mcfamily} and the~specification $\phi = \reachability{\geq}{0.1}{\{s_1\}}$.
 The solution to the~feasibility synthesis problem is,~for example,~the~realisation $r_0$, since $D_{r_0}$ has a~probability of $\frac{2}{3}$ to reach state $s_1$.
 For $\varPhi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $D_{r_2}$ has a~probability equal to one to reach state $s_1$.
 \end{example}
@@ -363,7 +376,14 @@ Further,~it uses Z3 theorem prover for SMT-solving and~a Python API for flexible
 The~implementation of \toolname{} is composed of \textit{30} Python modules containing \textit{7k} source lines of code.
 We consider only our implementation and do not include extensions contributed to \storm{} and its Python API,~invoked by \toolname{}.
 We tests the specific components with unit tests to maintain their correct functionality.
-Regression tests verify the~accuracy and correctness of the~synthesis resultsand these tests currently cover more than \textit{90\%} of the~source code lines.
+Regression tests verify the~accuracy and correctness of the~synthesis results and these tests currently cover more than \textit{90\%} of the~source code lines.
+
+\section{\prism{} Sketch Language}
+As we said above,~\toolname{} takes as the~input the~sketch written in the~\prism{}~\cite{KNP11} or \jani{}~\cite{jani} language.
+These high-level programming languages to describe probabilistic systems are more advantageous than modelling the~system as a~Markov Chain.
+The~state explosion problem,~arising when using the~Markov chains as an~operational model,~renders this approach unusable.
+\storm{} parses the~high-level description (sketch) written in these languages and constructs the~corresponding Markov chain,~which the~individual synthesis methods analyse.
+
 
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
