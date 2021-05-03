@@ -383,7 +383,21 @@ As we said above,~\toolname{} takes as the~input the~sketch written in the~\pris
 These high-level programming languages to describe probabilistic systems are more advantageous than modelling the~system as a~Markov Chain.
 The~state explosion problem,~arising when using the~Markov chains as an~operational model,~renders this approach unusable.
 \storm{} parses the~high-level description (sketch) written in these languages and constructs the~corresponding Markov chain,~which the~individual synthesis methods analyse.
+Now,~we briefly introduce the~\prism{} sketching language proposed in~\cite{cegis}.
 
+A~program written in \prism{} language consists of modules that interact with between itself.
+We consider only programs with a~single module since more modules can be transformed into one model program.
+A~module state space is given by the~set of (bounded) variables,~with their initial values and the~set of guarded commands describing the~transitions between module states.
+The commands have the following form:
+\begin{align*}
+\texttt{[action]} \
+\texttt{guard}
+\ \ \rightarrow \ \
+p_1 : \texttt{update}_1 + \dots + p_n : \texttt{update}_n 
+\end{align*}
+The~\emph{actions} ensure the~synchronisation between two or more modules when they perform the~command.
+The~\emph{guard} represents a~boolean expression over the~module variables.
+An~update of the~variables is selected concerning the~probability distribution defined by expressions $p_1$ through $p_n$ when guard evaluates to true.
 
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
