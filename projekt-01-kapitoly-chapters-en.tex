@@ -307,14 +307,60 @@ The resulting algorithm is summarised in Algorithm~\ref{alg:hybrid},~adapted fro
 \chapter{Combined Probabilistic Synthesis}\label{chap:combined}
 
 
-\chapter{\toolname{} Architecture}\label{chap:paynt}
+\chapter{\toolname{}}\label{chap:paynt}
 
 \toolname{}\footnote{\url{https://github.com/gargantophob/synthesis}} (\underline{P}robabilistic progr\underline{A}m s\underline{YNT}hesiser) is a~tool to synthesise probabilistic programs automatically.
-It features the~synthesis of finite-state probabilistic programs representing a~finite family of program candidates.
-It supports an~oracle-guided structure,~thanks to that,~it provides the~flexible combinations of various state-of-the-art algorithms with such structure.
-These algorithms effectively reason about the~whole design space and synthesise program candidates that satisfy a~given specification.
-These specifications are formulated as a~conjunction of temporal logic constraints and they can include also an~optimising objective.
+\toolname{} supports the~synthesis of finite-state programs and the~specifications given as a~conjunction of temporal logic constraints,~possibly including an~optimal objective.
+The input is a~program sketch that concisely describes a~finite family of (finite) Markov chains,~and a~specification.
+The tool can then identify a~family member that (potentially optimally) satisfies given specifications.
+Figure~\ref{fig:sketching} depicts the workflow of \toolname{}.
 
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/sketching}
+\caption{The workflow of the synthesis process within \toolname{}.}%
+\label{fig:sketching}%
+\end{figure*}
+
+\section{Features}
+
+The design of \toolname{} is based on an~oracle-guided synthesis~\cite{tacas21} enabling a~flexible combination and integration of a~variety of state-of-the-art synthesis and verification algorithms. 
+In particular,~it implements a~hybrid synthesis approach leveraging both the~\emph{CEGIS} and the~\emph{AR} oracle. 
+\toolname{} is able to efficiently synthesise the~program topology (\emph{topology} synthesis) as well as continuous parameters affecting the~transition probabilities (\emph{parameter} synthesis).
+Moreover,~it can handle sketches including both types of synthesis problems,~so-called a~\emph{combined} synthesis,~which is a~unique feature compering to the~existing tools. 
+
+To achieve a high-performance synthesis, \toolname{} is implemented on top of the~probabilistic model chec\-ker \storm{}~\cite{STORM},~providing optimised verification procedures.
+It is implemented in a~modular fashion on top of a~python API to provide flexibility.
+\toolname{} allows to define of the~program sketches and provides all baseline synthesis algorithms under one roof.
+The~tool finds application primarily for two groups of users.
+First,~the~analysis of realisations sets is a~useful back-end for automated system design. %automatic engines.
+For instance,~this can be used when synthesising finite-state controllers for partially observable Markov decision processes (POMDPs),~synthesising a~network protocol to increase the~packet throughput,~or selecting the~optimal power management strategy.
+Second,~\toolname{} provides a modular development platform for automated design of probabilistic programs.
+
+\section{\toolname{} Architecture}
+\toolname{}'s architecture (see Figure~\ref{fig:architecture}) consists of model checkers,~modules to build models and components for family handling.
+The~family handlers store the~information about the~already covered design space of the~analysed family.
+As the~name suggests,~the~member enumeration unit iterates over all family members.
+SAT solver maintains an~SAT-formula describing undiscovered realisations,~and subsequent,~it uses Z3 SMT-solver to obtain the next candidate realisation.
+The~queue with sub-families contains a~collection of unexplored sub-families refined as hyper-rectangles when the~analysis is inconclusive.
+The~model builders take a~specific input according to the~active oracle and produce the~relevant model representation:
+the~CE-oracle sends to the builder a single realisation $r$ while 
+the~AR-oracle sends a~realisations set $\rlz' \subseteq \rlz$.
+The~model checkers verify whether the constructed model (MCs or MDPs) satisfies the~given specification.
+When analysing MDP,~lower and upper bounds on satisfiability probabilities are provided.
+Last but not least,~\toolname{} provides a~module for generating counterexamples. In particular,~it implements two approaches: a~greedy state-expansion and a~MaxSat approach.
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/architecture.pdf}
+\caption{The architecture of tool \toolname{}.}%
+\label{fig:architecture}%
+\end{figure*}
+
+\paragraph{Implementation Frame.}
+\toolname{} takes as the~input a~sketch written in the~\jani{} or \prism{} language and a~set of temporal properties expressed using the~PRISM syntax. 
+\toolname{} is implemented on top of a~modern probabilistic model checker \storm{}~\cite{STORM} providing  high-performance verification procedures implemented in C++.
+Further,~it uses Z3 theorem prover for SMT-solving and~a Python API for flexible implementation of the~synthesis loop itself.
 
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
