@@ -322,7 +322,7 @@ Figure~\ref{fig:sketching} depicts the workflow of \toolname{}.
 \label{fig:sketching}%
 \end{figure*}
 
-\section{Features}
+\section{Architecture}
 
 The design of \toolname{} is based on an~oracle-guided synthesis~\cite{tacas21} enabling a~flexible combination and integration of a~variety of state-of-the-art synthesis and verification algorithms. 
 In particular,~it implements a~hybrid synthesis approach leveraging both the~\emph{CEGIS} and the~\emph{AR} oracle. 
@@ -337,7 +337,13 @@ First,~the~analysis of realisations sets is a~useful back-end for automated syst
 For instance,~this can be used when synthesising finite-state controllers for partially observable Markov decision processes (POMDPs),~synthesising a~network protocol to increase the~packet throughput,~or selecting the~optimal power management strategy.
 Second,~\toolname{} provides a modular development platform for automated design of probabilistic programs.
 
-\section{\toolname{} Architecture}
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/architecture.pdf}
+\caption{The architecture of tool \toolname{}.}%
+\label{fig:architecture}%
+\end{figure*}
+
 \toolname{}'s architecture (see Figure~\ref{fig:architecture}) consists of model checkers,~modules to build models and components for family handling.
 The~family handlers store the~information about the~already covered design space of the~analysed family.
 As the~name suggests,~the~member enumeration unit iterates over all family members.
@@ -350,17 +356,14 @@ The~model checkers verify whether the constructed model (MCs or MDPs) satisfies 
 When analysing MDP,~lower and upper bounds on satisfiability probabilities are provided.
 Last but not least,~\toolname{} provides a~module for generating counterexamples. In particular,~it implements two approaches: a~greedy state-expansion and a~MaxSat approach.
 
-\begin{figure*}[h!]
-\centering
-\includegraphics[width=1.0\textwidth]{figures/architecture.pdf}
-\caption{The architecture of tool \toolname{}.}%
-\label{fig:architecture}%
-\end{figure*}
-
 \paragraph{Implementation Frame.}
 \toolname{} takes as the~input a~sketch written in the~\jani{} or \prism{} language and a~set of temporal properties expressed using the~PRISM syntax. 
 \toolname{} is implemented on top of a~modern probabilistic model checker \storm{}~\cite{STORM} providing  high-performance verification procedures implemented in C++.
 Further,~it uses Z3 theorem prover for SMT-solving and~a Python API for flexible implementation of the~synthesis loop itself.
+The~implementation of \toolname{} is composed of \textit{30} Python modules containing \textit{7k} source lines of code.
+We consider only our implementation and do not include extensions contributed to \storm{} and its Python API,~invoked by \toolname{}.
+We tests the specific components with unit tests to maintain their correct functionality.
+Regression tests verify the~accuracy and correctness of the~synthesis resultsand these tests currently cover more than \textit{90\%} of the~source code lines.
 
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
