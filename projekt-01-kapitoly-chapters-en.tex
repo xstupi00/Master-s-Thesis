@@ -322,8 +322,17 @@ In the~following,~we introduce these extensions to adapt the~integrated synthesi
 We design them individually for both \emph{CEGIS} and \emph{AR} loop,~whereas the overall framework of the~hybrid method is unchanged.
 
 \section{Multi-Property Synthesis}
+When considering \textit{multi-property} specifications,~the basic ideas of both oracles (\textit{CEGIS} and \textit{AR}) remain the~same.
+When \textit{AR} analyses the quotient MDP concerning multiple properties, it yields multiple probability bounds.
+\textit{CEGIS} loop constructs a~separate conflict for each unsatisfied property whenever it meets an~unsatisfiable realisation.
+Moreover,~it uses the~corresponding probability bounds obtained at the~\textit{AR} loop to improve the quality of generated counter-examples.
 
 \section{Optimal Synthesis}
+\textit{Optimal} synthesis is designed similarly to the~\textit{feasibility} synthesis,~with one significant difference.
+An~\textit{optimising} property represents the~given \textit{optimal} property,~and its threshold is updated whenever satisfactory realisation is found.
+The goal is to exclude this solution from the~searched state space.
+For instance,~this update translates to decreasing the~threshold of the minimising property when the~\textit{minimal} synthesis considered.
+The~optimal synthesis yield the~optimal solution when all family members were explored.
 
 
 \chapter{Combined Probabilistic Synthesis}\label{chap:combined}
