@@ -426,12 +426,20 @@ For instance,~we introduce the~following \prism{} program $\sketch$:
     & \quad [] \ \texttt{s > Y} \ \rightarrow \ \texttt{0.25}: \ \texttt{(s' = s-1)} \ \texttt{+} \ \texttt{0.75}: \ \texttt{(s' = min(s+1, 4))};  \\
     & \texttt{end module}
 \end{align*}
+\label{exa:prism}
 \end{example}
 The~module \texttt{m} can be in one of five states: $\{ 0,1,2,3,4 \}$.
 When the~module state \texttt{s} is equal to the~value of hole \texttt{Y} (\texttt{s = Y}),~it will move to the~nearest previous (\texttt{s' = s-1}) or next (\texttt{s' = s+1}) state with the~same probability of \texttt{0.50}.
 When the~module state \texttt{s} is above the~value of hole \texttt{Y} (\texttt{s > Y}),~it will move to the~left neighbour with the~probability of \texttt{0.75} and with remaining to the~right if it exists,~or stay in the~last state (\texttt{s=4}).
 Otherwise (\texttt{s < Y}),~the model will move the~same as in the~previous case (\texttt{X=1}),~or it stays in the~current state without change (\texttt{X=0}).
 When we consider the~following instantiating of the~holes \texttt{X=1} and \texttt{Y=2},~the~corresponding underlying Markov chain is depicted below.
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/prism_dtmc.pdf}
+\caption{An underlying Markov Chain of a probabilistic program $\sketch$ from Example~\ref{exa:prism}.}%
+\label{fig:architecture}%
+\end{figure*}
 
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
