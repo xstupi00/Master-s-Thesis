@@ -441,6 +441,70 @@ When we consider the~following instantiating of the~holes \texttt{X=1} and \text
 \label{fig:architecture}%
 \end{figure*}
 
+\section{Usage of \toolname{}}
+We demonstrate the~usage of \toolname{} on a~synthesis problem considering a simple server for request processing depicted in Figure~\ref{fig:dpm}. 
+Requests are produced by an~external unit within random intervals and maintained in a~request queue with capacity $Q_{max}$.
+If the~queue is full arriving requests are lost.
+The~server can operate in three modes having a different power consumption \,--\, \textit{active},~\textit{idle} and \textit{sleeping}.
+The~server process the~requests only in the~\textit{active} state.
+When the~server switches from a~state with low energy into a~state with higher,~extra energy is consumed,~and random latency is required.
+We note that the~power consumption of request processing depends on the~current size of the~queue.
+The~server operation time is finite but given as a~random process.
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/dpm.pdf}
+\caption{The server for request processing within \emph{DPM} case study.}%
+\label{fig:dpm}%
+\end{figure*}
+
+The~synthesis aims to construct a~unit called \textit{power manager} (PM),~which controls the~server.
+PM observes the~current queue size and,~according to it,~then sets the~relevant power profile.
+Precisely,~it differentiates between four queue occupancy levels determined by the~threshold levels $T_1,T_2$,~and $T_3$.
+They indicate which fraction of the~queue capacity is currently occupied,~and they are entered into the~model as unknown parameters.
+Since the~model considers three levels,~then the~power manager observers the~queue occupancy on the~following intervals: $\left[0, T_1 \right]$, $\left(T_1, T_2 \right]$, $\left(T_2, T_3 \right]$, $\left(T_3, 1 \right)$.
+Moreover,~it considers a~single power profile $P_1,\dots,P_4 \in \{0,1,2\}$ for each occupancy level.
+The~power profile's current value represents the~server's mode,~so the set~$\{0,1,2\}$ encodes available modes sleeping,~idle and active in the~given order.
+The~following sketch describes the~module of \textit{PM}:
+
+\begin{verbatim}
+module PM
+    pm  :  [0..2] init 0; // 0 - sleep, 1 - idle, 2 - active
+    [sync0] q <= T1*QMAX -> (pm'=P1);
+    [sync0] q > T1*QMAX & q <= T2*QMAX -> (pm'=P2);
+    [sync0] q > T2*QMAX & q <= T3*QMAX -> (pm'=P3);
+    [sync0] q > T3*QMAX -> (pm'=P4);
+endmodule
+\end{verbatim}
+
+In this model,~we consider the~following parameters and their domains: the~queue capacity $Q_{\max} \in \{1,2,\dots,10\}$,~the~power profiles $P_1,\dots,P_4 \in \{0,1,2\}$ and the~thresholds $T_1 \in \{0.0,0.1,0.2,0.3,0.4\}$,~$T_2 \in \{0.5\}$,~$T_3 \in \{0.6,0.7,0.8,0.9\}$.
+The~final sketch describing this considered model forms a~design space of $16,200$ various power managers.
+The~average size of the Markov chains in this models is around $900$ states.
+The~synthesis target is to find the~specific power manager,~i.e.,~the~holes instantiation,~that minimises power consumption while the~expected number of lost requests during the~server's operation time is below $1$.
+We can formalise these requirements as a~pair of temporal logic formulae in the~\prism{} language:
+\begin{verbatim}
+R{"lost"} <= 1 [ F "finished" ]  
+R{"power"}min=? [ F "finished" ]
+\end{verbatim}
+
+\toolname{} explores the~design space and produces the~following output,~including the~parameter assignment,~and the~quality value corresponds to $\Phi$ of the~analysed program:
+\begin{verbatim}
+QMAX=5,T1=0,T3=0.7,P1=1,P2=2,P3=2,P4=2
+R[exp]{"lost"}=0.6823 [F "finished"]
+R[exp]{"power"}min=9100 [F "finished"]
+\end{verbatim}
+The~synthesised power manager,~optimal wrt. to the~specified properties,~has the~queue capacity set to $5$ and individual thresholds at values  $1 = 0.0$, $2 = \floor{ 5\cdot 0.5}$ and $3 = \floor{ 5\cdot 0.7}$.
+The~synthesised power manager performs the following strategy.
+When the~request queue is empty,~then the~power manager maintains an~idle state.
+Otherwise,~it always maintains an~active state,~regardless of the~exact size of the~queue,~and is never in the~sleeping state.
+The~synthesised solution has a~power consumption of $9,100$ units and the~expected number of lost requests of $\approx 0.68 < 1$.
+
+\toolname{} computes an~optimal solution in one minute. 
+Although this synthesis problem is quite simple (recall it includes only 16k candidates),~\toolname{} is already $3 \times$ faster than a~naive enumeration of all realisations.
+Further,~we explored a~more complex variant of this problem inspired by a~dynamical power manager's known model for complex electronic systems.
+The~synthesis problem is described by the~sketch,~which covers a~family around 43M realisations.
+\toolname{} solves this synthesis problem within 10~hours,~whereas the~naive enumeration takes more than one~month.
+
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
 
