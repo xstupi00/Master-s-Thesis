@@ -195,9 +195,9 @@ The second task on which we focus our attention is finding a~realisation that mi
 Find a realisation $r \in \rlzf$ such that $\mathcal{P}[r] \models \varPhi$. 
 \end{definition}
 
-\begin{definition}[Minimality]
-For property $\phi_{\max}$, find a realisation $r^* \in \rlzf$ such that:
-$$r^* \in \argmax_{r \in \rlzf} \left \{ \prob[\sketch[r] \models \phi_{\max}] \mid \sketch[r] \models \varPhi \right \}.$$.
+\begin{definition}[Minimality] \label{def:minimality}
+For property $\phi_{\min}$, find a realisation $r^* \in \rlzf$ such that:
+$$r^* \in \argmin_{r \in \rlzf} \left \{ \prob[\sketch[r] \models \phi_{\max}] \mid \sketch[r] \models \varPhi \right \}.$$.
 \end{definition}
 
 We defined only minimal synthesis task for probability property,~but its variants for maximisation and expected rewards may be defined analogously.
@@ -333,6 +333,35 @@ An~\textit{optimising} property represents the~given \textit{optimal} property,~
 The goal is to exclude this solution from the~searched state space.
 For instance,~this update translates to decreasing the~threshold of the minimising property when the~\textit{minimal} synthesis considered.
 The~optimal synthesis yield the~optimal solution when all family members were explored.
+
+\begin{algorithm}[H]
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r^* \in \rlz$ according to Definition~\ref{def:minimality}. \\
+\vspace*{-1.5em}
+\begin{algorithmic}[1]
+    \STATE $min^* \leftarrow 0$, $U \leftarrow \{ \rlz \}$
+    \STATE $M^\fml \leftarrow \mathtt{buildQuotientMDP(\fml, \rlz)}$ \hfill \textbf{// Applying Definition 7 and 8 in~\cite{cegar}}
+    \WHILE{$U \neq \emptyset$}
+        \STATE $\mathtt{select \; \rlz \in U}$, and $U \leftarrow U \setminus \{ \rlz \}$
+        \STATE $M^\fml[\rlz] \leftarrow \mathtt{restrict(M^\fml, \rlz)}$ \hfill \textbf{// Applying Definition 12 in~\cite{cegar}}
+        \STATE $\sigma_{min}, \ min \leftarrow \mathtt{solveMinMDP(M^\fml[\rlz], \varphi_{min})}$
+        \STATE $\sigma_{max}, \ max \leftarrow \mathtt{solveMaxMDP(M^\fml[\rlz], \varphi_{min})}$
+        \IF{$min < min^*$}
+% \hfill \textbf{// Applying Definition 10 in~\cite{cegar}}
+            \IF{$\mathtt{isConsistentScheduler(\sigma_{min})}$}  
+                \STATE $\sigma^* \leftarrow \sigma_{min}$, $min^* \leftarrow min$
+            \ELSE
+                \IF{}
+                
+                \ENDIF
+            \ENDIF
+        \ENDIF
+    \ENDWHILE
+%     \RETURN{UNSAT}
+\end{algorithmic}
+\caption{AR loop: Minimality synthesis.}
+\label{alg:ar_optimal}
+\end{algorithm}
 
 
 \chapter{Combined Probabilistic Synthesis}\label{chap:combined}
