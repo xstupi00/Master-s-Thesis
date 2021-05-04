@@ -414,6 +414,25 @@ Instantiating all holes yields a~specific program,~and the~synthesiser target is
 \prism{} sketching language also provides several extra functionalities: specification of the~constraints to hole values and assigning costs to option holes,~and many others.
 For more detailed information,~please refer to~\cite{cegis}.
 
+\begin{example}[\prism{} Program]
+For instance,~we introduce the~following \prism{} program $\sketch$:
+\begin{align*}
+    & \texttt{int} \ \texttt{hole} \ \mathit{X} \ \texttt{in} \ \{ 0,1 \} \\
+    & \texttt{int} \ \texttt{hole} \ \mathit{Y} \ \texttt{in} \ \{ 1,2,3 \} \\
+    & \texttt{module m} \\
+    & \quad \texttt{int} \ \texttt{s:} \; [0..4] \; \texttt{init} \ \texttt{X+1} \\
+    & \quad [] \ \texttt{s < Y} \ \rightarrow \ \texttt{0.75}: \ \texttt{(s' = max(s-X, 0))} \ \texttt{+} \ \texttt{0.25}: \ \texttt{(s' = s+X)}; \\
+    & \quad [] \ \texttt{s = Y} \ \rightarrow \ \texttt{0.50}: \ \texttt{(s' = s-1)} \ \texttt{+} \ \texttt{0.50}: \ \texttt{(s' = s+1)}; \\
+    & \quad [] \ \texttt{s > Y} \ \rightarrow \ \texttt{0.25}: \ \texttt{(s' = s-1)} \ \texttt{+} \ \texttt{0.75}: \ \texttt{(s' = min(s+1, 4))};  \\
+    & \texttt{end module}
+\end{align*}
+\end{example}
+The~module \texttt{m} can be in one of five states: $\{ 0,1,2,3,4 \}$.
+When the~module state \texttt{s} is equal to the~value of hole \texttt{Y} (\texttt{s = Y}),~it will move to the~nearest previous (\texttt{s' = s-1}) or next (\texttt{s' = s+1}) state with the~same probability of \texttt{0.50}.
+When the~module state \texttt{s} is above the~value of hole \texttt{Y} (\texttt{s > Y}),~it will move to the~left neighbour with the~probability of \texttt{0.75} and with remaining to the~right if it exists,~or stay in the~last state (\texttt{s=4}).
+Otherwise (\texttt{s < Y}),~the model will move the~same as in the~previous case (\texttt{X=1}),~or it stays in the~current state without change (\texttt{X=0}).
+When we consider the~following instantiating of the~holes \texttt{X=1} and \texttt{Y=2},~the~corresponding underlying Markov chain is depicted below.
+
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
 
