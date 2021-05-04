@@ -401,6 +401,19 @@ An~update of the~variables is selected concerning the~probability distribution d
 Essentially,~the guard identifies states for which this command is applicable,~and updates describe successor states and the~probability distribution over these successors.
 Overlapping of guards is disallowed since it yields non-determinism.
 
+Moreover,~a~\textit{sketch} describes a~program containing holes representing undefined program parts that should be filled with the~value from the~finite options set.
+These holes are declared as follows:
+\begin{align*}
+    \texttt{type} \ \texttt{hole} \ \textit{h} \ \texttt{in} \ \ \{ \mathtt{expr_1}, \dots, \mathtt{expr_k} \}
+\end{align*}
+The~\texttt{type} represents the domain of \texttt{hole} \textit{h} and it is an \texttt{integer} or \texttt{float}.
+The~hole identifier is given by \textit{h},~and the~set of expressions $\mathtt{expr_i}$ is defined over the~program variables.
+Commands and variable declarations use a~\texttt{hole} as a~component of an~\texttt{update expression} or a~\texttt{guard}.
+Such a~program sketch represents a~system description with a~specified general structure but with some concrete details left out.
+Instantiating all holes yields a~specific program,~and the~synthesiser target is to resolve how to substitute all holes with their options to satisfy a~given specification.
+\prism{} sketching language also provides several extra functionalities: specification of the~constraints to hole values and assigning costs to option holes,~and many others.
+For more detailed information,~please refer to~\cite{cegis}.
+
 \chapter{Experimental Evaluation}\label{chap:experiments}
 
 
