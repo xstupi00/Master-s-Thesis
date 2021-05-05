@@ -334,7 +334,9 @@ The goal is to exclude this solution from the~searched state space.
 For instance,~this update translates to decreasing the~threshold of the minimising property when the~\textit{minimal} synthesis considered.
 The~optimal synthesis yield the~optimal solution when all family members were explored.
 
-\begin{algorithm}[H]
+\paragraph{Abstraction Refinement.}
+
+\begin{algorithm}[h!]
 \hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
 \hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r^* \in \rlz$ according to Definition~\ref{def:minimality}. \\
 \vspace*{-1.5em}
@@ -351,13 +353,14 @@ The~optimal synthesis yield the~optimal solution when all family members were ex
             \IF{$\mathtt{isConsistentScheduler(\sigma_{min})}$}  
                 \STATE $\sigma^* \leftarrow \sigma_{min}$, $min^* \leftarrow min$
             \ELSE
-                \IF{}
-                
+                \IF{$max > min^*$}
+                    \STATE $min^* \leftarrow min$
                 \ENDIF
+                \STATE $U \leftarrow U \; \cup \; \mathtt{split(\rlz, min, max, \sigma_{min}, \sigma_{max})}$ \hfill \textbf{// A comprehensive info in~\cite{cegar}}
             \ENDIF
         \ENDIF
     \ENDWHILE
-%     \RETURN{UNSAT}
+    \RETURN{$\mathtt{applyScheduler(\rlz, \sigma^*)}$}
 \end{algorithmic}
 \caption{AR loop: Minimality synthesis.}
 \label{alg:ar_optimal}
