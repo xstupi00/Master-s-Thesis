@@ -335,6 +335,16 @@ For instance,~this update translates to decreasing the~threshold of the minimisi
 The~optimal synthesis yield the~optimal solution when all family members were explored.
 
 \paragraph{Abstraction Refinement.}
+We illustrate the~\textit{minimality} synthesis process within the AR loop by Algorithm~\ref{alg:ar_optimal}.
+We remind that the~synthesis target is to find realisation $r^* \in \rlzf$ that minimises the~satisfaction probability $\mathtt{min^*}$ of the~minimal objective.
+A~set $U$ serves to store sub-families of the~given family of realisations $\rlz$ that have not been yet analysed.
+The~algorithm starts with building the~quotient MDP for the~whole analysed family $\fml$ concerning the~current realisations set $\rlz \subseteq \rlzf$.
+Subsequently,~it restricts the~set of realisations to obtain the~corresponding sub-family for every $\rlz \in U$,~concerning the~quotient MDP $M^\fml$. 
+Then,~the~algorithm continues with running the standard MDP model checking to compute the~minimal and maximal probability and corresponding schedulers,~respectively.
+The~main difference between the~AR loop when feasibility synthesis is performed and now is the~interpretation of the~underlying MDP model checking results.
+
+Whenever the~set $U$ is empty,~so all sub-families have been analysed,~the~algorithm terminates and yields the~found optimal realisation $r^*$.
+The~termination is guaranteed since only a~finite number of subfamilies realisations has to be analysed.
 
 \begin{algorithm}[h!]
 \hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
