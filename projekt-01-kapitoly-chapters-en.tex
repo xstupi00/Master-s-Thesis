@@ -341,7 +341,15 @@ A~set $U$ serves to store sub-families of the~given family of realisations $\rlz
 The~algorithm starts with building the~quotient MDP for the~whole analysed family $\fml$ concerning the~current realisations set $\rlz \subseteq \rlzf$.
 Subsequently,~it restricts the~set of realisations to obtain the~corresponding sub-family for every $\rlz \in U$,~concerning the~quotient MDP $M^\fml$. 
 Then,~the~algorithm continues with running the standard MDP model checking to compute the~minimal and maximal probability and corresponding schedulers,~respectively.
+
 The~main difference between the~AR loop when feasibility synthesis is performed and now is the~interpretation of the~underlying MDP model checking results.
+The~algorithm can discard $\rlz$ when the~$\mathtt{min}$ probability for $\rlz$ is above $\mathtt{min^*}$.
+Otherwise,~it is required to check whether the~corresponding scheduler $\sigma_{min}$ is \textit{consistent} or not.
+When it is consistent,~we can discard $\rlz$ and updated the current $\mathtt{min^*}$ and $\sigma_{min}$, respectively.
+When the scheduler is not consistent but $\mathtt{max < min^*}$ is valid,~we can still update the~current $\mathtt{min^*}$ and enhance the~pruning process.
+In such a~situation,~some realisations in $\rlz$ induce a~lower probability than current $\mathtt{min^*}$,~but actually,~we do not know which ones.
+However,~when the~scheduler is not consistent,~regardless of whether $\mathtt{min^*}$ has been updated,~the~algorithm has to split the~analysed realisations set $\rlz$.
+Consequently,~the~algorithm subsequently has to analyse the~derive sub-families since they can cover the~minimising realisation.
 
 Whenever the~set $U$ is empty,~so all sub-families have been analysed,~the~algorithm terminates and yields the~found optimal realisation $r^*$.
 The~termination is guaranteed since only a~finite number of subfamilies realisations has to be analysed.
@@ -363,7 +371,7 @@ The~termination is guaranteed since only a~finite number of subfamilies realisat
             \IF{$\mathtt{isConsistentScheduler(\sigma_{min})}$}  
                 \STATE $\sigma^* \leftarrow \sigma_{min}$, $min^* \leftarrow min$
             \ELSE
-                \IF{$max > min^*$}
+                \IF{$max < min^*$}
                     \STATE $min^* \leftarrow min$
                 \ENDIF
                 \STATE $U \leftarrow U \; \cup \; \mathtt{split(\rlz, min, max, \sigma_{min}, \sigma_{max})}$ \hfill \textbf{// A comprehensive info in~\cite{cegar}}
