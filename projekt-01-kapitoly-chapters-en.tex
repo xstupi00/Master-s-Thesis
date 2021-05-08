@@ -311,6 +311,12 @@ On the~contrary,~when $x_{min} >= \lambda$,~the~oracle can return an~arbitrary f
 Last but not least,~when $x_{min} \leq \lambda \leq x_{max}$,~we cannot decide this case,~except when the~scheduler $\sigma_{max}$ is consistent.
 Such scheduler represents the~valid member of the~analysed family with $x_{max} \geq \lambda$,~so it is a solution to the~synthesis task.
 Otherwise,~when scheduler $\sigma_{max}$ is not consistent,~the~considered abstraction is too over-approximate,~and the~problem is undecided.
+
+In such a~case, we split the~undecidable family of Markov chains into two derived subfamilies. 
+Then each of them represents the~input for deductive oracle,~which analyse them using the~technique introduced above.
+When derived subfamilies are still undecidable, we refine them into smaller and smaller subfamilies until we find a~feasible solution or explore the~whole family.
+When the~sub-family represents concrete realisation,~so it induces an~MC and not MDP ($x_{min} = x_{max}$),~such family is necessarily decided and have not split.
+Moreover,~since the~family size is finite,~the~presented technique has guaranteed the~termination for these two reasons.
  
 \paragraph{TODO NAME.} The~novel integrated approach,~the~so-called \textit{hybrid} method,~combines both these oracles and can thus take advantage of the~benefits offered by both approaches~\cite{roman-DP,tacas21}.
 We illustrate the~cooperation between the~individual units within this method in Figure~\ref{fig:adaptivesynt}.
