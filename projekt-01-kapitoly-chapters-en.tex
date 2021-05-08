@@ -312,6 +312,14 @@ Last but not least,~when $x_{min} \leq \lambda \leq x_{max}$,~we cannot decide t
 Such scheduler represents the~valid member of the~analysed family with $x_{max} \geq \lambda$,~so it is a solution to the~synthesis task.
 Otherwise,~when scheduler $\sigma_{max}$ is not consistent,~the~considered abstraction is too over-approximate,~and the~problem is undecided.
 
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=0.70\textwidth]{figures/ar_loop.pdf}
+\caption{An \textit{Abstraction Refinement} (AR) analysing loop.}%
+\label{fig:architecture}%
+\end{figure*}
+
+
 In such a~case, we split the~undecidable family of Markov chains into two derived subfamilies. 
 Then each of them represents the~input for deductive oracle,~which analyse them using the~technique introduced above.
 When derived subfamilies are still undecidable, we refine them into smaller and smaller subfamilies until we find a~feasible solution or explore the~whole family.
