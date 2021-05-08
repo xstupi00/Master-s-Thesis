@@ -107,13 +107,36 @@ In the~following definition,~we define an~extension of $MCs$ introducing a~non-d
 
 \begin{definition}[MDP]
 \cite{roman-DP}
-    A Markov decision process (MDP) $M$ is a~quadruple $\mdp$ ~where $S$ is a~finite set of states,~$s_0 \in S$ is an~initial state,~$Act$ is a~finite set of actions,~and $\mathbb{P}: S \times Act  \nrightarrow Distr(S)$ represents a~(partial) transition probability function. 
+    A Markov decision process (MDP) $M$ is a~quadruple $\mdp$ ~where $S$ is a~finite set of states,~$s_0 \in S$ is an~initial state,~$Act$ is a~finite set of actions,~and $\mathcal{P}: S \times Act  \nrightarrow Distr(S)$ represents a~(partial) transition probability function. 
 \end{definition}
+
+A~set $\mathit{Act(s) = \{ a \in Act \; \lvert \; \mathcal{P}(s, a) \neq \; \perp \}}$ for state $s \in S$ represents the~\textit{available} actions.
+When holds $\lvert \mathit{Act(s)} \rvert = 1$ for each state $s \in S$,~such MDP straightforward induces an~MC.
+A~(in)finite sequence $\pi = s_0 \overset{a_0}{\rightarrow} s_1 \overset{a_1}{\rightarrow} \dots$,~where $s_i \in S$,~$a_i \in Act(s_i)$,~and $\mathbb{P}(s_i, a_i)(s_{i+1}) \neq 0$ for all $i \in \mathbb{N}$ represents the~\textit{path} of an~MDP M.
+For finite $\pi$, $last(\pi)$ denotes the last state of $\pi$,~and the~set of (in)finite paths of M we denotes as $Paths_{fin}^{M}\,(Paths^M)$.
 
 When an~$MDP$ is currently in the~state $s \in S$,~it has a~non-deterministic choice of an action $a \in Act(s)$ leading to the~one possible probability distribution $P(s)(a)$ over its successors' states.
 These actions cause the~non-deterministic behaviour of an~$MDP$.
 Still,~this property can be suppressed by applying a~\textit{scheduler},~which selects one specific action in each state,~i.e.,~transforms an~$MDP$ to an~$MC$.
-For more material about schedulers and other details about Markov chains,~see~\cite{roman-DP}.
+
+\begin{definition}[Scheduler]
+\cite{cegar}
+A scheduler for an MDP $M = \mdp$ is a function $\sigma: Paths_{fin}^{M} \rightarrow Act$ such that $\sigma(\pi) \in Act(last(\pi))$ for all $\pi \in Paths_{fin}^{M}$.
+Scheduler $\sigma$ is memory-less if $last(\pi) = last(\pi') \Longrightarrow \sigma(\pi) = \sigma(\pi')$ for all $\pi, \pi' \in Paths_{fin}^{M}$.
+The set of all schedulers of M is $\Sigma^M$.
+\end{definition}
+
+\begin{definition}[Induced MC] \label{def:incuded_mc}
+\cite{cegar}
+An MC induced by MDP M and $\sigma \in \Sigma^M$ is defined by $M_{\sigma} = ( Paths_{fin}^{M}, s_0, \mathbf{P}^{\sigma})$ where:
+\begin{align*}
+    \mathbf{P^{\sigma}}(\pi, \pi') = 
+    \begin{cases}
+        \mathcal{P}(last(\pi), \sigma(\pi))(s') \quad & if \; \pi' = \pi \overset{\sigma(\pi)}{\rightarrow} s' \\
+         0 \quad & otherwise.
+    \end{cases}
+\end{align*}
+\end{definition}
 
 \subsection{Families of Markov Chains}
 This thesis considers a~parametric transition probability function as an~explicit representation of an~MCs family.
@@ -352,6 +375,7 @@ However,~when the~scheduler is not consistent,~regardless of whether $\mathtt{mi
 Consequently,~the~algorithm subsequently has to analyse the~derive sub-families since they can cover the~minimising realisation.
 
 Whenever the~set $U$ is empty,~so all sub-families have been analysed,~the~algorithm terminates and yields the~found optimal realisation $r^*$.
+This realisation is obtained by applying the~function \texttt{applyScheduler} concerning Definition~\ref{def:incuded_mc}.
 The~termination is guaranteed since only a~finite number of subfamilies realisations has to be analysed.
 
 \begin{algorithm}[h!]
