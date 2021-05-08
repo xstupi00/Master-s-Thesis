@@ -273,7 +273,36 @@ For purposes of this thesis, two various orthogonal oracles can be considered:
     \item \textbf{Inductive Oracle} (CE): It tries to infer the~declarations (counter-examples) about other family members by analysing individual realisation~\cite{cegis}.
     \item \textbf{Deductive Oracle} (AR): Abstraction refinement oracle considers more family members at once and then infers the consequences of these members' constructed aggregation~\cite{cegar}.
 \end{enumerate}
-The~novel integrated approach,~the~so-called \textit{hybrid} method,~combines both these oracles and can thus take advantage of the~benefits offered by both approaches~\cite{roman-DP,tacas21}.
+
+\paragraph{Inductive Oracle.}
+\textit{Counter-examples} represents a~concrete system execution violating a~given specification $\phi$.
+When considering the~probabilistic model checking of Markov chains,~the~counter-examples represent paths set,~which have the~probabilities added to a~quantity that violates $\bowtie \lambda$.
+When an~MC D violates the~given specification $\phi$ ($MC \; D \; \not\models \phi$),~a~ \textit{counter-example} provides diagnostic information related to the~states causing the~violation.
+We consider the~counter-examples related to critical sub-systems:
+
+\begin{definition}[Counter-example]
+Let $D = \mc$ be an MC with $s_{\bot} \notin S$.
+An MC $D \! \downarrow \! C = (S \cup \{ s_{\bot} \}, s_0, \mathbf{P}')$ induced by $C \subseteq S$ is sub-MC of MC $D$, where the transition probability matrix $\mathbf{P}'$ is defined as follows:
+\begin{align*}
+    \mathbf{P}'(s) = 
+    \begin{cases}
+        \mathbf{P}(S) \quad & if \; s \in C \\
+        [ s_{\bot} \mapsto 1 ] \quad & \l otherwise.  
+    \end{cases}
+\end{align*}
+For the~given specification $\reachability{\leq}{\lambda}{T}$,~when holds $D \! \downarrow \! C \not \models \reachability{\leq}{\lambda}{(T \cap (C \cup \{ s_0 \}))}$, then we call the~sub-system $D \! \downarrow \! C$ as a~\textit{counter-example} (CE).
+\end{definition}
+
+Let $D_r$ be an~MC that violates the~given specification $\phi$.
+The inductive oracle constructs the critical sub-system $D_r \! \downarrow \! C$ to compute other realisations that also violate $\phi$.
+Subsequently, it uses this constructed sub-system to infer a set called \textit{conflict} for $D_r$ and $\phi$.
+
+\begin{definition}[Conflict]
+For MCs family $\fml = \family$,~and the~set $C \subseteq S$,~the~conflict set $K_C$ is given by $\bigcup_{s \in C} supp(\mathcal{B}(s))$ and consist of relevant parameters.
+\end{definition}
+ 
+ 
+\paragraph{TODO NAME.} The~novel integrated approach,~the~so-called \textit{hybrid} method,~combines both these oracles and can thus take advantage of the~benefits offered by both approaches~\cite{roman-DP,tacas21}.
 We illustrate the~cooperation between the~individual units within this method in Figure~\ref{fig:adaptivesynt}.
 The~learner unit maintains the~subfamilies queue $\rlz' \subseteq \rlzf$ for subsequent processing and decides which oracle is selected based on their previous efficiency.
 The~\textit{CE-Oracle} analyses the~family member $r$ and,~when it satisfies the~given specification $\varPhi$,~then returns it as a~solution.
