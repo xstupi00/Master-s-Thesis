@@ -437,12 +437,18 @@ The~algorithm to perform the~\textit{CEGIS} loop for minimal synthesis takes as 
 This approach synthesises a~realisation $r^* \in \rlz$ minimising the~satisfaction probability $\mathtt{min^*}$ of the~given minimal objective.
 Initially,~the~algorithm sets the~corresponding threshold of minimal objective concerning its settings and pick any realisation $r \in \rlz$.
 Subsequently,~it builds the~corresponding Markov chain $\mathcal{D}_r$ and performs the~model checking against to given objective $\varphi_{min}$.
-We then check whether $\mathcal{D}_r \models \varPhi_{min}$ and when yes,~we moreover check whether the~obtained quantitative $\mathtt{result}$ is less than currently found minimum $\mathtt{min^*}$.
+
+We then check whether $\mathcal{D}_r \models \varphi_{min}$ and when yes,~we moreover check whether the~obtained quantitative $\mathtt{result}$ is less than currently found minimum $\mathtt{min^*}$.
 We update the~current optimal realisation $\mathtt{r^*}$ and corresponding minimal value $\mathtt{min^*}$ according to the~currently analysed realisation in such a~situation.
 Moreover,~we update the~threshold of the~\textit{minimising} property represented the~given minimal objective according to the~newest one.
-We do this to not analyse for realisations worse than the~current one in subsequent iterations but to prune them by constructing counterexamples.
-Otherwise,~when $\mathcal{D}_r \not\models \varPhi_{min}$ or the~current result is not better than the~current minimum,~we compute a~critical set $C$ for $\mathcal{D}_r$ and $\varphi_{min}$.
+We do this to not analyse for realisations worse than the~current one in subsequent iterations but to prune them by constructing counter-examples.
 
+Otherwise,~when $\mathcal{D}_r \not\models \varPhi_{min}$ or the~current result is not better than the~current minimum,~we compute a~critical set $C$ for $\mathcal{D}_r$ and $\varphi_{min}$.
+This critical set $C$ represents a~fragment of the~whole state space $S$ of the~analysed family $\fml$.
+Subsequently,~the algorithm~constructs the~sub-system $\mathcal{D}\!\downarrow\!C$ as a~counter-example concerning computed critical set $C$.
+We then subtract these constructed counter-examples from the~set $\fml$ of candidate solutions. 
+We repeat this procedure until either the~whole state space is exhausted and at the~end returns the~found minimising realisation $\mathtt{r^*}$ and corresponding value $\mathtt{min^*}$.
+This approach is summarised in Algorithm~\ref{alg:ar_optimal}.
 
 \begin{algorithm}[h!]
 \hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
@@ -488,6 +494,7 @@ Consequently,~the~algorithm subsequently has to analyse the~derive sub-families 
 Whenever the~set $U$ is empty,~so all sub-families have been analysed,~the~algorithm terminates and yields the~found optimal realisation $r^*$.
 This realisation is obtained by applying the~function \texttt{applyScheduler} concerning Definition~\ref{def:incuded_mc}.
 The~termination is guaranteed since only a~finite number of subfamilies realisations has to be analysed.
+We summarise this procedure in Algorithm~\ref{alg:ar_optimal}.
 
 \begin{algorithm}[h!]
 \hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
