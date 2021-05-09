@@ -297,7 +297,7 @@ Let $D_r$ be an~MC that violates the~given specification $\phi$.
 The inductive oracle constructs the critical sub-system $D_r \! \downarrow \! C$ to compute other realisations that also violate $\phi$.
 Subsequently, it uses this constructed sub-system to infer a set called \textit{conflict} for $D_r$ and $\phi$.
 
-\begin{definition}[Conflict]
+\begin{definition}[Conflict] \label{def:conflict_set}
 For MCs family $\fml = \family$,~and the~set $C \subseteq S$,~the~conflict set $K_C$ is given by $\bigcup_{s \in C} supp(\mathcal{B}(s))$ and consist of relevant parameters.
 \end{definition}
 
@@ -433,6 +433,15 @@ For instance,~this update translates to decreasing the~threshold of the minimisi
 The~optimal synthesis yield the~optimal solution when all family members were explored.
 
 \paragraph{CEGIS.}
+The~algorithm to perform the~\textit{CEGIS} loop for minimal synthesis takes as the~input a~family of MCs $\fml = \family$,~represented with realisations set $\rlz \subseteq \rlzf$,~and the~given minimisation specification $\varphi_{min}$.
+This approach synthesises a~realisation $r^* \in \rlz$ minimising the~satisfaction probability $\mathtt{min^*}$ of the~given minimal objective.
+Initially,~the~algorithm sets the~corresponding threshold of minimal objective concerning its settings and pick any realisation $r \in \rlz$.
+Subsequently,~it builds the~corresponding Markov chain $\mathcal{D}_r$ and performs the~model checking against to given objective $\varphi_{min}$.
+We then check whether $\mathcal{D}_r \models \varPhi_{min}$ and when yes,~we moreover check whether the~obtained quantitative $\mathtt{result}$ is less than currently found minimum $\mathtt{min^*}$.
+We update the~current optimal realisation $\mathtt{r^*}$ and corresponding minimal value $\mathtt{min^*}$ according to the~currently analysed realisation in such a~situation.
+Moreover,~we update the~threshold of the~\textit{minimising} property represented the~given minimal objective according to the~newest one.
+We do this to not analyse for realisations worse than the~current one in subsequent iterations but to prune them by constructing counterexamples.
+Otherwise,~when $\mathcal{D}_r \not\models \varPhi_{min}$ or the~current result is not better than the~current minimum,~we compute a~critical set $C$ for $\mathcal{D}_r$ and $\varphi_{min}$.
 
 
 \begin{algorithm}[h!]
