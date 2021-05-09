@@ -426,7 +426,14 @@ When \textit{AR} analyses the quotient MDP concerning multiple properties, it yi
 Moreover,~it uses the~corresponding probability bounds obtained at the~\textit{AR} loop to improve the quality of generated counter-examples.
 
 \paragraph{CEGIS.}
-TODO
+The~CEGIS performs the~\textit{multi-property} synthesis in the~almost same manner as the~\textit{feasibility} synthesis for a~single property,~but there are a~few differences.
+We decided to analyse each property $\varphi_i \in \varPhi$ for each considered realisation $r \in \rlz$,~even if we come across a~property that the~given realisation does not satisfy.
+We construct the~counter-examples whenever the~analysed realisation $r$ does not satisfy the~given specification $\varphi_{i}$.
+In this way,~we~prune the~design space of the~analysed family more efficiently because each constructed counter-example throws out a~certain number of family members.
+The core of the loop stays the same.
+We pick the~concrete realisation $r \in \rlz$,~then construct the~corresponding MC $\mathcal{D}_r$ and perform the~model checking against to current specification $\varphi_i$.
+The~synthesis terminates when a~satisfying realisation against the~whole specification set $\varPhi$ is found,~or the~whole state space is exhausted,~indicating that no feasible solution in the~analysed family exists.
+
 
 \begin{algorithm}[h!]
 \hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a set of properties $\varPhi = \{ \varphi_0, \dots, \varphi_{N-1} \}$. \\
@@ -434,18 +441,20 @@ TODO
 \vspace*{-1.5em}
 \begin{algorithmic}[1]
     \WHILE{$\rlz \neq \emptyset$}
+        \STATE $\mathtt{allSat} \leftarrow \mathtt{True}$
         \STATE $r \leftarrow \mathtt{any(\rlz)}$
         \STATE $\mathcal{D}_r\leftarrow \mathtt{buildDTMC(\mathcal{R}, r)}$
         \FOR{$\varphi_i \in \varPhi$}
             \STATE $\mathtt{sat} \leftarrow \mathtt{solveDTMC(\mathcal{D}_r, \varphi_{i})}$
             \IF{$\mathtt{sat}$}
-                \IF{$i = N - 1$}
+                \IF{$i = N - 1 \; \wedge \; \mathtt{allSat}$}
                     \RETURN $r$
                 \ELSE
                     \STATE $\mathtt{continue}$
                 \ENDIF
             \ELSE
                 \STATE $\mathcal{R} \leftarrow \mathcal{R} \setminus \mathtt{constructCE}(\mathcal{D}_r, \varphi_{i})$
+                \STATE $\mathtt{allSat} \leftarrow \mathtt{False}$
             \ENDIF
         \ENDFOR
     \ENDWHILE
