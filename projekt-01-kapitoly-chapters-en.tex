@@ -461,7 +461,45 @@ The~synthesis terminates when a~satisfying realisation against the~whole specifi
     \RETURN $\mathtt{UNSAT}$
 \end{algorithmic}
 \caption{CEGIS loop: Multi-property synthesis.}
-\label{alg:ar_optimal}
+\label{alg:cegis_multi}
+\end{algorithm}
+
+\paragraph{Abstraction Refinement.}
+\textit{Multi-properties} synthesis within the~AR loop is performed in the~same loop as the~single-property synthesis,~with some modifications.
+The~algorithm's input represents the~MCs family $\fml = \family$ with the~corresponding set of realisations $\rlz \subseteq \rlzf$,~and a~set of properties $\varPhi_D$ explicitly determined for this family $\fml$.
+This specification set $\varPhi_\fml$ includes the~specifications that need to be analyzed within the~family,~in other words,~specifications that have not yet been satisfied.
+
+\begin{algorithm}[h!]
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a properties set $\varPhi_{\fml} = \{\varphi_0, \dots, \varphi_M \}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ s.t. $\forall \; 0 \leq i < M. \; \mathcal{D}_r \models \varphi_i$, if such exists, otherwise $\mathtt{UNSAT}$. \\
+\vspace*{-1.5em}
+\begin{algorithmic}[1]
+    \STATE $U \leftarrow \{ \rlz \}$
+    \STATE $M^\fml \leftarrow \mathtt{buildQuotientMDP(\fml, \rlz)}$ \hfill \textbf{// Applying Definition 7 and 8 in~\cite{cegar}}
+    \WHILE{$U \neq \emptyset$}
+        % \STATE $\mathtt{allSat} \leftarrow \mathtt{True}$
+        \STATE $\mathtt{select \; \rlz \in U}$, and $U \leftarrow U \setminus \{ \rlz \}$
+        \STATE $M^\fml[\rlz] \leftarrow \mathtt{restrict(M^\fml, \rlz)}$ \hfill \textbf{// Applying Definition 12 in~\cite{cegar}}
+        \FOR{$\varphi_i \in \varPhi_\fml$}
+            \STATE $\sigma_{min}, \ min \leftarrow \mathtt{solveMinMDP(M^\fml[\rlz], \varphi_{i})}$
+            \STATE $\sigma_{max}, \ max \leftarrow \mathtt{solveMaxMDP(M^\fml[\rlz], \varphi_{i})}$
+            \STATE $\mathtt{sat}, \; \sigma \leftarrow \mathtt{checkResult}(\mathtt{min}, \, \mathtt{max}, \, \varphi_i)$
+            \IF{$\mathtt{sat}$}
+                \STATE $\mathbf{if} \; i = M-1 \; \mathbf{then} \; \mathbf{return} \; \mathtt{any(\rlz)} \; \mathbf{else} \; \mathtt{continue}$
+            \ENDIF
+            \IF{$\neg \mathtt{sat}$}
+                \STATE $\mathbf{break}$
+            \ENDIF
+            \IF{$\exists \; r \in \rlz. \; \mathtt{isConsistentScheduler(\sigma)}$}
+                \RETURN $r$
+            \ENDIF
+            \STATE $U \leftarrow U \; \cup \; \mathtt{split(\rlz, min, max, \sigma_{min}, \sigma_{max})}$ \hfill \textbf{// A comprehensive info in~\cite{cegar}} 
+        \ENDFOR
+    \ENDWHILE
+    \RETURN{$\mathtt{UNSAT}$}
+\end{algorithmic}
+\caption{AR loop: Multi-property synthesis.}
+\label{alg:ar_multi}
 \end{algorithm}
 
 \section{Optimal Synthesis}
@@ -510,7 +548,7 @@ This approach is summarised in Algorithm~\ref{alg:ar_optimal}.
     \RETURN $r*$, $min^*$
 \end{algorithmic}
 \caption{CEGIS loop: Minimality synthesis.}
-\label{alg:ar_optimal}
+\label{alg:cegis_optimal}
 \end{algorithm}
 
 \paragraph{Abstraction Refinement.}
