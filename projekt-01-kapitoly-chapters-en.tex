@@ -432,6 +432,33 @@ The goal is to exclude this solution from the~searched state space.
 For instance,~this update translates to decreasing the~threshold of the minimising property when the~\textit{minimal} synthesis considered.
 The~optimal synthesis yield the~optimal solution when all family members were explored.
 
+\paragraph{CEGIS.}
+
+
+\begin{algorithm}[h!]
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r^* \in \rlz$ according to Definition~\ref{def:minimality}. \\
+\vspace*{-1.5em}
+\begin{algorithmic}[1]
+    \STATE $\mathtt{min^*} \leftarrow 0$, $\mathtt{r^*} \leftarrow \emptyset$
+    \STATE $\varphi_{min} \leftarrow \mathtt{setThreshold(min^*)}$
+    \WHILE{$\rlz \neq \emptyset$}
+        \STATE $r \leftarrow \mathtt{any(\rlz)}$
+        \STATE $\mathcal{D}_r\leftarrow \mathtt{buildDTMC(\mathcal{R}, r)}$
+        \STATE $result \leftarrow \mathtt{solveDTMC(\mathcal{D}_r, \varphi_{min})}$
+        \IF{$result < min^*$}
+            \STATE $\mathtt{r^*} \leftarrow r$, $\mathtt{min^*} \leftarrow min$
+            \STATE $\varphi_{min} \leftarrow \mathtt{setThreshold(min^* - min^* \cdot \varepsilon)}$
+        \ELSE
+            \STATE $\mathcal{R} \leftarrow \mathcal{R} \setminus \mathtt{constructCE}(\mathcal{D}_r, \varphi_{min})$
+        \ENDIF
+    \ENDWHILE
+    \RETURN $r*$, $min^*$
+\end{algorithmic}
+\caption{CEGIS loop: Minimality synthesis.}
+\label{alg:ar_optimal}
+\end{algorithm}
+
 \paragraph{Abstraction Refinement.}
 We illustrate the~\textit{minimality} synthesis process within the AR loop by Algorithm~\ref{alg:ar_optimal}.
 We remind that the~synthesis target is to find realisation $r^* \in \rlzf$ that minimises the~satisfaction probability $\mathtt{min^*}$ of the~minimal objective.
