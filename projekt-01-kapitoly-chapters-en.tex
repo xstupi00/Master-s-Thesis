@@ -469,6 +469,9 @@ The~synthesis terminates when a~satisfying realisation against the~whole specifi
 The~algorithm's input represents the~MCs family $\fml = \family$ with the~corresponding set of realisations $\rlz \subseteq \rlzf$,~and a~set of properties $\varPhi_D$ explicitly determined for this family $\fml$.
 This specification set $\varPhi_\fml$ includes the~specifications that need to be analyzed within the~family,~in other words,~specifications that have not yet been satisfied.
 
+The~algorithm first constructs the~\textit{quotient} MDP $M^\fml$ concerning the~given family $\fml$ and realisation set $R$,~and then iterates over sub-families of $U$ that have not been yet analysed.
+For each selected sub-family $\fml$ is then performed the~MDP model checking on the~relevant restricted MDP,~which yields computed minimal ($\mathtt{min}$) and maximal ($\mathtt{max}$) probabilities,~and corresponding schedulers ($\sigma_{min}$ and $\sigma_{max}$) related to them,~respectively.
+
 \begin{algorithm}[h!]
 \hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a properties set $\varPhi_{\fml} = \{\varphi_0, \dots, \varphi_M \}$. \\
 \hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ s.t. $\forall \; 0 \leq i < M. \; \mathcal{D}_r \models \varphi_i$, if such exists, otherwise $\mathtt{UNSAT}$. \\
