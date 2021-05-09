@@ -425,6 +425,36 @@ When \textit{AR} analyses the quotient MDP concerning multiple properties, it yi
 \textit{CEGIS} loop constructs a~separate conflict for each unsatisfied property whenever it meets an~unsatisfiable realisation.
 Moreover,~it uses the~corresponding probability bounds obtained at the~\textit{AR} loop to improve the quality of generated counter-examples.
 
+\paragraph{CEGIS.}
+TODO
+
+\begin{algorithm}[h!]
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a set of properties $\varPhi = \{ \varphi_0, \dots, \varphi_{N-1} \}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ such that $\forall \; 0 \leq i < N. \; \mathcal{D}_r \models \varphi_i$, if such exists, otherwise $\mathtt{UNSAT}$. \\
+\vspace*{-1.5em}
+\begin{algorithmic}[1]
+    \WHILE{$\rlz \neq \emptyset$}
+        \STATE $r \leftarrow \mathtt{any(\rlz)}$
+        \STATE $\mathcal{D}_r\leftarrow \mathtt{buildDTMC(\mathcal{R}, r)}$
+        \FOR{$\varphi_i \in \varPhi$}
+            \STATE $\mathtt{sat} \leftarrow \mathtt{solveDTMC(\mathcal{D}_r, \varphi_{i})}$
+            \IF{$\mathtt{sat}$}
+                \IF{$i = N - 1$}
+                    \RETURN $r$
+                \ELSE
+                    \STATE $\mathtt{continue}$
+                \ENDIF
+            \ELSE
+                \STATE $\mathcal{R} \leftarrow \mathcal{R} \setminus \mathtt{constructCE}(\mathcal{D}_r, \varphi_{i})$
+            \ENDIF
+        \ENDFOR
+    \ENDWHILE
+    \RETURN $\mathtt{UNSAT}$
+\end{algorithmic}
+\caption{CEGIS loop: Multi-property synthesis.}
+\label{alg:ar_optimal}
+\end{algorithm}
+
 \section{Optimal Synthesis}
 \textit{Optimal} synthesis is designed similarly to the~\textit{feasibility} synthesis,~with one significant difference.
 An~\textit{optimising} property represents the~given \textit{optimal} property,~and its threshold is updated whenever satisfactory realisation is found.
