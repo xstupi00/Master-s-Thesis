@@ -471,6 +471,13 @@ This specification set $\varPhi_\fml$ includes the~specifications that need to b
 
 The~algorithm first constructs the~\textit{quotient} MDP $M^\fml$ concerning the~given family $\fml$ and realisation set $R$,~and then iterates over sub-families of $U$ that have not been yet analysed.
 For each selected sub-family $\fml$ is then performed the~MDP model checking on the~relevant restricted MDP,~which yields computed minimal ($\mathtt{min}$) and maximal ($\mathtt{max}$) probabilities,~and corresponding schedulers ($\sigma_{min}$ and $\sigma_{max}$) related to them,~respectively.
+We analyse these obtained results concerning current specification,~mainly whether it is \textit{safety} or \textit{liveness} specification,~from their feasibility and decidability.
+
+When holds $x_{min} > \lambda$ for safety property or $x_{max} < \lambda$ for liveness property ($\neg \mathtt{sat}$) then all realisations $r \in \rlz$ violate specification $\varphi_{i}$,~and the~algorithm continues on the~next sub-family or terminates with $\mathtt{UNSAT}$ result.
+On the contrary,~when holds $x_{max} \leq \lambda$ for safety property or $x_{min} \geq \lambda$ for liveness property then each family member satisfy specification $\varphi_{i}$,~and~the~algorithm continues on the~next specification $\varphi_{i+1}$ or yields any realisation $r \in \rlz$ as the~solution to the~synthesis task.
+Finally,~when holds $x_{min} \leq \lambda \leq x_{max}$ for both kinds of properties,~then we have to check whether the~corresponding scheduler $\sigma$ is consistent or not.
+When it is consistent,~it represents a~family member satisfying the~specification $\varphi_{i}$,~since it has $x_{min} \leq \lambda$ for safety and $x_{max} \geq \lambda$ for liveness property.
+Otherwise,~the~synthesis task is still undecided,~and the~currently analysed sub-family $\rlz$ will be split.
 
 \begin{algorithm}[h!]
 \hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a properties set $\varPhi_{\fml} = \{\varphi_0, \dots, \varphi_M \}$. \\
