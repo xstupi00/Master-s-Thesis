@@ -616,6 +616,20 @@ We summarise this procedure in Algorithm~\ref{alg:ar_optimal}.
 
 \chapter{Combined Probabilistic Synthesis}\label{chap:combined}
 
+\section{Related Work}
+The~synthesis tasks for parametric probabilistic programs can be divided into the~following two categories.
+
+\paragraph{Topology Synthesis.}
+This synthesis task considers a~finite set of parameters that affect the~\textit{topology} of Markov chains.
+Finding a~family member that satisfies given specifications is \textit{NP}-complete in the~parameters' number and can be naively solved by analysing all individual family members~\cite{onebyone}.
+An~alternative approach models the~family of MCs by an~MDP and uses off-the-shelf algorithms for MDP model-checking~\cite{allinone}.
+Tools such as \emph{QFLan}~\cite{qflan} and \emph{ProFeat}~\cite{profeat} implements this approach to quantitatively analyse alternative designs of software product lines~\cite{sw-product-lines}.
+These tools provide the~complete methods to solve synthesis tasks,~but they are limited strictly to small families,~so they do not scale.
+Introduced inductive techniques,~motivated from this approach,~form on abstraction-refinement (\emph{AR}) over the MDP representation~\cite{cegar},~and counterexample guided inductive synthesis (\emph{CEGIS}) for MCs~\cite{cegis} have been proposed to achieve better scalability.
+Experiments in previous papers~\cite{cegar,cegis} have shown that the~synthesis methods implemented in \emph{ProFeat} or \emph{QFLan} have evident deficits on the~benchmarks investigated in this paper.
+This synthesis task is closely connected to controller synthesis for partially observed MDPs (POMPDs),~representing,~for instance,~a~famous Maze~\cite{maze} model for AI planning under uncertainty,~to which we will pay attention later.
+Other techniques to solve the~controller synthesis for POMDPs also use neural network oracles to lead search~\cite{pomdp-2} and adaptive learning schemes based on imitation learning~\cite{POMDP3}.
+% This fact is supported by the comparison of the hybrid approach with the~one-by-one enumeration, we present in Section 5.
 
 \chapter{\toolname{}}\label{chap:paynt}
 
