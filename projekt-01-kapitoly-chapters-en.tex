@@ -626,6 +626,14 @@ We denote a~finite set of \textit{parameters} as $V$.
 We consider \textit{parameters} over the~domain $\real$ ranged over by $x,y,z$ for the~following definitions.
 Let $u: V \rightarrow \real$ denote a~\textit{valuation} for \textit{parameters} $V$.
 We denote a~set of \textit{multi-affine multivariate polynomials} as $\mathbb{Q}_V$, where polynomial $f$ is defined over parameters $V$ and equal to $\sum_{i \leq M}{\prod_{v\in V_i}v \cdot a_i}$,~for appropriate $M \in \nat$, $a_i \in \rat$,~and $\forall \, 0 \leq i \leq m. \; V_i \subseteq V$.
+We note that this set includes only the polynomials where the~variables have the~maximal degree equal to one,~i.e.,~$y^3 \notin \mathbb{Q}_v$~\cite{Quatmann2016}.
+
+\begin{definition}[parametric Markov decision process]
+\cite{Quatmann2016}
+A parametric Markov decision process (pMDP) $\mathcal{M}$ is a tuple $(S, V, s_0, Act, \mathcal{P})$, where $S$ is a finite set of states, $V$ is a finite set of parameters over $\real$, $s_0 \in S$ is an initial state, $Act$ is a non-empty finite set of actions, and $\mathcal{P}: S \times Act  \times S \nrightarrow \mathbb{Q}_V$ is a transition probability function.
+\end{definition}
+A~set $\mathit{Act(s) = \{ a \in Act \; \lvert \; \exists s' \in S. \mathcal{P}(s, a, s') \neq \; \perp \}}$ for state $s \in S$ represents the~\textit{available} actions.
+When holds $\lvert \mathit{Act(s)} \rvert = 1$ for each state $s \in S$,~such pMDP straightforward induces an~parametric Markov chain (pMC).
 
 \section{Related Work}
 The~synthesis tasks for parametric probabilistic programs can be divided into the~following two categories.
