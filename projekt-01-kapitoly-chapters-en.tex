@@ -616,10 +616,16 @@ We summarise this procedure in Algorithm~\ref{alg:ar_optimal}.
 
 \chapter{Combined Probabilistic Synthesis}\label{chap:combined}
 
-\section{Parameter Synthesis}
 \textit{Parameter} synthesis problems targets finding parameter values for which the~parametric model (optimal) satisfies the~specification.
 Parametric probabilistic models have several applications in a~wide range of areas.
-For instance,~the synthesis of parameters rate in stochastic biochemical networks is considered in~\cite{ceska-biochemical},~tuning the model parameters usage of exploiting the~parametric Markov chains in~\cite{model-repair-usage},~and parametric models have applications also when ranking the patches in the~software repair~\cite{learning-correct-code} and for computing perturbation bounds~\cite{nested-approximation}.
+For instance, in~\cite{ceska-biochemical} synthesised the~rate parameters in stochastic biochemical networks,~in~\cite{model-repair-usage} tuned the~model parameters exploiting the~parametric Markov chains.
+Moreover,~parametric models have applications also when ranking the patches in the~software repair~\cite{learning-correct-code} and for computing perturbation bounds~\cite{nested-approximation}.
+
+\section{Preliminaries}
+We denote a~finite set of \textit{parameters} as $V$.
+We consider \textit{parameters} over the~domain $\real$ ranged over by $x,y,z$ for the~following definitions.
+Let $u: V \rightarrow \real$ denote a~\textit{valuation} for \textit{parameters} $V$.
+We denote a~set of \textit{multi-affine multivariate polynomials} as $\mathbb{Q}_V$, where polynomial $f$ is defined over parameters $V$ and equal to $\sum_{i \leq M}{\prod_{v\in V_i}v \cdot a_i}$,~for appropriate $M \in \nat$, $a_i \in \rat$,~and $\forall \, 0 \leq i \leq m. \; V_i \subseteq V$.
 
 \section{Related Work}
 The~synthesis tasks for parametric probabilistic programs can be divided into the~following two categories.
