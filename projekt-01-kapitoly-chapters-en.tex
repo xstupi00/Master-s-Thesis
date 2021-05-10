@@ -616,6 +616,11 @@ We summarise this procedure in Algorithm~\ref{alg:ar_optimal}.
 
 \chapter{Combined Probabilistic Synthesis}\label{chap:combined}
 
+\section{Parameter Synthesis}
+\textit{Parameter} synthesis problems targets finding parameter values for which the~parametric model (optimal) satisfies the~specification.
+Parametric probabilistic models have several applications in a~wide range of areas.
+For instance,~the synthesis of parameters rate in stochastic biochemical networks is considered in~\cite{ceska-biochemical},~tuning the model parameters usage of exploiting the~parametric Markov chains in~\cite{model-repair-usage},~and parametric models have applications also when ranking the patches in the~software repair~\cite{learning-correct-code} and for computing perturbation bounds~\cite{nested-approximation}.
+
 \section{Related Work}
 The~synthesis tasks for parametric probabilistic programs can be divided into the~following two categories.
 
@@ -630,6 +635,15 @@ Experiments in previous papers~\cite{cegar,cegis} have shown that the~synthesis 
 This synthesis task is closely connected to controller synthesis for partially observed MDPs (POMPDs),~representing,~for instance,~a~famous Maze~\cite{maze} model for AI planning under uncertainty,~to which we will pay attention later.
 Other techniques to solve the~controller synthesis for POMDPs also use neural network oracles to lead search~\cite{pomdp-2} and adaptive learning schemes based on imitation learning~\cite{POMDP3}.
 % This fact is supported by the comparison of the hybrid approach with the~one-by-one enumeration, we present in Section 5.
+
+\paragraph{Parameter Synthesis.}
+It considers models with a~fixed topology but with uncertain parameters associated with transition probabilities (or rates).
+It analyses how the~parameter values affect the~behaviour of Markov chains (or MDPs).
+The~state-of-the-art probability model checkers \storm{}~\cite{STORM} and \prism{}~\cite{KNP11} provide approximate techniques for parameter synthesis that solve the~same parameters in various transitions independently.
+We note that these model checkers and others with the~same focus are primarily determined to verify concrete MC and not to the~whole MCs family.
+On the contrary,~exact techniques construct rational functions for symbolic reachability probabilities proposed in~\cite{DBLP:conf/ictac/Daws04} and further improved in~\cite{dehnert2015prophesy}.
+The~application of this synthesis task can be found, for instance,~in the~field of model repair problems~\cite{model-repair-1}.
+
 
 \chapter{\toolname{}}\label{chap:paynt}
 
