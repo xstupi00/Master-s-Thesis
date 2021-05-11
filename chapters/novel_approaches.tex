@@ -1,0 +1,202 @@
+\chapter{Novel Methods for Probabilistic Synthesis}\label{chap:advanced}
+The~developed framework for \textit{integrated} synthesis has been designed for \textit{feasibility} synthesis concerning a~\textit{single} property.
+However,~probabilistic programs often have to satisfy specifications expressed as a~\textit{conjunction} of several temporal logic constraints,~potentially including the~\textit{optimal} objective.
+Therefore,~we design extensions to generalise the~\textit{hybrid} method to handle \textit{multi-property} specifications and treat \textit{optimal} synthesis.
+In the~following,~we introduce these extensions to adapt the~integrated synthesis for both advanced methods. 
+We design them individually for both \emph{CEGIS} and \emph{AR} loop,~whereas the overall framework of the~hybrid method is unchanged.
+
+\section{Multi-Property Synthesis}
+When considering \textit{multi-property} specifications,~the basic ideas of both oracles (\textit{CEGIS} and \textit{AR}) remain the~same.
+When \textit{AR} analyses the quotient MDP concerning multiple properties, it yields multiple probability bounds.
+\textit{CEGIS} loop constructs a~separate conflict for each unsatisfied property whenever it meets an~unsatisfiable realisation.
+Moreover,~it uses the~corresponding probability bounds obtained at the~\textit{AR} loop to improve the quality of generated counter-examples.
+
+\paragraph{CEGIS.}
+The~CEGIS performs the~\textit{multi-property} synthesis in the~almost same manner as the~\textit{feasibility} synthesis for a~single property,~but there are a~few differences.
+We decided to analyse each property $\varphi_i \in \varPhi$ for each considered realisation $r \in \rlz$,~even if we come across a~property that the~given realisation does not satisfy.
+We construct the~counter-examples whenever the~analysed realisation $r$ does not satisfy the~given specification $\varphi_{i}$.
+In this way,~we~prune the~design space of the~analysed family more efficiently because each constructed counter-example throws out a~certain number of family members.
+The core of the loop stays the same.
+We pick the~concrete realisation $r \in \rlz$,~then construct the~corresponding MC $\mathcal{D}_r$ and perform the~model checking against to current specification $\varphi_i$.
+The~synthesis terminates when a~satisfying realisation against the~whole specification set $\varPhi$ is found,~or the~whole state space is exhausted,~indicating that no feasible solution in the~analysed family exists.
+
+
+\begin{algorithm}[h!]
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a set of properties $\varPhi = \{ \varphi_0, \dots, \varphi_{N-1} \}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ such that $\forall \; 0 \leq i < N. \; \mathcal{D}_r \models \varphi_i$, if such exists, otherwise $\mathtt{UNSAT}$. \\
+\vspace*{-1.5em}
+\begin{algorithmic}[1]
+    \WHILE{$\rlz \neq \emptyset$}
+        \STATE $\mathtt{allSat} \leftarrow \mathtt{True}$
+        \STATE $r \leftarrow \mathtt{any(\rlz)}$
+        \STATE $\mathcal{D}_r\leftarrow \mathtt{buildDTMC(\mathcal{R}, r)}$
+        \FOR{$\varphi_i \in \varPhi$}
+            \STATE $\mathtt{sat} \leftarrow \mathtt{solveDTMC(\mathcal{D}_r, \varphi_{i})}$
+            \IF{$\mathtt{sat}$}
+                \IF{$i = N - 1 \; \wedge \; \mathtt{allSat}$}
+                    \RETURN $r$
+                \ELSE
+                    \STATE $\mathtt{continue}$
+                \ENDIF
+            \ELSE
+                \STATE $\mathcal{R} \leftarrow \mathcal{R} \setminus \mathtt{constructCE}(\mathcal{D}_r, \varphi_{i})$
+                \STATE $\mathtt{allSat} \leftarrow \mathtt{False}$
+            \ENDIF
+        \ENDFOR
+    \ENDWHILE
+    \RETURN $\mathtt{UNSAT}$
+\end{algorithmic}
+\caption{CEGIS loop: Multi-property synthesis.}
+\label{alg:cegis_multi}
+\end{algorithm}
+
+\paragraph{Abstraction Refinement.}
+\textit{Multi-properties} synthesis within the~AR loop is performed in the~same loop as the~single-property synthesis,~with some modifications.
+The~algorithm's input represents the~MCs family $\fml = \family$ with the~corresponding set of realisations $\rlz \subseteq \rlzf$,~and a~set of properties $\varPhi_D$ explicitly determined for this family $\fml$.
+This specification set $\varPhi_\fml$ includes the~specifications that need to be analyzed within the~family,~in other words,~specifications that have not yet been satisfied.
+
+The~algorithm first constructs the~\textit{quotient} MDP $M^\fml$ concerning the~given family $\fml$ and realisation set $R$,~and then iterates over sub-families of $U$ that have not been yet analysed.
+For each selected sub-family $\fml$ is then performed the~MDP model checking on the~relevant restricted MDP,~which yields computed minimal ($\mathtt{min}$) and maximal ($\mathtt{max}$) probabilities,~and corresponding schedulers ($\sigma_{min}$ and $\sigma_{max}$) related to them,~respectively.
+We analyse these obtained results concerning current specification,~mainly whether it is \textit{safety} or \textit{liveness} specification,~from their feasibility and decidability.
+
+When holds $x_{min} > \lambda$ for safety property or $x_{max} < \lambda$ for liveness property ($\neg \mathtt{sat}$) then all realisations $r \in \rlz$ violate specification $\varphi_{i}$,~and the~algorithm continues on the~next sub-family or terminates with $\mathtt{UNSAT}$ result.
+On the contrary,~when holds $x_{max} \leq \lambda$ for safety property or $x_{min} \geq \lambda$ for liveness property then each family member satisfy specification $\varphi_{i}$,~and~the~algorithm continues on the~next specification $\varphi_{i+1}$ or yields any realisation $r \in \rlz$ as the~solution to the~synthesis task.
+Finally,~when holds $x_{min} \leq \lambda \leq x_{max}$ for both kinds of properties,~then we have to check whether the~corresponding scheduler $\sigma$ is consistent or not.
+When it is consistent,~it represents a~family member satisfying the~specification $\varphi_{i}$,~since it has $x_{min} \leq \lambda$ for safety and $x_{max} \geq \lambda$ for liveness property.
+Otherwise,~the~synthesis task is still undecided,~and the~currently analysed sub-family $\rlz$ will be split.
+
+\begin{algorithm}[h!]
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a properties set $\varPhi_{\fml} = \{\varphi_0, \dots, \varphi_M \}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ s.t. $\forall \; 0 \leq i < M. \; \mathcal{D}_r \models \varphi_i$, if such exists, otherwise $\mathtt{UNSAT}$. \\
+\vspace*{-1.5em}
+\begin{algorithmic}[1]
+    \STATE $U \leftarrow \{ \rlz \}$
+    \STATE $M^\fml \leftarrow \mathtt{buildQuotientMDP(\fml, \rlz)}$ \hfill \textbf{// Applying Definition 7 and 8 in~\cite{cegar}}
+    \WHILE{$U \neq \emptyset$}
+        % \STATE $\mathtt{allSat} \leftarrow \mathtt{True}$
+        \STATE $\mathtt{select \; \rlz \in U}$, and $U \leftarrow U \setminus \{ \rlz \}$
+        \STATE $M^\fml[\rlz] \leftarrow \mathtt{restrict(M^\fml, \rlz)}$ \hfill \textbf{// Applying Definition 12 in~\cite{cegar}}
+        \FOR{$\varphi_i \in \varPhi_\fml$}
+            \STATE $\sigma_{min}, \ min \leftarrow \mathtt{solveMinMDP(M^\fml[\rlz], \varphi_{i})}$
+            \STATE $\sigma_{max}, \ max \leftarrow \mathtt{solveMaxMDP(M^\fml[\rlz], \varphi_{i})}$
+            \STATE $\mathtt{sat}, \; \sigma \leftarrow \mathtt{checkResult}(\mathtt{min}, \, \mathtt{max}, \, \varphi_i)$
+            \IF{$\mathtt{sat}$}
+                \STATE $\mathbf{if} \; i = M-1 \; \mathbf{then} \; \mathbf{return} \; \mathtt{any(\rlz)} \; \mathbf{else} \; \mathtt{continue}$
+            \ENDIF
+            \IF{$\neg \mathtt{sat}$}
+                \STATE $\mathbf{break}$
+            \ENDIF
+            \IF{$\exists \; r \in \rlz. \; \mathtt{isConsistentScheduler(\sigma)}$}
+                \RETURN $r$
+            \ENDIF
+            \STATE $U \leftarrow U \; \cup \; \mathtt{split(\rlz, min, max, \sigma_{min}, \sigma_{max})}$ \hfill \textbf{// A comprehensive info in~\cite{cegar}} 
+        \ENDFOR
+    \ENDWHILE
+    \RETURN{$\mathtt{UNSAT}$}
+\end{algorithmic}
+\caption{AR loop: Multi-property synthesis.}
+\label{alg:ar_multi}
+\end{algorithm}
+
+\section{Optimal Synthesis}
+\textit{Optimal} synthesis is designed similarly to the~\textit{feasibility} synthesis,~with one significant difference.
+An~\textit{optimising} property represents the~given \textit{optimal} property,~and its threshold is updated whenever satisfactory realisation is found.
+The goal is to exclude this solution from the~searched state space.
+For instance,~this update translates to decreasing the~threshold of the minimising property when the~\textit{minimal} synthesis considered.
+The~optimal synthesis yield the~optimal solution when all family members were explored.
+
+\paragraph{CEGIS.}
+The~algorithm to perform the~\textit{CEGIS} loop for minimal synthesis takes as the~input a~family of MCs $\fml = \family$,~represented with realisations set $\rlz \subseteq \rlzf$,~and the~given minimisation specification $\varphi_{min}$.
+This approach synthesises a~realisation $r^* \in \rlz$ minimising the~satisfaction probability $\mathtt{min^*}$ of the~given minimal objective.
+Initially,~the~algorithm sets the~corresponding threshold of minimal objective concerning its settings and pick any realisation $r \in \rlz$.
+Subsequently,~it builds the~corresponding Markov chain $\mathcal{D}_r$ and performs the~model checking against to given objective $\varphi_{min}$.
+
+We then check whether $\mathcal{D}_r \models \varphi_{min}$ and when yes,~we moreover check whether the~obtained quantitative $\mathtt{result}$ is less than currently found minimum $\mathtt{min^*}$.
+We update the~current optimal realisation $\mathtt{r^*}$ and corresponding minimal value $\mathtt{min^*}$ according to the~currently analysed realisation in such a~situation.
+Moreover,~we update the~threshold of the~\textit{minimising} property represented the~given minimal objective according to the~newest one.
+We do this to not analyse for realisations worse than the~current one in subsequent iterations but to prune them by constructing counter-examples.
+
+Otherwise,~when $\mathcal{D}_r \not\models \varPhi_{min}$ or the~current result is not better than the~current minimum,~we compute a~critical set $C$ for $\mathcal{D}_r$ and $\varphi_{min}$.
+This critical set $C$ represents a~fragment of the~whole state space $S$ of the~analysed family $\fml$.
+Subsequently,~the algorithm~constructs the~sub-system $\mathcal{D}\!\downarrow\!C$ as a~counter-example concerning computed critical set $C$.
+We then subtract these constructed counter-examples from the~set $\fml$ of candidate solutions. 
+We repeat this procedure until either the~whole state space is exhausted and at the~end returns the~found minimising realisation $\mathtt{r^*}$ and corresponding value $\mathtt{min^*}$.
+This approach is summarised in Algorithm~\ref{alg:ar_optimal}.
+
+\begin{algorithm}[h!]
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r^* \in \rlz$ according to Definition~\ref{def:minimality}. \\
+\vspace*{-1.5em}
+\begin{algorithmic}[1]
+    \STATE $\mathtt{min^*} \leftarrow 0$, $\mathtt{r^*} \leftarrow \emptyset$
+    \STATE $\varphi_{min} \leftarrow \mathtt{setThreshold(min^*)}$
+    \WHILE{$\rlz \neq \emptyset$}
+        \STATE $r \leftarrow \mathtt{any(\rlz)}$
+        \STATE $\mathcal{D}_r\leftarrow \mathtt{buildDTMC(\mathcal{R}, r)}$
+        \STATE $result \leftarrow \mathtt{solveDTMC(\mathcal{D}_r, \varphi_{min})}$
+        \IF{$result < min^*$}
+            \STATE $\mathtt{r^*} \leftarrow r$, $\mathtt{min^*} \leftarrow min$
+            \STATE $\varphi_{min} \leftarrow \mathtt{setThreshold(min^* - min^* \cdot \varepsilon)}$
+        \ELSE
+            \STATE $\mathcal{R} \leftarrow \mathcal{R} \setminus \mathtt{constructCE}(\mathcal{D}_r, \varphi_{min})$
+        \ENDIF
+    \ENDWHILE
+    \RETURN $r*$, $min^*$
+\end{algorithmic}
+\caption{CEGIS loop: Minimality synthesis.}
+\label{alg:cegis_optimal}
+\end{algorithm}
+
+\paragraph{Abstraction Refinement.}
+We illustrate the~\textit{minimality} synthesis process within the AR loop by Algorithm~\ref{alg:ar_optimal}.
+We remind that the~synthesis target is to find realisation $r^* \in \rlzf$ that minimises the~satisfaction probability $\mathtt{min^*}$ of the~minimal objective.
+A~set $U$ serves to store sub-families of the~given family of realisations $\rlz$ that have not been yet analysed.
+The~algorithm starts with building the~quotient MDP for the~whole analysed family $\fml$ concerning the~current realisations set $\rlz \subseteq \rlzf$.
+Subsequently,~it restricts the~set of realisations to obtain the~corresponding sub-family for every $\rlz \in U$,~concerning the~quotient MDP $M^\fml$. 
+Then,~the~algorithm continues with running the standard MDP model checking to compute the~minimal and maximal probability and corresponding schedulers,~respectively.
+
+The~main difference between the~AR loop when feasibility synthesis is performed and now is the~interpretation of the~underlying MDP model checking results.
+The~algorithm can discard $\rlz$ when the~$\mathtt{min}$ probability for $\rlz$ is above $\mathtt{min^*}$.
+Otherwise,~it is required to check whether the~corresponding scheduler $\sigma_{min}$ is \textit{consistent} or not.
+When it is consistent,~we can discard $\rlz$ and updated the current $\mathtt{min^*}$ and $\sigma_{min}$, respectively.
+When the scheduler is not consistent but $\mathtt{max < min^*}$ is valid,~we can still update the~current $\mathtt{min^*}$ and enhance the~pruning process.
+In such a~situation,~some realisations in $\rlz$ induce a~lower probability than current $\mathtt{min^*}$,~but actually,~we do not know which ones.
+However,~when the~scheduler is not consistent,~regardless of whether $\mathtt{min^*}$ has been updated,~the~algorithm has to split the~analysed realisations set $\rlz$.
+Consequently,~the~algorithm subsequently has to analyse the~derive sub-families since they can cover the~minimising realisation.
+
+Whenever the~set $U$ is empty,~so all sub-families have been analysed,~the~algorithm terminates and yields the~found optimal realisation $r^*$.
+This realisation is obtained by applying the~function \texttt{applyScheduler} concerning Definition~\ref{def:incuded_mc}.
+The~termination is guaranteed since only a~finite number of subfamilies realisations has to be analysed.
+We summarise this procedure in Algorithm~\ref{alg:ar_optimal}.
+
+\begin{algorithm}[h!]
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r^* \in \rlz$ according to Definition~\ref{def:minimality}. \\
+\vspace*{-1.5em}
+\begin{algorithmic}[1]
+    \STATE $min^* \leftarrow 0$, $U \leftarrow \{ \rlz \}$
+    \STATE $M^\fml \leftarrow \mathtt{buildQuotientMDP(\fml, \rlz)}$ \hfill \textbf{// Applying Definition 7 and 8 in~\cite{cegar}}
+    \WHILE{$U \neq \emptyset$}
+        \STATE $\mathtt{select \; \rlz \in U}$, and $U \leftarrow U \setminus \{ \rlz \}$
+        \STATE $M^\fml[\rlz] \leftarrow \mathtt{restrict(M^\fml, \rlz)}$ \hfill \textbf{// Applying Definition 12 in~\cite{cegar}}
+        \STATE $\sigma_{min}, \ min \leftarrow \mathtt{solveMinMDP(M^\fml[\rlz], \varphi_{min})}$
+        \STATE $\sigma_{max}, \ max \leftarrow \mathtt{solveMaxMDP(M^\fml[\rlz], \varphi_{min})}$
+        \IF{$min < min^*$}
+% \hfill \textbf{// Applying Definition 10 in~\cite{cegar}}
+            \IF{$\mathtt{isConsistentScheduler(\sigma_{min})}$}  
+                \STATE $\sigma^* \leftarrow \sigma_{min}$, $min^* \leftarrow min$
+            \ELSE
+                \IF{$max < min^*$}
+                    \STATE $min^* \leftarrow min$
+                \ENDIF
+                \STATE $U \leftarrow U \; \cup \; \mathtt{split(\rlz, min, max, \sigma_{min}, \sigma_{max})}$ \hfill \textbf{// A comprehensive info in~\cite{cegar}}
+            \ENDIF
+        \ENDIF
+    \ENDWHILE
+    \RETURN{$\mathtt{applyScheduler(\rlz, \sigma^*)}$}
+\end{algorithmic}
+\caption{AR loop: Minimality synthesis.}
+\label{alg:ar_optimal}
+\end{algorithm}
+
+\section{Combined Probabilistic Synthesis}
