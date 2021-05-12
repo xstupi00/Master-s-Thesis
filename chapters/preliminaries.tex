@@ -223,8 +223,8 @@ Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an pMC, $r$ a~well-defined regio
 When we want to conclude whether the~region $r$ is \textit{live} or not,~we need to compute for each valuation $u \in r$ the~corresponding (\textit{minimal} or \textit{maximal}) reachability probability.
 We define the following equivalences to detect whether given \textit{region} $r$ is \textit{live} or not:
 \begin{align*}
-    \mathcal{D}, r \models \varphi \Longleftrightarrow (\argmin_{u \in r} \prob[\mathcal{D}[u], r \models F \; T]) \geq \lambda \\
-    \mathcal{D}, r \models \neg\varphi \Longleftrightarrow (\argmax_{u \in r} \prob[\mathcal{D}[u], r \models F \; T]) < \lambda \\
+    \mathcal{D}, r \models \varphi \Longleftrightarrow (\argmin_{u \in r} \prob[\mathcal{D}[u] \models F \; T]) \geq \lambda \\
+    \mathcal{D}, r \models \neg\varphi \Longleftrightarrow (\argmax_{u \in r} \prob[\mathcal{D}[u] \models F \; T]) < \lambda \\
 \end{align*}
 Since the corresponding probability $\prob[\mathcal{D}[u], r \models F \; T]$ can be represented as a rational function $f$, and the region $r$ is well-defined, there exists the valuation inducing the minimal or maximal reachability probability on considered region $r$.
 
@@ -266,7 +266,7 @@ Figure~\ref{fig:sub_mc}(a) depicts the~\textit{substitution} of MC $\mathcal{D}$
 In more precise,~we choose the~\textit{upper} or \textit{lower} bound for the~corresponding interval of the~parameter in each state.
 The~green lines depict the~transitions that belong to the~action for the~lower bound,~and red lines for the~upper bound.
 We note,~that states $s_3$ and $s_4$ contains only constant outgoing transition and therefore they have not any choices.
-
+Figure~\ref{fig:sub_mc} depicts an~MC $(\mathcal{D}_{sub_r})^\sigma$ which is induced by the~scheduler $\sigma$ on MDP $\mathcal{D}_{sub_r}$.
 \end{example}
 
 \begin{figure*}[h!]
@@ -275,4 +275,24 @@ We note,~that states $s_3$ and $s_4$ contains only constant outgoing transition 
 \caption{A \textit{parameter-substitution} MDP $\mathcal{D}_{sub_r}$, and instantiated MC $(\mathcal{D}_{sub_r})^\sigma$.}%
 \label{fig:sub_mc}%
 \end{figure*}
+\noindent
+According to Theorem 1 which was defined and proved in~\cite{Quatmann2016}, we list the following:
+
+\begin{definition}[]
+Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an~pMC,~$r$ a~region defined over this pMC $\mathcal{D}$,~and $T \subseteq S$ a~set of target states of $\mathcal{D}$,~then holds:
+\begin{align*}
+    \argmin_{u \in r} \prob[\mathcal{D}[u] \models F \; T] \geq \argmin_{\sigma \in \Sigma^{\mathcal{D}_{sub}^{r}}} \prob[(\mathcal{D}_{sub}^{r})^\sigma \models F \; T] \\
+    \argmax_{u \in r} \prob[\mathcal{D}[u] \models F \; T] \leq \argmax_{\sigma \in \Sigma^{\mathcal{D}_{sub}^{r}}} \prob[(\mathcal{D}_{sub}^{r})^\sigma \models F \; T]
+\end{align*}
+\end{definition}
+\noindent
+We define the following consequence straightforward from this statement:
+\begin{definition}
+Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an pMC,~$r$ a~well-defined region defined over this pMC $\mathcal{D}$,~then holds:
+\begin{align*}
+    \mathcal{D}_{sub}^{r} \models \reachability{\leq}{\lambda}{T} \Longrightarrow \mathcal{D}, r \models & \; \reachability{\leq}{\lambda}{T} \\
+    \mathcal{D}_{sub}^{r} \models \reachability{>}{\lambda}{T} \Longrightarrow \mathcal{D}, r \models & \; \neg\reachability{\leq}{\lambda}{T}
+\end{align*}
+\end{definition}
+\noindent
 
