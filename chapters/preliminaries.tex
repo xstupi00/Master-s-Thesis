@@ -21,6 +21,7 @@ We can look at them as the~transition systems with the~given state space where t
 \begin{definition}[pMDP]
 A parametric Markov decision process (pMDP) $\mathcal{M}$ is a tuple $(S, V, s_0, Act, \mathcal{P})$, where $S$ is a finite set of states, $V$ is a finite set of parameters over $\real$, $s_0 \in S$ is an initial state, $Act$ is a non-empty finite set of actions, and $\mathcal{P}: S \times Act  \times S \nrightarrow \mathbb{Q}_V$ is a transition function.
 \end{definition}
+\noindent
 A~set $\mathit{Act(s) = \{ a \in Act \; \lvert \; \exists s' \in S. \mathcal{P}(s, a, s') \neq \; \perp \}}$ for state $s \in S$ represents the~\textit{available} actions.
 The~model do not contains deadlock states,~since for each state $s \in S$ holds that the~action set $Act(s)$ is non-empty.
 When holds $\lvert \mathit{Act(s)} \rvert = 1$ for each state $s \in S$,~such pMDP straightforward induces an~parametric Markov chain (pMC),~which has enabled only one action at each state.
@@ -56,11 +57,12 @@ We label the~transition from state $s \in S$ to $s' \in S$ by action $\alpha$ an
 \begin{definition}[MDP]
     A pMDP $\mathcal{M}$ is Markov decision process (MDP) $M$ if $\mathcal{P}: S \times Act \times S \rightarrow Distr(S)$, so for each state $s \in S$ and each its action $\alpha \in Act(s)$ holds that $\sum_{s' \in S}{\mathcal{P}(s, \alpha, s')} = 1$.
 \end{definition}
-\noindent \\
+\noindent 
 We can define in the same way a~MCs as the~special instance of pMCs.
 We say,~that the~model is \textit{parameter-free} when for each its transition probability holds,~that it contains only constant values and not undefined parameters.
-When we apply the~valuation $u$ to the~parametric model $\mathcal{M}$,~then we obtain the~instantiation of $\mathcal{M}$ at $u$,~where each polynomial $f \in \mathcal{M}$ is replaced by $f[u]$.
+When we apply the~valuation $u$ to the~parametric model $\mathcal{M}$,~then we obtain the~instantiation of $\mathcal{M}$ at $u$ ($\mathcal{M}[u]$),~where each polynomial $f \in \mathcal{M}$ is replaced by $f[u]$.
 We use the~valuation $u$ typically to substitute the~transition function $f$ by the~concrete probability $f[u]$.
+When the~instantiated model $\mathcal{M}[u]$ yields an~MDP or MC,~we denote the~valuation $u$ as \textit{well-defined} since it returns the~probability distributions.
 
 \begin{figure*}[h!]
 \centering
@@ -97,15 +99,17 @@ Still,~this property can be suppressed by applying a~\textit{scheduler},~which s
 % When holds $\lvert \mathit{Act(s)} \rvert = 1$ for each state $s \in S$,~such MDP straightforward induces an~MC.
 
 \begin{definition}[Scheduler]
-\cite{cegar}
-A scheduler for an MDP $M = \mdp$ is a function $\sigma: Paths_{fin}^{M} \rightarrow Act$ such that $\sigma(\pi) \in Act(last(\pi))$ for all $\pi \in Paths_{fin}^{M}$.
+A scheduler for an pMDP $\mathcal{M} = (S, V, s_0, Act, \mathcal{P})$ is a function $\sigma: Paths_{fin}^{M} \rightarrow Act$ such that $\sigma(\pi) \in Act(last(\pi))$ for all $\pi \in Paths_{fin}^{M}$.
 Scheduler $\sigma$ is memory-less if $last(\pi) = last(\pi') \Longrightarrow \sigma(\pi) = \sigma(\pi')$ for all $\pi, \pi' \in Paths_{fin}^{M}$.
 The set of all schedulers of M is $\Sigma^M$.
 \end{definition}
+\noindent 
+When we apply a~scheduler to an~pMDP,~then we obtain an~induced parametric Markov chain,~which does not contain any non-determinism.
+In other words,~the~transition probabilities are obtained concerning the~choice of actions.
 
 \begin{definition}[Induced MC] \label{def:incuded_mc}
 \cite{cegar}
-An MC induced by MDP M and $\sigma \in \Sigma^M$ is defined by $M_{\sigma} = ( Paths_{fin}^{M}, s_0, \mathbf{P}^{\sigma})$ where:
+An MC induced by pMDP $\mathcal{M} = (S, V, s_0, Act, \mathcal{P})$ and $\sigma \in \Sigma^M$ is defined by $M_{\sigma} = ( Paths_{fin}^{M}, s_0, \mathbf{P}^{\sigma})$ where:
 \begin{align*}
     \mathbf{P^{\sigma}}(\pi, \pi') = 
     \begin{cases}
@@ -128,8 +132,8 @@ Let $\sketch$ be a~sketch containing holes from the~set $\mathcal{H} = \left\{ H
 Let $\rlzf = \prod_k R_k$ denote the~set of all hole assignments (realizations),~$\sketch[r]$ denote the~program induced by a~substitution $r \in \rlzf$ and $\fmlr$ denote the underlying MC.
 Note that the~set $\rlzf$ is exponential in $\lvert \mathcal{H} \rvert$.
 \end{definition}
-
-\todo{Some description ...}
+\noindent
+We consider \textit{reachability} properties and \textit{expected reward} properties as specifications.
 
 \begin{definition}[Specification]
 In our work,~we focus on the~conjunctions of specifications with \textit{reachability} and \textit{expected rewards}.
@@ -162,4 +166,42 @@ Moreover, we focus also to a relaxed variant of minimal synthesis, the so-called
 Assume an~MCs family $\fml$ from Example~\ref{exam:mcfamily} and the~specification $\phi = \reachability{\geq}{0.1}{\{s_1\}}$.
 The solution to the~feasibility synthesis problem is,~for example,~the~realisation $r_0$, since $D_{r_0}$ has a~probability of $\frac{2}{3}$ to reach state $s_1$.
 For $\varPhi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $D_{r_2}$ has a~probability equal to one to reach state $s_1$.
+\end{example}
+
+\section{Region Model Checking}
+We consider valuation sets that mapping parameter to the~value within a~specified interval. 
+We introduce a~technique for approximate checking pMC instances concerning the~valuation in such a~set.
+Firstly,~we introduce definitions for \textit{regions} and the~considered task of model checking.
+Subsequently,~we define the~construction of \textit{over-approximation},~which will be subsequently \textit{reduce} to an~MDP problem.
+
+\subsection{Regions}
+\begin{definition}[Region]
+Let $V = \{ v_1, v_2, \dots, v_n \}$ be a~set of parameters and $\forall \, v_i \in V. \; \mathcal{B}(v_i) = \{b_1, b_2 \}$ rational bounds for each parameter $v_i$.
+These parameter bounds induce for parameter $v_i$ its interval $I(x_i) = [b1, b2]$ where holds $b1 \leq b2$.
+Let $U = \{ u \; \lvert \; \forall \, v_i \in V. \; u(v_i) \in I(v_i) \}$ be a~set of valuations, which we call a region for parameters set $V$.
+\end{definition}
+\noindent
+Note that regions represent instances $\mathcal{M}[u]$ derived from the~parametric model $\mathcal{M}$.
+As we presented above,~these model instances are \textit{well-defined} when they hold some assumptions,~so we shift them also to regions.
+
+\begin{definition}[Well-defined region]
+Let $\mathcal{M}$ be a~parametric probabilistic model.
+Let $r$ be a~region for set of parameters $V$,~we call the~region $v$ \textit{well-defined} for $\mathcal{M}$,~when holds for each \textit{polynomial} $f \in \mathcal{M}$ either $f[u] > 0$ or  $f$ can be reduced to 0 $f = 0$,~and for each \textit{valuation} $u \in r$ holds that $u$ is \textit{well-defined} for model $\mathcal{M}$.
+\end{definition}
+\noindent
+The~first condition guarantees that both models $\mathcal{M}$ and $\mathcal{M}[u]$ have the~same topology,~and the~second one says that $\mathcal{M}[u]$ represents a~probabilistic model (MDP or MC).
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/param_instance.pdf}
+\caption{A \textit{parametric} MC $\mathcal{D}$, and instantiated MC $\mathcal{D}[u]$ from it.}%
+\label{fig:param_instance}%
+\end{figure*}
+
+\begin{example}[Region]
+Let us consider the pMC $\mathcal{D}$ depicted at Figure~\ref{fig:param_instance},~the~region $r$ defined as $r = [0.1, 0.5] \times [0.5, 0.60]$ and valuation derived from it $u = (0.1, 0.55)$.
+Applying a~valuation $u$ to parametric model $\mathcal{D}$,~yields a~parameter-free MC $\mathcal{D}[u]$ depicted at Figure~\ref{fig:param_instance}(b).
+Note,~that this instantiated model $\mathcal{D}[u]$ has the~same topology as the~original pMC.
+We can say that the~considered region $r$ is \textit{well-defined},~since this holds for each possible valuation $u' \in R$,~respectively for an~instance $\mathcal{D}[u']$ derived from it.
+At the~contrary,~the~region $r' = [0.00, 0.50] \times [0.75, 1.00]$ is not \textit{well-defined},~because for example the~valuation $v' = (0.0, 1.0)$ yields an~MC which has no transition from $s_0$ to $s_1$,~or from $s_1$ to $s_3$,~so it has different topology as original pMC $\mathcal{D}$.
 \end{example}
