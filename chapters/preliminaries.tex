@@ -173,6 +173,7 @@ We consider valuation sets that mapping parameter to the~value within a~specifie
 We introduce a~technique for approximate checking pMC instances concerning the~valuation in such a~set.
 Firstly,~we introduce definitions for \textit{regions} and the~considered task of model checking.
 Subsequently,~we define the~construction of \textit{over-approximation},~which will be subsequently \textit{reduce} to an~MDP problem.
+The~definitions in this section are inspired mainly by~\cite{Quatmann2016}.
 
 \subsection{Regions}
 \begin{definition}[Region]
@@ -204,4 +205,29 @@ Applying a~valuation $u$ to parametric model $\mathcal{D}$,~yields a~parameter-f
 Note,~that this instantiated model $\mathcal{D}[u]$ has the~same topology as the~original pMC.
 We can say that the~considered region $r$ is \textit{well-defined},~since this holds for each possible valuation $u' \in R$,~respectively for an~instance $\mathcal{D}[u']$ derived from it.
 At the~contrary,~the~region $r' = [0.00, 0.50] \times [0.75, 1.00]$ is not \textit{well-defined},~because for example the~valuation $v' = (0.0, 1.0)$ yields an~MC which has no transition from $s_0$ to $s_1$,~or from $s_1$ to $s_3$,~so it has different topology as original pMC $\mathcal{D}$.
+\end{example}
+
+We will introduce a~\textit{satisfaction relation} for regions,~which defines whether the~given region $r$ and parametric model $\mathcal{M}$ satisfies the~specification $\varphi$.
+We denote $\mathcal{M}, r \models \varphi$ when each instance derived from the parametric model $\mathcal{M}$ described with a region $r$ satisfies the analysed specification $\varphi$.
+
+\begin{definition}[Region satisfaction relation]
+The relation $\models$ for a~well-defined region $r$,~a~parametric model $\mathcal{M}$,~and a~given specification $\varphi$ is defined as follows:
+\begin{align*}
+    \mathcal{M}, r \models \varphi \Longleftrightarrow \forall u \in r. \; \mathcal{M}[u] \models \varphi
+\end{align*}
+\end{definition}
+\noindent
+When holds $\mathcal{M}, r \not\models \varphi$,~then this statement implies $\exists u \in r. \; \mathcal{M}[u] \not\models \varphi$.
+On the contrary,~when holds $\mathcal{M}, r \models \neg\varphi$ which implies $\forall u \in r. \; \mathcal{M}[u] \not\models \varphi$,~this is different from the~first case.
+Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an pMC, $r$ a~well-defined region for this pMC $\mathcal{D}$,~and $\varphi = \reachability{\geq}{\lambda}{T}$ a~given reachability property.
+When we want to conclude whether the~region $r$ is \textit{live} or not,~we need to compute for each valuation $u \in r$ the~corresponding (\textit{minimal} or \textit{maximal}) reachability probability.
+We define the following equivalences to detect whether given \textit{region} $r$ is \textit{live} or not:
+\begin{align*}
+    \mathcal{D}, r \models \varphi \Longleftrightarrow (\argmin_{u \in r} \prob[\mathcal{D}[u], r \models F \; T]) \geq \lambda \\
+    \mathcal{D}, r \models \neg\varphi \Longleftrightarrow (\argmax_{u \in r} \prob[\mathcal{D}[u], r \models F \; T]) < \lambda \\
+\end{align*}
+Since the corresponding probability $\prob[\mathcal{D}[u], r \models F \; T]$ can be represented as a rational function $f$, and the region $r$ is well-defined, there exists the valuation inducing the minimal or maximal reachability probability on considered region $r$.
+
+\begin{example}[Region model checking]
+
 \end{example}
