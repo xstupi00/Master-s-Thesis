@@ -178,7 +178,7 @@ The~definitions in this section are inspired mainly by~\cite{Quatmann2016}.
 \subsection{Regions}
 \begin{definition}[Region]
 Let $V = \{ v_1, v_2, \dots, v_n \}$ be a~set of parameters and $\forall \, v_i \in V. \; \mathcal{B}(v_i) = \{b_1, b_2 \}$ rational bounds for each parameter $v_i$.
-These parameter bounds induce for parameter $v_i$ its interval $I(x_i) = [b1, b2]$ where holds $b1 \leq b2$.
+These parameter bounds induce for parameter $v_i$ its interval $I(v_i) = [b1, b2]$ where holds $b1 \leq b2$.
 Let $U = \{ u \; \lvert \; \forall \, v_i \in V. \; u(v_i) \in I(v_i) \}$ be a~set of valuations, which we call a region for parameters set $V$.
 \end{definition}
 \noindent
@@ -238,3 +238,41 @@ Now,~we consider the~state $s_1$,~when we want to reach state $s_3$ from it,~the
 However,~at the~same time we would need the~highest possible value for the~parameter $y$ to reach state $s_1$ from state $s_2$.
 An~exhaustive analysis is required to find an~optimal value for parameter $y$, due to this trade-off.
 \end{example}
+
+\subsection{Substitution of Parameters with Non-determinism}
+We will introduce a~technique based on the~dropping of parameters dependencies in the~different states.
+Thanks to the removal of these dependencies,~we can then effectively compute an~\textit{optimal} solution.
+In order to compute minimal (or maximal) probability we have to make a discrete choice over valuations $\mathit{v}: V \rightarrow \real$ with $\mathit{v}(v_i) \in \mathcal{B}(v_i)$.
+The~key idea consists of doing such a~choice locally at each state,~which allow us to construct the~\textit{parameter-free MDP} out of the~pMC $D$ and the~region $r$.
+The non-deterministic choices in this constructed MDP represent each valuation which is required to consider.
+
+\begin{definition}[Substitution-pMC]
+Let $\mathcal{D}_{sub}^{r} = (S, s_0, Act_{sub}, \mathcal{P}_{sub})$ be an MDP representing the parameter-substitution of a pMC $D = (S, V, s_0), \mathcal{P})$ and a region $r$, where holds $Act_{sub} = \biguplus_{s \in S}\{ \mathit{v}: V_s \rightarrow \real \; \lvert \; \mathit{v}(v_i) \in \mathcal{B}(v_i) \}$ and
+\begin{align*}
+    \mathcal{P}_{sub}(s, \mathit{v}, s') = 
+    \begin{cases}
+        \mathcal{P}(s, s')[\mathit{v}] \quad & if \; v \in Act_s \\
+        0 \quad & otherwise.
+    \end{cases}
+\end{align*}
+\end{definition}
+\noindent
+Intuitively,~the parameter-substitution $\mathcal{D}_{sub}^r$ of a~pMC $\mathcal{D}$ and a~region $r$ chooses an~action $\mathit{v}$ in state $s$ which corresponds to the~assigning of extremal values $\mathcal{B}(v_i)$ to the~parameter $v_i$. 
+Note that the~non-deterministic choices introduced by this substitution depend only on the~values $\mathcal{B}(v_i)$ of the parameter $v_i$ in the~region $r$.
+
+\begin{example}[Substitution-pMC]
+Let us consider pMC $\mathcal{D}$ depicted at Figure~\ref{fig:param_instance}(a) and also the~introduced region $r = [0.1, 0.5] \times [0.5, 0.6]$ as above.
+Figure~\ref{fig:sub_mc}(a) depicts the~\textit{substitution} of MC $\mathcal{D}$,~which includes non-deterministic choices instead of outgoing transition from states $s_0, s_1, s_2$ in the~original pMC $\mathcal{D}$.
+In more precise,~we choose the~\textit{upper} or \textit{lower} bound for the~corresponding interval of the~parameter in each state.
+The~green lines depict the~transitions that belong to the~action for the~lower bound,~and red lines for the~upper bound.
+We note,~that states $s_3$ and $s_4$ contains only constant outgoing transition and therefore they have not any choices.
+
+\end{example}
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/sub_mc.pdf}
+\caption{A \textit{parameter-substitution} MDP $\mathcal{D}_{sub_r}$, and instantiated MC $(\mathcal{D}_{sub_r})^\sigma$.}%
+\label{fig:sub_mc}%
+\end{figure*}
+
