@@ -239,7 +239,7 @@ However,~at the~same time we would need the~highest possible value for the~param
 An~exhaustive analysis is required to find an~optimal value for parameter $y$, due to this trade-off.
 \end{example}
 
-\subsection{Substitution of Parameters with Non-determinism}
+\subsection{Substitution of pMCs}
 We will introduce a~technique based on the~dropping of parameters dependencies in the~different states.
 Thanks to the removal of these dependencies,~we can then effectively compute an~\textit{optimal} solution.
 In order to compute minimal (or maximal) probability we have to make a discrete choice over valuations $\mathit{v}: V \rightarrow \real$ with $\mathit{v}(v_i) \in \mathcal{B}(v_i)$.
@@ -295,4 +295,13 @@ Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an pMC,~$r$ a~well-defined regio
 \end{align*}
 \end{definition}
 \noindent
+Therefore,~we can use the~standard approaches for MDP model checking to check whether $\mathcal{D}, r \models \varphi$,~by applying these techniques to model $\mathcal{D}_{sub}^r$.
+When the model checking of this considered over-approximation yield an~inconclusive results,~we refine the~regions to sub-regions and repeat the~control.
 
+\subsection{Substitution of pMDPs}
+In the~previous section,~we introduced a~technique to apply the~standard MDP model checking to the~parametric MCs. 
+This technique substitutes outgoing transitions with non-deterministic choices representing the~relevant bounds of the~parameter related to this transition.
+Now,~we generalise this technique to parametric MDPs,~or in general,~systems that include non-determinism.
+In addition to the~choices over actions that the~MDP implicitly contains,~this technique also adds options over valuations concerning the~considered parameters.
+This added level of non-determinism leads to a~game with two players.
+The~first player represents the~original MDP non-determinism,~and the~second player the~abstracted parameters,~which results in a~stochastic game.
