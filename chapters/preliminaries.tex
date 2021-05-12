@@ -200,11 +200,11 @@ The~first condition guarantees that both models $\mathcal{M}$ and $\mathcal{M}[u
 \end{figure*}
 
 \begin{example}[Region]
-Let us consider the pMC $\mathcal{D}$ depicted at Figure~\ref{fig:param_instance},~the~region $r$ defined as $r = [0.1, 0.5] \times [0.5, 0.60]$ and valuation derived from it $u = (0.1, 0.55)$.
+Let us consider the pMC $\mathcal{D}$ depicted at Figure~\ref{fig:param_instance},~the~region $r$ defined as $r = [0.1, 0.5] \times [0.5, 0.6]$ and valuation derived from it $u = (0.1, 0.55)$.
 Applying a~valuation $u$ to parametric model $\mathcal{D}$,~yields a~parameter-free MC $\mathcal{D}[u]$ depicted at Figure~\ref{fig:param_instance}(b).
 Note,~that this instantiated model $\mathcal{D}[u]$ has the~same topology as the~original pMC.
 We can say that the~considered region $r$ is \textit{well-defined},~since this holds for each possible valuation $u' \in R$,~respectively for an~instance $\mathcal{D}[u']$ derived from it.
-At the~contrary,~the~region $r' = [0.00, 0.50] \times [0.75, 1.00]$ is not \textit{well-defined},~because for example the~valuation $v' = (0.0, 1.0)$ yields an~MC which has no transition from $s_0$ to $s_1$,~or from $s_1$ to $s_3$,~so it has different topology as original pMC $\mathcal{D}$.
+At the~contrary,~the~region $r' = [0.0, 0.5] \times [0.75, 1.0]$ is not \textit{well-defined},~because for example the~valuation $v' = (0.0, 1.0)$ yields an~MC which has no transition from $s_0$ to $s_1$,~or from $s_1$ to $s_3$,~so it has different topology as original pMC $\mathcal{D}$.
 \end{example}
 
 We will introduce a~\textit{satisfaction relation} for regions,~which defines whether the~given region $r$ and parametric model $\mathcal{M}$ satisfies the~specification $\varphi$.
@@ -229,5 +229,12 @@ We define the following equivalences to detect whether given \textit{region} $r$
 Since the corresponding probability $\prob[\mathcal{D}[u], r \models F \; T]$ can be represented as a rational function $f$, and the region $r$ is well-defined, there exists the valuation inducing the minimal or maximal reachability probability on considered region $r$.
 
 \begin{example}[Region model checking]
-
+Let $D$ be an~MC depicted at Figure~\ref{fig:param_instance}(a),~and we  consider a~region $r = [0.1, 0.5] \times [0.5, 0.6]$.
+Let us suppose,~that we want to obtain a~valuation $u \in r$ maximising $\prob[\mathcal{D}[u], r \models F \; \{s_3 \}]$,~so the~probability that from an~initial state $s_0$ will be reached the state $s_3$.
+Let us observe,~that the~single state from which the~state $s_3$ is not reachable is the~state $s_4$,~which is reachable only from state $s_2$.
+Therefore,~to achieve the~highest probability will be the~best strategy minimising the~probability to reach state $s_2$.
+We can conclude,~that the~parameter $x$ should has its value $u(x)$ as high as possible,~i.e.,~$u(x)= 0.5$.
+Now,~we consider the~state $s_1$,~when we want to reach state $s_3$ from it,~then the~parameter $y$ should has its value $u(x)$ as low as possible.
+However,~at the~same time we would need the~highest possible value for the~parameter $y$ to reach state $s_1$ from state $s_2$.
+An~exhaustive analysis is required to find an~optimal value for parameter $y$, due to this trade-off.
 \end{example}
