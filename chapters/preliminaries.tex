@@ -305,3 +305,28 @@ Now,~we generalise this technique to parametric MDPs,~or in general,~systems tha
 In addition to the~choices over actions that the~MDP implicitly contains,~this technique also adds options over valuations concerning the~considered parameters.
 This added level of non-determinism leads to a~game with two players.
 The~first player represents the~original MDP non-determinism,~and the~second player the~abstracted parameters,~which results in a~stochastic game.
+
+\begin{example}[MDP Substitution]
+Let $\mathcal{M} = (S, V, s_0, Act, \mathcal{P})$ be an~pMDP depicted at Figure~\ref{fig:sub_mdp}(a).
+Note that an~initial state $s_0$ can choice from two actions $\alpha$ and $\beta$.
+When we consider the~scheduler $\sigma = \{ s \mapsto \beta \}$,~then by applying it to pMDP $\mathcal{M}$ we obtain pMC,~which we can subsequently transform to parameter-substitution MC,~as depicted at Figure~\ref{fig:sub_mdp}(b).
+The~parameter substitution of a~MDP $\mathcal{M}$ returns an~SG $\mathcal{G}$ which is depicted at Figure~\ref{fig:sub_mdp}(d).
+\end{example}
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/mdp_sub.pdf}
+\caption{Illustration of the substitution of a pMDP.}%
+\label{fig:sub_mdp}%
+\end{figure*}
+\noindent
+When constructing the~\textit{parameter substitution} of a~pMDP,~we first need to construct its substitution,~which separates probabilistic choices from non-deterministic actions.
+In the~first step,~we split each state $s \in S$ into set $\{s \} \; \uplus \; \{ (s, \alpha) \; \lvert \; \alpha \in Act(s) \}$,~and then we add a~transition with the~probability of $1$ from state $s$ to state $(s, \alpha)$ and move the~probabilistic choice concerning action $\alpha$ from $s$ to $(s, \alpha)$.
+After applying of these operations,~we obtain a~pMDP $\mathcal{M}'$,~depicted in Figure~\ref{fig:sub_mdp}(c).
+We can see that this MDP has clear non-deterministic choices leading to the~newly added states of the~form $(s, \alpha)$,~which on the~contrary,~have clear probabilistic choices.
+As we said above,~by introducing parameter substitution on the~probabilistic states,~we obtain the~stochastic game $\mathcal{G}$,~depicted in Figure~\ref{fig:sub_mdp}(d).
+The~first player represents the~original pMDP non-determinism,~while the~second one decides whether the~lower or upper bounds of the~parameters will be set.
+
+\begin{definition}[Substitution-pMDP]
+
+\end{definition}
