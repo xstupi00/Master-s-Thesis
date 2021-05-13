@@ -278,22 +278,22 @@ Figure~\ref{fig:sub_mc} depicts an~MC $(\mathcal{D}_{sub_r})^\sigma$ which is in
 \noindent
 According to Theorem 1 which was defined and proved in~\cite{Quatmann2016}, we list the following:
 
-\begin{definition}[]
+\begin{theorem}[]
 Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an~pMC,~$r$ a~region defined over this pMC $\mathcal{D}$,~and $T \subseteq S$ a~set of target states of $\mathcal{D}$,~then holds:
 \begin{align*}
     \argmin_{u \in r} \prob[\mathcal{D}[u] \models F \; T] \geq \argmin_{\sigma \in \Sigma^{\mathcal{D}_{sub}^{r}}} \prob[(\mathcal{D}_{sub}^{r})^\sigma \models F \; T] \\
     \argmax_{u \in r} \prob[\mathcal{D}[u] \models F \; T] \leq \argmax_{\sigma \in \Sigma^{\mathcal{D}_{sub}^{r}}} \prob[(\mathcal{D}_{sub}^{r})^\sigma \models F \; T]
 \end{align*}
-\end{definition}
+\end{theorem}
 \noindent
 We define the following consequence straightforward from this statement:
-\begin{definition}
+\begin{theorem}
 Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an pMC,~$r$ a~well-defined region defined over this pMC $\mathcal{D}$,~then holds:
 \begin{align*}
     \mathcal{D}_{sub}^{r} \models \reachability{\leq}{\lambda}{T} \Longrightarrow \mathcal{D}, r \models & \; \reachability{\leq}{\lambda}{T} \\
     \mathcal{D}_{sub}^{r} \models \reachability{>}{\lambda}{T} \Longrightarrow \mathcal{D}, r \models & \; \neg\reachability{\leq}{\lambda}{T}
 \end{align*}
-\end{definition}
+\end{theorem}
 \noindent
 Therefore,~we can use the~standard approaches for MDP model checking to check whether $\mathcal{D}, r \models \varphi$,~by applying these techniques to model $\mathcal{D}_{sub}^r$.
 When the model checking of this considered over-approximation yield an~inconclusive results,~we refine the~regions to sub-regions and repeat the~control.
@@ -339,3 +339,19 @@ A~\textit{stochastic game} $\mathcal{M}_{sub}^r = (S_{\circ} \uplus S_{\square},
     \end{cases}
 \end{align*}
 \end{definition}
+\noindent
+The~constructed stochastic game $\mathcal{G} = \mathcal{M}_{sub}^r$ induced by various schedulers for the~first player $\circ$ relates with the~substitution in the~pMCs induced by schedulers from $\mathcal{M}$. 
+In more precise,~the~schedulers $\sigma \in \Sigma^M_\circ$ for the~first player $\circ$ coincide with the~schedulers in $\mathcal{M}$.
+Therefore,~the~models $\mathcal{G}^\sigma$ and ($\mathcal{M}^\sigma)_{sub}^r$ induced by the~scheduler $\sigma$ induce the~same reachability probabilities.
+Thus,~we can substitute $\mathcal{M}$ directly and preserve the~reachability probability,~instead of performing the~substitution on the~pMC induced by $\mathcal{M}$ and $\sigma$.
+
+\begin{theorem}
+Let $\mathcal{M} = (S, V, s_0, Act, \mathcal{P})$ be an pMDP,~$r$ a~well-defined region defined over this pMC $\mathcal{D}$,~then holds:
+\begin{align*}
+    \mathcal{M}_{sub}^{r} \models_{\emptyset} \reachability{\leq}{\lambda}{T} \Longrightarrow \mathcal{M}, r \models & \; \reachability{\leq}{\lambda}{T} \\
+    \mathcal{M}_{sub}^{r} \models_{\circ} \reachability{>}{\lambda}{T} \Longrightarrow \mathcal{M}, r \models & \; \neg\reachability{\leq}{\lambda}{T}.
+\end{align*}
+\end{theorem}
+\noindent
+Therefore,~similar as in the~introduced pMC case,~we can determine whether $\mathcal{M}_{sub}^r \models \varphi$ by analysing a~stochastic game.
+For more details about proofs of listed definitions and theorems please refer to~\cite{Quatmann2016}.
