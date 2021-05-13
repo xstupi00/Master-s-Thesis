@@ -385,21 +385,25 @@ A~realization~$r$ yields a pMC $\fmlr = (S, V, \sinit,\fpm(r))$,~where $\fpm(r):
 Let $\rlzf$ denote the~set of all (parametric) realisations for $\fml$.
 \end{definition}
 
-A~set $\prod_{k \in K} T_k$ representing all possible parameter combinations values has the~same semantics as a~set $\rlzf$ representing all family realisations.
-In other words,~we can define the~\textit{size of the family} of pMCs in the~following way: $\lvert \fml \rvert := \lvert \prod_{k \in K} T_k \rvert = \lvert \rlzf \rvert = \prod_{k \in K} \lvert T_k \rvert$.
+A~set $\prod_{k \in K} T_k$ representing all possible parameter combinations values has the~same semantics as a~set $\rlzf$ representing all family realisations with different topology of the~state space.
+In other words,~we can define the~\textit{size of the~family} of pMCs in the~following way: $\lvert \fml \rvert := \lvert \prod_{k \in K} T_k \rvert = \lvert \rlzf \rvert = \prod_{k \in K} \lvert T_k \rvert$.
 The~family size $\lvert \fml \rvert$ is finite because of the~finiteness of each parameter domain $T_k \subseteq S$,~but it is exponential in the~number of parameters $\lvert K \rvert$.
+The~individual pMCs within the~family share the~same state space $S$,~but their set of reachable states can vary.
+We emphasise that,~from the point of view of program synthesis,~such defined size of the~family does not indicate the~maximum number of realisations that must be examined.
+This size indicates the~number of parametric realisations with different topologies,~which,~however, may still be inconclusive due to continuous parametric regions.
 We note $\rlz$ as the~sub-families induced from the~whole family $\rlzf$.
-The~individual pMCs within the~family share the~same state space $S$,~but their set of reachable states can vary, and moreover, they have parametric transitions.
 
 \begin{example}[Family of MCs]\label{exam:mcfamily}
-Let $\fml = \family$ be a~family of MCs,~where $S = \{s_0, s_1, s_2, s_3\}$ and $K = \{ k_0, k_1\}$ with domains $T_{k_0} = \{s_0, s_2\}$,~and $T_{k_1} = \{s_1, s_3\}$.
+Let $\fml = \family$ be a~family of pMCs,~where $S = \{s_0, s_1, s_2, s_3\}$,~$K = \{ k_0, k_1, k_2, k_3 \}$ with domains $T_{k_0} = T_{k_1} = \{s_1, s_2\}$,~$T_{k_2} = \{ s_0 \}$,~and $T_{k_3} = \{ s_3 \}$,~and $V = \{ x, y \}$.
 The parametric transition function $\fpm$ is defined as follows:
 \begin{align*}
-    \fpm(s_0) &= 0.5 : k_0 + 0.5 : k_1  &  \fpm(s_1)  &= 0.5 : k_1  + 0.5 : k_0 \\
-    \fpm(s_2) &= 1.0: k_1   &  \fpm(s_3)  &= 1.0 : s_3
+    \fpm(s_0) &= x : k_0 + (1-x) : k_1  \\
+    \fpm(s_1)  &= y : k_2  + (1-y) : k_3 \\
+    \fpm(s_2) &= 1.0 : k_0  \\
+    \fpm(s_3)  &= 1.0 : k_3
 \end{align*}
-Figure~\ref{fig:mcfamily} draws the~MCs family $\fml$ that correspond to all possible realisations: $\lvert T_{k_0} \rvert \cdot \lvert T_{k_1} \rvert = 2 \cdot 2 = 4$.
-We note that these MCs have a~different topology of the~underlying state space,~resulting in different sets of reachable states.
+Figure~\ref{fig:mcfamily} draws the~pMCs family $\fml$ that correspond to all possible realisations: $\lvert T_{k_0} \rvert \cdot \lvert T_{k_1} \rvert = 2 \cdot 2 = 4$.
+We note that these pMCs have a~different topology of the~underlying state space,~resulting in different sets of reachable states.
 \end{example}
 
 \begin{figure}[ht!]
