@@ -328,5 +328,14 @@ As we said above,~by introducing parameter substitution on the~probabilistic sta
 The~first player represents the~original pMDP non-determinism,~while the~second one decides whether the~lower or upper bounds of the~parameters will be set.
 
 \begin{definition}[Substitution-pMDP]
-
+Let $\mathcal{M} = (S, V, s_0, Act, \mathcal{P})$ be an~pMDP,~and $r$ well-defined region.
+A~\textit{stochastic game} $\mathcal{M}_{sub}^r = (S_{\circ} \uplus S_{\square}, s_0, Act_{sub}, \mathcal{P}_{sub})$ is the parameter-substitution of $\mathcal{M}$ over $r$ if $S_{\circ} = S$, $S_{\square} = \{ (s, \alpha) \; \lvert \; \alpha \in Act(s) \}$, $Act_{sub} = Act \uplus (\biguplus_{(s, \alpha) \in S_{\square}}Act_s^\alpha)$ where $Act_s^\alpha = \{\mathit{v}: V_s^\alpha \rightarrow \real \; \lvert \; \mathit{v}(v_i) \in \mathcal{B}(v_i) \}$, and
+\begin{align*}
+    \mathcal{P}_{sub}(t, \beta, t') = 
+    \begin{cases}
+        1 \quad & if \; t \in S_\circ \; and \; t' = (t, \beta) \in S_\square, \\
+        \mathcal{P}(s, \alpha, t')[\beta] \quad & if \; t = (s, \alpha) \in s_\square, \beta \in Act_s^\alpha, and \; t' \in S_\circ, \\
+        0 \quad & otherwise.
+    \end{cases}
+\end{align*}
 \end{definition}
