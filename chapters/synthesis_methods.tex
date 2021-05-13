@@ -1,4 +1,25 @@
-\chapter{Synthesis Methods} \label{chap:synthesis_methods}
+\chapter{Synthesis of Probabilistic Programs} \label{chap:synthesis_methods}
+
+\section{Automated System Design}
+
+The~dream of automating software development has been present since the~beginning of the~computer age. 
+As early as 1945,~as part of an~ideal vision for an~automatic computing machine,~Alan Turing argued that the~process of compiling instruction tables would be fascinating,~free of errors and no effort,~as the~machine itself would perform all demanding operations.
+What if we could tell the~computer what to do \,--\, or give it a~specification of what we want as users \,--\, and let it work to figure out how to do it? 
+This is the~promise of program synthesis,~where after entering a~specification,~the~computer automatically generates a~program that meets that specification.
+
+\paragraph{Deductive Synthesis.}
+The~earliest examples of program synthesis used formal specifications to derive the~correct program automatically. 
+The~aim is to take a~formal specification and go back searching for a~program that demonstrably meets the~specification. 
+Some of the~synthesizers in this area relied on the~success of automated theorem provers,~which they used to compile evidence of program accuracy,~or others used rewrite rules in an~attempt to transform a~specification into an~equivalent program.
+
+\paragraph{Inductive Synthesis.}
+The~second wave of synthesis research focuses on \textit{syntax-driven} synthesis. 
+In addition to the~specification,~these approaches expect the~\textit{template} (\textit{sketch}) of the~searched program,~which defines the set of candidate programs. 
+This template contains undefined locations that describe as yet unknown system properties or maybe intentionally omitted. 
+Approaches of this second wave have recently come to the~fore,~and our approach is also based on them. 
+The~counter-example approach (\textit{CEGIS}~\cite{cegis}) has become a~pioneer in this area,~which we will also discuss.
+
+\section{}
 
 The~synthesis tasks for parametric probabilistic programs can be divided into the~following two categories.
 
