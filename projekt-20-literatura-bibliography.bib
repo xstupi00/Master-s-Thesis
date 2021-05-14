@@ -1,15 +1,3 @@
-@inproceedings{spl1,
-  author={G. N. {Rodrigues} and V. {Alves} and V. {Nunes} and A. {Lanna} and M. {Cordy} and P. {Schobbens} and A. M. {Sharifloo} and A. {Legay}},
-  booktitle={2015 IEEE 16th International Symposium on High Assurance Systems Engineering},
-  title={Modeling and Verification for Probabilistic Properties in Software Product Lines},
-  year={2015},
-  volume={},
-  number={},
-  pages={173-180},
-  ISSN={1530-2059},
-  month={Jan},
-}
-
 @inproceedings{spl2,
   author={S. {Gerasimou} and G. {Tamburrelli} and R. {Calinescu}},
   booktitle={2015 30th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
@@ -96,16 +84,6 @@ key={}
   volume    = {6806}
 }
 
-@article{spl3,
-  author = {Chrszon, Philipp and Dubslaff, Clemens and Klüppelholz, Sascha and Baier, Christel},
-  year = {2017},
-  month = {08},
-  pages = {},
-  title = {ProFeat: feature-oriented engineering for family-based probabilistic model checking},
-  volume = {30},
-  journal = {Formal Aspects of Computing},
-}
-
 @article{onebyone,
   title={Model checking software product lines with {SNIP}},
   author={Andreas Classen and Maxime Cordy and Patrick Heymans and Axel Legay and Pierre-Yves Schobbens},
@@ -174,16 +152,6 @@ booktitle = {{TACAS}},
   pages     = {172--190},
   publisher = {Springer},
   year      = {2019}
-}
-
-@inproceedings{model-repair-1,
-  title={Model Repair for Probabilistic Systems},
-  author={Ezio Bartocci and Radu Grosu and Panagiotis Katsaros and C. R. Ramakrishnan and Scott A. Smolka},
-  booktitle={{TACAS'11}},
-  pages="326--340",
-  year={2011},
-    series    = {LNCS},
-  volume    = {6605}
 }
 
 @article{ceska2014robustness,
@@ -478,3 +446,83 @@ address="Cham",
 pages="364--379",
 isbn="978-3-319-11936-6"
 }
+
+@article{10.1145/36177.36194,
+author = {Massalin, Henry},
+title = {Superoptimizer: A Look at the Smallest Program},
+year = {1987},
+issue_date = {Oct. 1987},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {15},
+number = {5},
+issn = {0163-5964},
+url = {https://doi.org/10.1145/36177.36194},
+doi = {10.1145/36177.36194},
+journal = {SIGARCH Comput. Archit. News},
+month = oct,
+pages = {122–126},
+numpages = {5}
+}
+
+@inproceedings{superoptimiser,
+author = {Massalin, Henry},
+title = {Superoptimizer: A Look at the Smallest Program},
+year = {1987},
+isbn = {0818608056},
+publisher = {IEEE Computer Society Press},
+address = {Washington, DC, USA},
+url = {https://doi.org/10.1145/36206.36194},
+doi = {10.1145/36206.36194},
+pages = {122–126},
+numpages = {5},
+location = {Palo Alto, California, USA},
+series = {ASPLOS II}
+}
+
+@article{kernel,
+author = {Pu, Calton and Massalin, Henry and Ioannidis, John},
+year = {1970},
+month = {02},
+pages = {},
+title = {The Synthesis Kernel},
+volume = {1},
+journal = {Comput. Syst.}
+}
+
+@article{10.1145/1168918.1168907,
+author = {Solar-Lezama, Armando and Tancau, Liviu and Bodik, Rastislav and Seshia, Sanjit and Saraswat, Vijay},
+title = {Combinatorial Sketching for Finite Programs},
+year = {2006},
+issue_date = {November 2006},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {41},
+number = {11},
+issn = {0362-1340},
+url = {https://doi.org/10.1145/1168918.1168907},
+doi = {10.1145/1168918.1168907},
+abstract = {Sketching is a software synthesis approach where the programmer develops a partial implementation - a sketch - and a separate specification of the desired functionality. The synthesizer then completes the sketch to behave like the specification. The correctness of the synthesized implementation is guaranteed by the compiler, which allows, among other benefits, rapid development of highly tuned implementations without the fear of introducing bugs.We develop SKETCH, a language for finite programs with linguistic support for sketching. Finite programs include many highperformance kernels, including cryptocodes. In contrast to prior synthesizers, which had to be equipped with domain-specific rules, SKETCH completes sketches by means of a combinatorial search based on generalized boolean satisfiability. Consequently, our combinatorial synthesizer is complete for the class of finite programs: it is guaranteed to complete any sketch in theory, and in practice has scaled to realistic programming problems.Freed from domain rules, we can now write sketches as simpleto-understand partial programs, which are regular programs in which difficult code fragments are replaced with holes to be filled by the synthesizer. Holes may stand for index expressions, lookup tables, or bitmasks, but the programmer can easily define new kinds of holes using a single versatile synthesis operator.We have used SKETCH to synthesize an efficient implementation of the AES cipher standard. The synthesizer produces the most complex part of the implementation and runs in about an hour.},
+journal = {SIGPLAN Not.},
+month = oct,
+pages = {404–415},
+numpages = {12},
+keywords = {SAT, sketching}
+}
+
+@inproceedings{sketching,
+author = {Solar-Lezama, Armando and Tancau, Liviu and Bodik, Rastislav and Seshia, Sanjit and Saraswat, Vijay},
+title = {Combinatorial Sketching for Finite Programs},
+year = {2006},
+isbn = {1595934510},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1168857.1168907},
+doi = {10.1145/1168857.1168907},
+pages = {404–415},
+numpages = {12},
+keywords = {sketching, SAT},
+location = {San Jose, California, USA},
+series = {ASPLOS XII}
+}
+

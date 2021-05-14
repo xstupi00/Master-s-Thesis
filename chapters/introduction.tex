@@ -4,7 +4,7 @@ Randomisation is essential to research areas such as \textit{probabilistic progr
 Probabilistic programs are powerful modelling apparatus of systems containing probabilistic uncertainty.
 Systems with unreliable and unpredictable behaviour require the~use of such a~mathematical apparatus established on probability theory.
 Designing such systems exhibiting a~desirable behaviour \,--\, e.g. selecting the~optimal power management strategy or a~network protocol increasing the~packet throughput \,--\, is challenging for reasoning over multiple alternative designs.
-Their applications cover a~broad range of research areas,~including,~e.g. analysis of (quantitative) software product lines~\cite{spl1,spl2},~strategy synthesis in planning under partial observability~\cite{pomdp1,pomdp2},~or design of communication protocols~\cite{herman1,herman2}.
+Their applications cover a~broad range of research areas,~including,~e.g. analysis of (quantitative) software product lines~\cite{sw-product-lines,spl2},~strategy synthesis in planning under partial observability~\cite{pomdp1,pomdp2},~or design of communication protocols~\cite{herman1,herman2}.
 
 A~set of declarative temporal constraints often expresses the~efficiency and correctness of the~probabilistic programs.
 The~model checkers for probabilistic systems,~such as \storm{}~\cite{STORM} or \prism{}~\cite{KNP11},~provide automated verification of such constraints.
@@ -18,8 +18,8 @@ or a~partially implemented controller.
 A~vital aspect of the design cycle is design space explorations,~i.e. exploring all possible designs.
 When considering a~Markov chain (MC) as the~mathematical apparatus of a~probabilistic program,~then the~design space represents a~family of such chains,~and the~synthesis task is to find the~one that satisfies a~given specifications.
 
-A~\textit{one-by-one} approach can naively solve the~synthesis problem by analysing all unique designs~\cite{spl3,onebyone}.
-On the contrary,~the whole design space can also be modelled as a~single \textit{all-in-one} Markov decision process~\cite{spl3,allinone}.
+A~\textit{one-by-one} approach can naively solve the~synthesis problem by analysing all unique designs~\cite{profeat,onebyone}.
+On the contrary,~the whole design space can also be modelled as a~single \textit{all-in-one} Markov decision process~\cite{profeat,allinone}.
 However,~enumerating all members of design space (realisations) is unfeasible due to its combinatorial explosion, and the size of such all-in-one MDP is proportional to the number of candidate designs.
 Unfortunately,~the~double state-space explosion problem renders both of these approaches infeasible for large families.
 Other approaches consider evolutionary search algorithms for the~synthesis of software systems~\cite{spl2}.
@@ -37,7 +37,7 @@ The~approach presented in this work integrates both these methods and it manages
 All these presented methods consider \textit{topology synthesis} task assuming a~finite set of parameters that affect the~model topology,~where the~individual parameters represent the~undefined system specifications.
 This task focuses on Markov chains families having different topologies of the~state space and,~as a~consequence,~different sets of reachable states.
 However,~another area of synthesis tasks considers a~Markov chain with fixed topology but undefined transition probabilities.
-This area has been discussed by approaches of model repairing~\cite{model-repair-1,pathak-et-al-nfm-2015} and techniques for \textit{parameter synthesis}~\cite{ceska2014robustness,Quatmann2016}.
+This area has been discussed by approaches of model repairing~\cite{model-repair-usage,pathak-et-al-nfm-2015} and techniques for \textit{parameter synthesis}~\cite{ceska2014robustness,Quatmann2016}.
 When modelling real-world systems,~combining the two tasks can quickly occur,~but the~support to solve such a~\textit{combined synthesis} task does not exist.
 
 \MC{Navrhuju ty predchozi odstavce trochu zmenit a rozsirit: hned rict, ze se uvazuje synteza topologii a parametru. Zminit exisujicic pristupy a pak rict, ze se zamerujes na vyvoj nastroje, ktery rozsiruje moznosti syntezi zejmena o tu kombinovanou syntezu -- pak navazat s tim key contribution.}
