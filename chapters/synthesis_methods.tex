@@ -31,10 +31,10 @@ The~synthesis tasks for parametric probabilistic programs can be divided into th
 This synthesis task considers a~finite set of parameters that affect the~\textit{topology} of Markov chains.
 Finding a~family member that satisfies given specifications is \textit{NP}-complete in the~parameters' number and can be naively solved by analysing all individual family members~\cite{onebyone}.
 An~alternative approach models the~family of MCs by an~MDP and uses off-the-shelf algorithms for MDP model-checking~\cite{allinone}.
-Tools such as \emph{QFLan}~\cite{qflan} and \emph{ProFeat}~\cite{profeat} implements this approach to quantitatively analyse alternative designs of software product lines~\cite{sw-product-lines}.
+Tools such as \emph{QFLan}~\cite{qflan} and \emph{ProFeat}~\cite{profeat} implements these approaches to quantitatively analyse alternative designs of software product lines~\cite{sw-product-lines}.
 These tools provide the~complete methods to solve synthesis tasks,~but they are limited strictly to small families,~so they do not scale.
-Introduced inductive techniques,~motivated from this approach,~form on abstraction-refinement (\emph{AR}) over the MDP representation~\cite{cegar},~and counterexample guided inductive synthesis (\emph{CEGIS}) for MCs~\cite{cegis} have been proposed to achieve better scalability.
-Experiments in previous papers~\cite{cegar,cegis} have shown that the~synthesis methods implemented in \emph{ProFeat} or \emph{QFLan} have evident deficits on the~benchmarks investigated in this paper.
+Inductive techniques,~motivated from these basic approaches,~form on abstraction-refinement (\emph{AR}) over the MDP representation~\cite{cegar},~and counterexample guided inductive synthesis (\emph{CEGIS}) for MCs~\cite{cegis} have been proposed to achieve better scalability.
+Experiments in previous papers~\cite{cegar,cegis} have shown that the~synthesis methods implemented in \emph{ProFeat} or \emph{QFLan} have evident deficits on the~benchmarks investigated also in this thesis.
 This synthesis task is closely connected to controller synthesis for partially observed MDPs (POMPDs),~representing,~for instance,~a~famous Maze~\cite{maze} model for AI planning under uncertainty,~to which we will pay attention later.
 Other techniques to solve the~controller synthesis for POMDPs also use neural network oracles to lead search~\cite{pomdp-2} and adaptive learning schemes based on imitation learning~\cite{POMDP3}.
 % This fact is supported by the comparison of the hybrid approach with the~one-by-one enumeration, we present in Section 5.
@@ -45,11 +45,18 @@ It analyses how the~parameter values affect the~behaviour of Markov chains (or M
 \textit{Parameter} synthesis problems targets finding parameter values for which the~parametric model (optimal) satisfies the~specification.
 The~state-of-the-art probability model checkers \storm{}~\cite{STORM} and \prism{}~\cite{KNP11} provide approximate techniques for parameter synthesis that solve the~same parameters in various transitions independently.
 We note that these model checkers and others with the~same focus are primarily determined to verify concrete MC and not to the~whole MCs family.
-On the contrary,~exact techniques construct rational functions for symbolic reachability probabilities proposed in~\cite{DBLP:conf/ictac/Daws04} and further improved in~\cite{dehnert2015prophesy}.
+On the contrary,~exact techniques construct rational functions for symbolic reachability probabilities have been proposed in~\cite{DBLP:conf/ictac/Daws04} and further improved in~\cite{dehnert2015prophesy}.
 % The~application of this synthesis task can be found, for instance,~in the~field of model repair problems~\cite{model-repair-1}.
 Parametric probabilistic models have several applications in a~wide range of areas.
 For instance, in~\cite{ceska-biochemical} synthesised the~rate parameters in stochastic biochemical networks,~in~\cite{model-repair-usage} tuned the~model parameters exploiting the~parametric Markov chains.
 Moreover,~parametric models have applications also when ranking the patches in the~software repair~\cite{learning-correct-code} and for computing perturbation bounds~\cite{nested-approximation}.
+
+\noindent \\
+\emph{Search-based} approaches can handle both synthesis tasks,~but they do not guarantee an~exhaustive exploration of the parameter space.
+Genetic algorithms and evolutionary techniques belong to these approaches group, and the tool \rodes{}~\cite{rodes} implements their combination with parameter synthesis.
+However,~these approaches are not complete and can only effectively solve a~feasible instance within the~feasibility synthesis task.
+In the~case of an~unfeasible instance or optimally synthesis task,~they cannot be applied to them.
+Thus,~we omit comparison with the~incomplete methods that cannot treat these types of synthesis tasks.
 
 \section{Synthesis Methods}
 Existing methods for a~probabilistic programs synthesis can be separated into two orthogonal classes.
