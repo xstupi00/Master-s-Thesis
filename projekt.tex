@@ -45,6 +45,7 @@
 % Basic packages are at the bottom of template file fitthesis.cls
 % zde můžeme vložit vlastní balíčky / you can place own packages here
 
+
 %PAYNT (Probabilistic progrAm sYNThesizer)
 \newcommand{\toolname}{\textsc{PAYNT}}
 \newcommand{\storm}{\textsc{Storm}}
@@ -174,8 +175,11 @@
 \usetikzlibrary{automata,positioning,shapes,fit,calc}
 \usepackage{url}
 
-
 \newcommand{\MC}[1]{\textcolor{red}{MC: #1}}
+
+
+\renewcommand{\algorithmiccomment}[1]{\textbf{\hfill // #1}}% Updated definition
+
 
 % =======================================================================
 % balíček "hyperref" vytváří klikací odkazy v pdf, pokud tedy použijeme pdflatex

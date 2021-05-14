@@ -246,7 +246,7 @@ In order to compute minimal (or maximal) probability we have to make a discrete 
 The~key idea consists of doing such a~choice locally at each state,~which allow us to construct the~\textit{parameter-free MDP} out of the~pMC $D$ and the~region $r$.
 The non-deterministic choices in this constructed MDP represent each valuation which is required to consider.
 
-\begin{definition}[Substitution-pMC]
+\begin{definition}[Substitution-pMC] \label{def:sub_mc}
 Let $\mathcal{D}_{sub}^{r} = (S, s_0, Act_{sub}, \mathcal{P}_{sub})$ be an MDP representing the parameter-substitution of a pMC $D = (S, V, s_0), \mathcal{P})$ and a region $r$, where holds $Act_{sub} = \biguplus_{s \in S}\{ \mathit{v}: V_s \rightarrow \real \; \lvert \; \mathit{v}(v_i) \in \mathcal{B}(v_i) \}$ and
 \begin{align*}
     \mathcal{P}_{sub}(s, \mathit{v}, s') = 
@@ -287,7 +287,7 @@ Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an~pMC,~$r$ a~region defined ove
 \end{theorem}
 \noindent
 We define the following consequence straightforward from this statement:
-\begin{theorem}
+\begin{theorem} \label{def:sub_mc_check}
 Let $\mathcal{D} = (S, V, s_0, \mathcal{P})$ be an pMC,~$r$ a~well-defined region defined over this pMC $\mathcal{D}$,~then holds:
 \begin{align*}
     \mathcal{D}_{sub}^{r} \models \reachability{\leq}{\lambda}{T} \Longrightarrow \mathcal{D}, r \models & \; \reachability{\leq}{\lambda}{T} \\
