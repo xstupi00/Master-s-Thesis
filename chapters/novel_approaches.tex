@@ -200,3 +200,11 @@ We summarise this procedure in Algorithm~\ref{alg:ar_optimal}.
 \end{algorithm}
 
 \section{Combined Probabilistic Synthesis}
+We present the~main ideas behind a novel adaptation of the~hybrid methods towards the~\textit{parameter} and \textit{combined} synthesis.
+Recall that we need to operate with parameters having continuous domains and affecting the~transition probabilities of Markov chains.
+We build on a~\emph{parameter substitution}~\cite{Quatmann2016}
+that replaces each parametric transition by two non-deterministic choices corresponding to the~two extremes of its domain.
+Applying this operation to a~parametric MC or parametric MDP,~respectively,~yields a~parameter-free MDP,~or a~parameter-free stochastic game,~respectively.
+These models can be subsequently verified using the~off-the-shelf,~efficient algorithms for model checking.
+
+In more precise, a well-defined region $R$ represents the \textit{parameter} space.
