@@ -206,5 +206,25 @@ We build on a~\emph{parameter substitution}~\cite{Quatmann2016}
 that replaces each parametric transition by two non-deterministic choices corresponding to the~two extremes of its domain.
 Applying this operation to a~parametric MC or parametric MDP,~respectively,~yields a~parameter-free MDP,~or a~parameter-free stochastic game,~respectively.
 These models can be subsequently verified using the~off-the-shelf,~efficient algorithms for model checking.
+Consequently,~this technique boils down to verify an~MDP and avoids computing of the~rational functions and SMT solving.
+The~attractiveness of this technique is that it can be applied to parametric MC and parametric MDPs without much further trouble and exhausting analysis.
 
+\paragraph{CEGIS.}
+An~inductive oracle adapts the~computational environment in the~following way.
+A~family of pMCs $\fml = \family$ and the~given set of specifications $\varPhi$ represent the~input to this method.
+The family is encoded as SAT formula concerning both kinds of parameters, where the parameters affecting topology from the set $K$ are encoded as the list of possible options that they can have.
+On the~contrary,~the~encoding of the~parameters representing probability transition from the set $V$ must be adapted and encoded as the~individual interval for each such parameter.
+We remind each \textit{CEGIS} iteration then analyses a~concrete family member represented by an~MC built concerning the~assignment of the parameters yielded by the~SAT solver.
+
+When the~analysed family member does not satisfy some given specification $\varphi \in \varPhi$,~the~construction of counter-examples is triggered, which yields a~conflict set with generalised parameters.
+When the~parameter is generalised,~it does not matter its value within the~whole sub-family,~and all its options,~or interval,~respectively,~can be excluded.
+Constructing counter-examples for families including continuous parameters requires additional reasoning as excluding the~concrete value from the~continuous interval is not feasible. 
+Therefore,~we design a~strategy trying to exclude a~specific part of the~interval,~which preserves the~CE generalisation. 
+For each such parameter,~we construct an~appropriate neighbourhood of the~value in the~current assignment -- this leads to an~MDP model.
+When the~analysis of this MDP yields unsatisfiable results,~these neighbourhoods can be safely excluded from the~interval and thus from the~family.
+Otherwise,~the~neighbourhoods are gradually refined until the~unsatisfiable result is obtained.
+
+\paragraph{AR.}
+
+We also design a~greedy splitting strategy based on the~domain size. 
 In more precise, a well-defined region $R$ represents the \textit{parameter} space.
