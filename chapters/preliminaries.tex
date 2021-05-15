@@ -164,8 +164,8 @@ Moreover, we focus also to a relaxed variant of minimal synthesis, the so-called
 
 \begin{example} (Synthesis problem)
 Assume an~MCs family $\fml$ from Example~\ref{exam:mcfamily} and the~specification $\phi = \reachability{\geq}{0.1}{\{s_1\}}$.
-The solution to the~feasibility synthesis problem is,~for example,~the~realisation $r_0$, since $D_{r_0}$ has a~probability of $\frac{2}{3}$ to reach state $s_1$.
-For $\varPhi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $D_{r_2}$ has a~probability equal to one to reach state $s_1$.
+The solution to the~feasibility synthesis problem is,~for example,~the~realisation $r_0$, since $\mathcal{D}_{r_0}$ has a~probability of $\frac{2}{3}$ to reach state $s_1$.
+For $\varPhi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $\mathcal{D}_{r_2}$ has a~probability equal to one to reach state $s_1$.
 \end{example}
 
 \section{Region Model Checking}
@@ -229,7 +229,7 @@ We define the following equivalences to detect whether given \textit{region} $r$
 Since the corresponding probability $\prob[\mathcal{D}[u], r \models F \; T]$ can be represented as a rational function $f$, and the region $r$ is well-defined, there exists the valuation inducing the minimal or maximal reachability probability on considered region $r$.
 
 \begin{example}[Region model checking]
-Let $D$ be an~MC depicted at Figure~\ref{fig:param_instance}(a),~and we  consider a~region $r = [0.1, 0.5] \times [0.5, 0.6]$.
+Let $\mathcal{D}$ be an~MC depicted at Figure~\ref{fig:param_instance}(a),~and we  consider a~region $r = [0.1, 0.5] \times [0.5, 0.6]$.
 Let us suppose,~that we want to obtain a~valuation $u \in r$ maximising $\prob[\mathcal{D}[u], r \models F \; \{s_3 \}]$,~so the~probability that from an~initial state $s_0$ will be reached the state $s_3$.
 Let us observe,~that the~single state from which the~state $s_3$ is not reachable is the~state $s_4$,~which is reachable only from state $s_2$.
 Therefore,~to achieve the~highest probability will be the~best strategy minimising the~probability to reach state $s_2$.
@@ -243,11 +243,11 @@ An~exhaustive analysis is required to find an~optimal value for parameter $y$, d
 We will introduce a~technique based on the~dropping of parameters dependencies in the~different states.
 Thanks to the removal of these dependencies,~we can then effectively compute an~\textit{optimal} solution.
 In order to compute minimal (or maximal) probability we have to make a discrete choice over valuations $\mathit{v}: V \rightarrow \real$ with $\mathit{v}(v_i) \in \mathcal{B}(v_i)$.
-The~key idea consists of doing such a~choice locally at each state,~which allow us to construct the~\textit{parameter-free MDP} out of the~pMC $D$ and the~region $r$.
+The~key idea consists of doing such a~choice locally at each state,~which allow us to construct the~\textit{parameter-free MDP} out of the~pMC $\mathcal{D}$ and the~region $r$.
 The non-deterministic choices in this constructed MDP represent each valuation which is required to consider.
 
 \begin{definition}[Substitution-pMC] \label{def:sub_mc}
-Let $\mathcal{D}_{sub}^{r} = (S, s_0, Act_{sub}, \mathcal{P}_{sub})$ be an MDP representing the parameter-substitution of a pMC $D = (S, V, s_0), \mathcal{P})$ and a region $r$, where holds $Act_{sub} = \biguplus_{s \in S}\{ \mathit{v}: V_s \rightarrow \real \; \lvert \; \mathit{v}(v_i) \in \mathcal{B}(v_i) \}$ and
+Let $\mathcal{D}_{sub}^{r} = (S, s_0, Act_{sub}, \mathcal{P}_{sub})$ be an MDP representing the parameter-substitution of a pMC $\mathcal{D} = (S, V, s_0), \mathcal{P})$ and a region $r$, where holds $Act_{sub} = \biguplus_{s \in S}\{ \mathit{v}: V_s \rightarrow \real \; \lvert \; \mathit{v}(v_i) \in \mathcal{B}(v_i) \}$ and
 \begin{align*}
     \mathcal{P}_{sub}(s, \mathit{v}, s') = 
     \begin{cases}
@@ -381,7 +381,7 @@ We call such instantiated pMC as \textit{realisation},~and the~following definit
 \begin{definition}[Realisation]
 \cite{cegar}
 A~\emph{realization} of a~family $\fml = \family$ of pMCs is a~function $r: K \rightarrow S$ s.t.~$\forall k \in K :  r(k) \in T_k$. 
-A~realization~$r$ yields a pMC $\fmlr = (S, V, \sinit,\fpm(r))$,~where $\fpm(r): S \times K \nrightarrow \mathbb{Q}_V$ represents the~parametric transition probability matrix where each parameter $k \in K$ is substituted with $r(k)$. 
+A~realization~$r$ yields a pMC $\mathcal{D}_r = (S, V, \sinit,\fpm(r))$,~where $\fpm(r): S \times K \nrightarrow \mathbb{Q}_V$ represents the~parametric transition probability matrix where each parameter $k \in K$ is substituted with $r(k)$. 
 Let $\rlzf$ denote the~set of all (parametric) realisations for $\fml$.
 \end{definition}
 
@@ -414,7 +414,7 @@ We note that these pMCs have a~different topology of the~underlying state space,
 \end{figure}
 
 \textit{Quotient} pMDP $M^\fml$ simulates the~behaviours of each member of the~family $\fml$ and can even pass between them during the~execution.
-In more precise,~when the~path $s_0s_1s_2 \dots$ is executable in some family member $D_r$,~then it is also executable in $M^\fml$ as $s_0 \overset{r}{\rightarrow} s_1 \overset{r}{\rightarrow} \dots$.
+In more precise,~when the~path $s_0s_1s_2 \dots$ is executable in some family member $\mathcal{D}_r$,~then it is also executable in $M^\fml$ as $s_0 \overset{r}{\rightarrow} s_1 \overset{r}{\rightarrow} \dots$.
 However,~there may exist a~path $\pi$ that is executable in $M^\fml$,~but it is not realisable in neither of the~family members.
 We can conclude that \textit{quotient} MDP over-approximates the~behaviours of the~members of family $\fml$.
 
