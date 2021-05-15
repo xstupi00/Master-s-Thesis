@@ -254,8 +254,8 @@ In this way,~we may perform more iteration of MDP model checking,~but we will av
 
 \paragraph{Abstraction Refinement.}
 We remind that the~\textit{abstraction refinement} loop analyses a~whole family $\rlz \subseteq \rlzf$ represented as a~pMDP model $\mathcal{M}$ against to given set of specifications $\varPhi$ at once.
-Since the~loop takes at the~input a~pMDP $\mathcal{M}$ and wants to analyse it,~we need to construct a~parameter substitution $\mathcal{M}_{sub}^r$ of the~given MDP model $\mathcal{M}$ concerning the~parameter region $r$.
-This parameter substitution yields a~stochastic game,~and by analysing it,~we can derive whether holds that $\mathcal{M}_{sub}^r \models \varphi$ for each $\varphi \in \varPhi$.
+Since the~loop takes at the~input a~pMDP $\mathcal{M}$ and wants to analyse it,~we need to construct a~parameter substitution $\mathcal{M}_{sub}^r$ of the~given MDP model $\mathcal{M}$ concerning the~parameter region $r$ (applying Definition~\ref{def:sub_mdp}).
+This parameter substitution yields a~stochastic game,~and by analysing it,~we can derive whether holds that $\mathcal{M}_{sub}^r \models \varphi$ for each $\varphi \in \varPhi$ (see Theorem~\ref{the:mdp_stochastic}).
 
 This model checking of the~constructed stochastic game yields the~refinable lower and upper bounds on probabilities correspond to the~current parameter space intervals.
 Abstraction refinement oracle works without the~change in the following~processing than presented loop for topology synthesis,~except refinement strategy when the~analysis result is inconclusive.
@@ -263,6 +263,6 @@ A~refinement strategy that mitigates the~overhead of analysing sub-families,~pre
 Therefore,~we design a~\textit{greedy splitting} strategy based on the~domain size,~which does not analyse the~MDP structure,~and performs as follows.
 
 
-% It selects from the~parameters set,~which includes both kinds of parameters,the~parameter with the~greatest number of possible options or parameter containing the`longest interval,~respectively.
-% The~domain of the~selected parameter is splitting in half,~and the~analysed family is refined according to that.
-% This naive strategy offers space for improvement in the~future,~and it is in our plans to improve it concerning the~model of the analyzed family.
+This strategy selects from the~parameters set $K \cup V$,~which includes both kinds of parameters,the~parameter with the~greatest number of possible options or parameter containing the~longest interval,~respectively.
+The~domain of the~selected parameter is splitting in half,~and the~analysed family is refined according to that.
+This naive strategy offers space for improvement in the~future,~and it is in our plans to improve it concerning the~model of the~analysed family.
