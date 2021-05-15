@@ -232,18 +232,25 @@ Otherwise,~the~neighbourhoods are gradually refined until the~unsatisfiable resu
 \hspace*{\algorithmicindent} \textbf{Output:} A well-defined region $r$ s.t. $\forall \varphi_{\neg} \in \varPhi_{\neg}. \; \mathcal{D}, r \not\models \varphi_{\neg}. $ \\
 \vspace*{-1.5em}
 \begin{algorithmic}[1]
-    \STATE $r \leftarrow \{ b_1 - \varepsilon, \, b_2 + \varepsilon \; \lvert \; \exists \, v_i \in V. \; I(v_i) = [b_1, b_2] \; with \; b_1 \leq b_2\}$
+    \STATE $r \leftarrow \{ u(v_i) - \varepsilon, u(v_i) + \varepsilon \; \lvert \; \forall \, v_i \in V. \; u(v_i) \in I(v_i) \; \land \; u(v_i) = \mathcal{D}[v_i]\}$
     \STATE $\mathcal{D}_{sub}^r \leftarrow \textit{substitution-pMC}(\mathcal{D}, r) $ \hfill // \textbf{Applying Definition~\ref{def:sub_mc}}
     \STATE $\mathtt{sat} \leftarrow \mathtt{solveMDP(\mathcal{D}_{sub}^r, \, \varPhi_{\neg})}$ \hfill // \textbf{Applying Theorem~\ref{def:sub_mc_check}}
     \WHILE [$\exists \, \varphi_{\neg} \in \varPhi_{\neg}. \; \mathcal{D}_{sub}^r \models \varphi_{\neg}$] {$\mathtt{sat}$}
-        \STATE $r \leftarrow \{ b_1 - \varepsilon_{\downarrow}, \, b_2 + \varepsilon_{\downarrow} \; \lvert \; \exists \, v_i \in V. \; I(v_i) = [b_1, b_2] \; with \; b_1 \leq b_2 \; \land \; i = \texttt{iter} \}$
+        \STATE $r \leftarrow \{ u(v_i) - \varepsilon_\downarrow, u(v_i) + \varepsilon_\downarrow \, \lvert \, \forall \, v_i \in V. \; u(v_i) \in I(v_i) \, \land \, u(v_i) = \mathcal{D}[v_i]\} \, \land \, i = \texttt{iter} \, \% \, n \}$
         \STATE $\mathcal{D}_{sub}^r \leftarrow \textit{substitution-pMC}(\mathcal{D}, r) $
     \STATE $\mathtt{sat} \leftarrow \mathtt{solveMDP(\mathcal{D}_{sub}^r, \, \varPhi_{\neg})}$
     \ENDWHILE
     \RETURN $r$
 \end{algorithmic}
-\caption{CEGIS loop: .}
+\caption{CEGIS loop: CE generalisation for continuous parameters from a set $V$.}
 \label{alg:cegis_ce_combined}
 \end{algorithm}
+Algorithm~\ref{alg:cegis_ce_combined} illustrates described strategy to exclude a~specific part of the~parameter interval.
+It takes a~concrete family member from the~currently analysed family of pMCs $\mathcal{D}$ represented as a~pMC $\mathcal{D}$,~and a~set of specifications $\varPhi_{\neg}$ that the~given family member does not satisfy.
+First,~we construct the~region concerning the~parameter assignment of the~analysed family member,~where each parameter $v_i \in V$ represents the~neighbourhood of its valuation $u(v_i)$ created according to the~current $\varepsilon$ value.
+Subsequently,~we construct an~MDP $\mathcal{D}_{sub}^r$ representing a~substitution of pMC concerning the~original model $\mathcal{D}$ and constructed region $r$.
+Then we deduce whether $\mathcal{D}, r \not\models \varphi_{\neg}$ for each $\varphi_{\neg} \in \varPhi_{\neg}$ by applying the standard technique for MDP model checking.
+When this does not hold for some specification,~we refine region $r$ by reducing the~neighbourhood of one parameter $v_i$ which is selected concerning the~current iteration number $i$.
+In this way,~we may perform more iteration of MDP model checking,~but we will avoid unnecessarily shrinking of regions and exclude the~most extensive possible region.
 
 \paragraph{Abstraction Refinement.}
