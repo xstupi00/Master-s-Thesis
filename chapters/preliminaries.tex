@@ -12,7 +12,7 @@ The~following definitions are inspired from the~existing sources,~mainly from~\c
 We denote a~finite set of \textit{parameters} as $V$.
 We consider \textit{parameters} over the~domain $\real$ ranged over by $x,y,z$ for the~following definitions.
 Let $u: V \rightarrow \real$ denote a~\textit{valuation} for \textit{parameters} $V$.
-We denote a~set of \textit{multi-affine multivariate polynomials} as $\mathbb{Q}_V$, where polynomial $f$ is defined over parameters $V$ and equal to $\sum_{i \leq M}{\prod_{v\in V_i}v \cdot a_i}$,~for appropriate $M \in \nat$, $a_i \in \rat$,~and $\forall \, 0 \leq i \leq m. \; V_i \subseteq V$.
+We denote a~set of \textit{multi-affine multivariate polynomials} as $\mathbb{Q}_V$, where polynomial $f$ is defined over parameters $V$ and equal to $\sum_{i \leq M}{\prod_{v\in V_i}v \cdot a_i}$,~for appropriate $\mathcal{M} \in \nat$, $a_i \in \rat$,~and $\forall \, 0 \leq i \leq m. \; V_i \subseteq V$.
 We note that this set includes only the polynomials where the~variables have the~maximal degree equal to one,~i.e.,~$y^3 \notin \mathbb{Q}_V$, but $y \cdot z \in \mathbb{Q}_V$.
 When we apply the~valuation $u$ to polynomial $f \in \mathbb{Q}_V$,~the~resulting instance yields a~real number $f[u] \in \real$,~in which all occurrences of variable $x \in f$ are replaced by $u(x)$.
 We consider various types of (parametric) discrete probabilistic models.
@@ -55,7 +55,7 @@ We label the~transition from state $s \in S$ to $s' \in S$ by action $\alpha$ an
 
 
 \begin{definition}[MDP]
-    A pMDP $\mathcal{M}$ is Markov decision process (MDP) $M$ if $\mathcal{P}: S \times Act \times S \rightarrow Distr(S)$, so for each state $s \in S$ and each its action $\alpha \in Act(s)$ holds that $\sum_{s' \in S}{\mathcal{P}(s, \alpha, s')} = 1$.
+    A pMDP $\mathcal{M}$ is Markov decision process (MDP) $\mathcal{M}$ if $\mathcal{P}: S \times Act \times S \rightarrow Distr(S)$, so for each state $s \in S$ and each its action $\alpha \in Act(s)$ holds that $\sum_{s' \in S}{\mathcal{P}(s, \alpha, s')} = 1$.
 \end{definition}
 \noindent 
 We can define in the same way a~MCs as the~special instance of pMCs.
@@ -109,7 +109,7 @@ In other words,~the~transition probabilities are obtained concerning the~choice 
 
 \begin{definition}[Induced pMC] \label{def:incuded_mc}
 \cite{cegar}
-An pMC induced by pMDP $\mathcal{M} = (S, V, s_0, Act, \mathcal{P})$ and $\sigma \in \Sigma^M$ is defined by $M_{\sigma} = ( Paths_{fin}^{M}, s_0, \mathbf{P}^{\sigma})$ where:
+An pMC induced by pMDP $\mathcal{M} = (S, V, s_0, Act, \mathcal{P})$ and $\sigma \in \Sigma^M$ is defined by $\mathcal{M}_{\sigma} = ( Paths_{fin}^{M}, s_0, \mathbf{P}^{\sigma})$ where:
 \begin{align*}
     \mathbf{P^{\sigma}}(\pi, \pi') = 
     \begin{cases}
@@ -128,8 +128,9 @@ We note that the~holes correspond to parameters,~and their instantiation yields 
 At follow, we formalise the sketch defining the set of designs:
 
 \begin{definition}[Sketch]
+\todo{Add parameters}
 Let $\sketch$ be a~sketch containing holes from the~set $\mathcal{H} = \left\{ H_k \right \}_k$ with $R_k$ being the~set of options available for hole $H_k$.
-Let $\rlzf = \prod_k R_k$ denote the~set of all hole assignments (realizations),~$\sketch[r]$ denote the~program induced by a~substitution $r \in \rlzf$ and $\fmlr$ denote the underlying MC.
+Let $\rlzf = \prod_k R_k$ denote the~set of all hole assignments (realizations),~$\sketch[r]$ denote the~program induced by a~substitution $r \in \rlzf$ and $\mathcal{D}_r$ denote the underlying MC.
 Note that the~set $\rlzf$ is exponential in $\lvert \mathcal{H} \rvert$.
 \end{definition}
 \noindent
@@ -413,15 +414,15 @@ We note that these pMCs have a~different topology of the~underlying state space,
 \label{fig:mcfamily}%
 \end{figure}
 
-\textit{Quotient} pMDP $M^\fml$ simulates the~behaviours of each member of the~family $\fml$ and can even pass between them during the~execution.
-In more precise,~when the~path $s_0s_1s_2 \dots$ is executable in some family member $\mathcal{D}_r$,~then it is also executable in $M^\fml$ as $s_0 \overset{r}{\rightarrow} s_1 \overset{r}{\rightarrow} \dots$.
-However,~there may exist a~path $\pi$ that is executable in $M^\fml$,~but it is not realisable in neither of the~family members.
+\textit{Quotient} pMDP $\mathcal{M}^\fml$ simulates the~behaviours of each member of the~family $\fml$ and can even pass between them during the~execution.
+In more precise,~when the~path $s_0s_1s_2 \dots$ is executable in some family member $\mathcal{D}_r$,~then it is also executable in $\mathcal{M}^\fml$ as $s_0 \overset{r}{\rightarrow} s_1 \overset{r}{\rightarrow} \dots$.
+However,~there may exist a~path $\pi$ that is executable in $\mathcal{M}^\fml$,~but it is not realisable in neither of the~family members.
 We can conclude that \textit{quotient} MDP over-approximates the~behaviours of the~members of family $\fml$.
 
 \begin{definition}[Quotient pMDP] \label{def:quotient_mdp}
 \cite{roman-DP}
 Let $\fml = \family$ be an~pMCs family.
-A~\textit{quotient} pMDP $M^\fml$ of the~family $\fml$ is a~tuple $(S, V, s_{init}, \mathcal{R}^\fml, \mathcal{P})$,~where $\mathcal{P}(\cdot)(r) \equiv \mathcal{B}_r$.
+A~\textit{quotient} pMDP $\mathcal{M}^\fml$ of the~family $\fml$ is a~tuple $(S, V, s_{init}, \mathcal{R}^\fml, \mathcal{P})$,~where $\mathcal{P}(\cdot)(r) \equiv \mathcal{B}_r$.
 \end{definition}
 
 A~restriction of a~\textit{quotient} pMDP concerning $\rlz \subseteq \rlz^\fml$ induces an~pMDP which takes into account only transitions associated with $\rlz$.
@@ -430,7 +431,7 @@ We note that a~\textit{consistent} scheduler yields a~specific family member for
 
 \begin{definition}[Consistent scheduler]
 \cite{roman-DP}
-Let $\fml = \family$ be a~pMCs family and let $M^\fml = (S, V, s_{init}, \mathcal{R}^\fml, \mathcal{P})$ be a quotient pMDP of the~family $\fml$.
+Let $\fml = \family$ be a~pMCs family and let $\mathcal{M}^\fml = (S, V, s_{init}, \mathcal{R}^\fml, \mathcal{P})$ be a quotient pMDP of the~family $\fml$.
 For $r \in \rlz^\fml$,~a (memory-less) scheduler $\sigma_r \in \sigma^{M^\fml}$ is called \textit{r-consistent} iff $\forall s \in S: \, \sigma(s) = r$.
 A~scheduler is called \textit{consistent} iff it is consistent for some $r \in \rlz^\fml$.
 \end{definition}
