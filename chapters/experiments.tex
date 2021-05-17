@@ -1,7 +1,8 @@
 \chapter{Experimental Evaluation}\label{chap:experiments}
-
+This chapter will investigate the~performance of the~\emph{hybrid} approach for integrated synthesis methods extensions \,--\, multi-property and optimal synthesis \,--\, for various case studies and properties.
+Moreover,~we will also introduce a~preliminary results of the~performance of the~designed approach for both \emph{parameter} and \emph{combined} synthesis.
 Further on,~we demonstrate the~applicability of \toolname{} and interpret the~synthesis results for three of these case studies.
-All experiments are run on an~Debian~GNU/Linux~10 machine with Intel(R) Core(TM) i7-3770K (8 cores at 3.50GHz) and using up to 32 GB RAM,~with all the~algorithms being executed single-threaded.
+All experiments are run on a~Debian~GNU/Linux~10 machine with Intel(R) Core(TM) i7-3770K (8 cores at 3.50GHz) and using up to 32 GB RAM,~with all the~algorithms being executed single-threaded.
 
 \section{Performance Evaluation of Advanced Methods}
 This section aims to demonstrate the~performance of advanced integrated methods for both \textit{multi-property} and \textit{optimal} synthesis on various synthesis problems from different application domains.
@@ -29,20 +30,23 @@ We are interested mainly in the~expected time until \emph{stabilisation}.
     \textbf{1-by-1} & 32h & 40h & 32h & \,--\, \\
     \textbf{Hybrid} & 90s & 105s & 21m & 8m \\ \hline \hline
 \end{tabular}
-\caption{\textbf{Herman}: Family size: 3.1M}
+\caption{\textbf{Herman}: Family size: $3.1M$, Number of parameters: $7$, Average MC size: $1.1k$.}
 \end{table}
 
 \paragraph{DPM.}
+It represents a~partial information scheduler for a~disk power manager motivated by~\cite{dpm1}.
+This model have been precise described in Section~\ref{sec:dpm}.
+We are interested primarily in the~expected energy consumption and expected number of lost requests.
 
 \begin{table}[h!]
 \centering
 \begin{tabular}{l|cccc}
     \hline \hline 
     & \multicolumn{1}{l}{\textbf{1 property}} & \multicolumn{1}{l}{\textbf{2 properties}} & \multicolumn{1}{l}{\textbf{optimal}} & \multicolumn{1}{l}{\textbf{$\mathbf{5\%}$-optimal}} \\ \hline
-    \textbf{1-by-1} & & & & \,--\, \\
-    \textbf{Hybrid} & & & & \\ \hline \hline
+    \textbf{1-by-1} & 31d & 35d & 31d & \,--\, \\
+    \textbf{Hybrid} & 72m & 84m & 9.7h & 6.2h \\ \hline \hline
 \end{tabular}
-\caption{\textbf{DPM}: Family size: 43M}
+\caption{\textbf{DPM}:  Family size: $43M$, Number of parameters: $16$, Average MC size: $3.6k$.}
 \end{table}
 
 \paragraph{Maze.}
@@ -58,7 +62,7 @@ We are interested primarily in the~expected time to the \emph{goal}.
     \textbf{1-by-1} & 25h & 31h & 25h & \,--\, \\
     \textbf{Hybrid} & 63m & 65m & 78m & 59m \\ \hline \hline
 \end{tabular}
-\caption{\textbf{Maze}: Family size: 9.4M}
+\caption{\textbf{Maze}:  Family size: $9.4M$, Number of parameters: $22$, Average MC size: $0.2k$.}
 \end{table}
 
 \paragraph{Pole.}
@@ -75,10 +79,13 @@ We are interested mainly in the~expected time until \emph{failure}.
     \textbf{1-by-1} & 23h & 30h & 23h & \,--\, \\
     \textbf{Hybrid} & 7s & 8s & 11m & 60s \\ \hline \hline
 \end{tabular}
-\caption{\textbf{Pole}: Family size: 1.3M}
+\caption{\textbf{Pole}:  Family size: $1.3M$, Number of parameters: $17$, Average MC size: $5.6k$.}
 \end{table}
 
 \paragraph{Grid.}
+It represents a~model describing again partially observable MDPs (POMDPs)~\cite{pomdp1}.
+There is an~agent who tries to locate a~target cell in a~4x4 grid.
+We are interested in lower- and upper- bounded properties on the~expected number of steps.
 
 \begin{table}[h!]
 \centering
@@ -88,15 +95,17 @@ We are interested mainly in the~expected time until \emph{failure}.
     \textbf{1-by-1} & 16m & 19m & 16m & \,--\, \\
     \textbf{Hybrid} & 31s & 35s & 47s & 9s \\ \hline \hline
 \end{tabular}
-\caption{\textbf{Grid}: Family size: 65k}
+\caption{\textbf{Grid}: Family size: $65k$, Number of parameters: $8$, Average MC size: $1.2k$.}
 \end{table}
     
-\begin{itemize}
-    \item A hybrid oracle is orders of magnitude faster than 1-by-1 enumeration when analysing 1 property.
-    \item A multi-property synthesis slows down both approaches, although the hybrid slowdown is almost negligible.
-    \item An optimal synthesis slows down only the hybrid approach, yet it is still incomparably faster than 1-by-1.
-    \item A hybrid oracle supports $\varepsilon$-optimal synthesis, which is even faster.
-\end{itemize}
+
+\paragraph{Evaluation.}
+As we have already said,~we are based on what has already been shown in previous articles~\cite{roman-DP,cegar,cegis}.
+As a~basis,~we know that a~hybrid oracle is orders of magnitude faster than one-by-one enumeration when analysing single property.
+Based on the~results obtained in the~framework of all considered case studies,~we can draw the~following conclusions,~which confirm the~tables above.
+An~integrated \emph{multi-property} synthesis slows down both approaches,~although the~hybrid slowdown is almost negligible.
+An~\emph{optimal} synthesis slows down only the~hybrid approach,~yet it is still incomparably faster than naive one-by-one enumeration.
+Moreover,~a~hybrid oracle supports $\varepsilon$-optimal synthesis,~which is even faster.
 
 \section{Performance Evaluation of Combined Synthesis}
 
