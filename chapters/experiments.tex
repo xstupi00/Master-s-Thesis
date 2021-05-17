@@ -126,7 +126,7 @@ Moreover,~a~hybrid oracle supports $\varepsilon$-optimal synthesis,~which is eve
 
 \section{Applicability}
 
-\paragraph{Maze.} 
+\subsection{Maze.} 
 This synthesis problem considers an~instance of POMDP synthesis of the~controller.
 Figure~\ref{fig:maze} depicts a~\emph{maze} in which operates an~agent starting at a~random location.
 The~agent has simple sensor detecting walls,~but it cannot recognise cells within the~maze that have walls at identical directions \,--\,~e.g. cells $5$ and $10$,~or $1$ and $3$.
@@ -138,8 +138,14 @@ For instance,~when the~agent wants to move to the~west,~there is a~small probabi
 We design a sketch for the~agent's controller that helps it reach the target cell representing the~maze's exit \,--\, cell 12.
 The~controller has one bit of memory available which is initially set to value $0$.
 The~holes in this sketch represent the~available actions concerning the~current observation.
+The~direction for steering and setting a~new value of the~memory represents actions,~and observation is represented by the~current memory value and detected walls in the~current cell.
 This sketch describes a family with $9.4M$ various programs.
 Our target is to synthesise a~program that minimises the~expected number of steps to achieve the~maze's exit.
+
+\toolname{} explores the set of candidate programs in $one$ hour,~whereas the~naive one-by-one enumeration takes more than one day.
+Figure~\ref{fig:maze} depicts the synthesised strategy of the selected controller,~which is optimal given the~expected number of steps to reach the~exit.
+Arrows depict the~direction of steering concerning the~current memory value (number at the~start of an~arrow) and the~corresponding memory update (number at the~end of an~arrow).
+For instance,~when an~agent is currently in cell $3$,~it moves to the~east when the~memory value is equal to $0$ and moves to the~west when the~memory contains 0,~while the~value of the~memory remains unchanged in both cases.
 
 \begin{figure}[ht!]
 \centering
@@ -147,3 +153,6 @@ Our target is to synthesise a~program that minimises the~expected number of step
 \caption{The state-space of the~\textit{Maze} model with a~marked target state and the~observation groups. A~right side represents the~found optimal strategy to reach the~target location within the~minimal expected time. The~initial state is selected randomly with a~memory value of 0.}%
 \label{fig:maze}%
 \end{figure}
+
+When an~agent is in the~cell with enclosing walls (cells 0,~2 and 4),~it can navigate to the~exit since it knows its current position within the~maze.
+Likewise,~when the~agent navigates from cells $11$ or $13$,~it selects always to the~north to reach cells $0$ or $4$ eventually.
