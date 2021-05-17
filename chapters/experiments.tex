@@ -126,3 +126,70 @@ Moreover,~a~hybrid oracle supports $\varepsilon$-optimal synthesis,~which is eve
 
 \section{Applicability}
 
+\paragraph{Maze.} This is a~planning problem typically considered as \textit{POMDP}.
+This case-study is inspired by the~infamous cheese-maze example~\cite{maze}: a~simple maze where an~agent attempts to reach a~target location.
+The family describes all \textit{MCs} by small-memory observation-based deterministic strategies (with a~fixed upper bound on the~memory).
+We are interested in the~expected time to the~goal,~and therefore we use the~optimal synthesis to synthesize the~minimum.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/maze.pdf}
+\caption{The state-space of the~\textit{Maze} model with a~marked target state and the~observation groups. A~right side represents the~found optimal strategy to reach the~target location within the~minimal expected time. The~initial state is selected randomly with a~memory value of 0.}%
+\label{fig:maze}%
+\end{figure}
+
+The~state-space of the~model contains $13$ states and $1$ target state,~and we adapted this model as a~family with a~memory size of $1$ bit.
+The~individual states are divided into $6$ different groups according to the~observation in which direction it is possible to go from a~given state.
+The~next action is considered only according to the~current value of memory and the~observation group of the current state. 
+Since we consider $6$ observation groups and $2$ possible memory values,~then the~model has $12$ possible configurations and $24$ holes because we have to determine the~new value of memory and the~direction from each configuration.
+The~initial state is selected randomly with a~memory value of 0.
+We want to synthesize the~\textit{reward} specification that reflects the~expected number of steps to reach the~target location: $\mathbb{R}\{steps\} = \, ? \; [\Diamond \, s=12]$.
+As a~result of optimal synthesis,~the~minimum expected number of steps is equal to $9.8367$.
+The~obtained synthesized strategy corresponds to human intuition and ensures direction always to the~target state,~with a~few exceptions at initial states,~e.g.,~initial configuration $(10, 0)$.
+This deficiency is caused by the~fixed upper bound on the~memory,~and therefore it can be easily suppressed by raising the~possible values of memory to $3$.
+In more precise, the strategy tries to choose from the current state the direction, which decrease the distance to the target location.
+Moreover, it uses the memory to distinguish the different choices of directions from the states in the same observation group.
+In this minimal synthesis was explored the family about size $9437184$ with $22$ holes, and the analysis taken $33$ CEGAR iterations and $43343$ CEGIS iterations, where were analyzed the models with average size $473$ at MDP, respectively $323$ at DTMC.
+The overall run-time of the analysis was $36.82$ minutes.
+
+
+\paragraph{Herman.}
+This self-stabilisation algorithm provides a~simple randomised solution to recovering from faults in~an N-process token ring~\cite{herman-1,herman-2}.
+At every step of the~algorithm,~each process with a~token decides whether to keep it or pass it on to its left neighbour,~with the~decision being based on the~outcome of a~random coin toss.
+The~protocol is extended with a~bit of memory for each process in the~ring,~and the~choice to flip various unfair coins.
+Nodes in the~ring are anonymous,~they all behave equivalently,~but may change their local memory based on local events.
+The~family describes variations of memory-updates and coin-selection,~but always preserves anonymity.
+
+Since $N$ must be odd,~we constructed a~network of $5$ identical processes in a~ring.
+We are interested in the~expected amount of time required for algorithm execution,~i.e.,~the expected number of steps needed until stabilisation occurs:~$\mathbb{R}\{steps\} = \, ? \; [\Diamond \, num\_tokens=1]$.
+We research how the~algorithm performance varies for different probability distributions of $\mathit{p}$, used to randomise processes' choices at each step. 
+Since we consider the~boolean variable and $\mathit{1}$-bit memory for each process,~the number of possible configurations at each step is $4$.
+We consider the~individual distribution of $\mathit{p}$ for each configuration,~the~new memory values for both decisions when the~process has token,~and also new memory value when it has not token \,--\, $7$ synthesised holes.
+We decided to research $24$ different values of the~probability $\mathit{p} \in \{0.02, 0.04 \dots, 0.50 \}$, resulting in a~family of size $3125000$.
+The~result of minimal synthesis shows that for $N=5$ is the~optimal setting $\mathit{p=0.5}$ for all synthesised distributions.
+When the~process passes the~token,~it sets its own local memory to $1$,~otherwise;~it sets it to $0$.
+Since the~memory contains $1$ only after the~token is passed,~when the~process variable is equal to $0$,~the~configuration $(1, 1)$ can never occur.
+Therefore,~the~synthesis can terminate with an~arbitrary probability distribution for relevant hole without affecting the~minimal expected time.
+We can conclude, that with a sufficiently small number of processes is the best strategy usage the fair coin for randomising choices.
+
+\paragraph{Pole.}
+This benchmark considers a~balancing pole in an~unknown and noisy environment~\,--\,~motivated by~\cite{pole-1,pole-2}.
+At deploy time,~the controller should optimize the~expected behaviour without depending on the~actual (hidden) environment,~because of higher priority than a~finite set of environment behaviours.
+Therefore,~the~family describes schedulers that do not depend on confidential information.
+We are interested in the~expected time until \textit{failure}.
+
+The~state space is designed as 2D-space,~where both coordinates have the~same dimension~\,--\,~in our experiments was set to $7$.
+Since the~scheduler has to determine the~direction within inner positions of the~space ($5\times5$),we consider $25$ possible holes.
+We allow only the~directions for each possible configuration that maintain the~pole in the required balance.
+For some configurations,~we set the~constant direction,~and therefore the~total size of the~family is $1327104$.
+We synthesised the~minimum and maximum expected time until failure with the~following reward specification:~$\mathbb{R}\{rounds\} = \, ? \; [\Diamond \, x = 0 \, \lvert \, y = 0 \, \lvert \, x = 7 \, \lvert \, y = 7]$.
+The~minimal synthesis terminates with the~result of $7.89$ within $6$ minutes and the~following strategy.
+In the~given configuration,~the~scheduler always selects such a~possible action that deflects the~pole as much as possible.
+In other words,~the~scheduler tries to move around the~perimeter of the~interior space,~i.e.,~in the~positions from which a~terminate configuration can be reached in one action.
+On the contrary,~the~scheduler representing the~strategy which corresponds to the~maximal time behaves asymmetrically.
+It always selects an~action that changes the~position as close as possible to the~centre of the~entire 2D-space,~that is,~as far as possible from the~positions that are close to the~terminate configurations.
+The~maximum synthesis took $9.5$ minutes,~and the~result was set at $16.66$.
+We can conclude,~that both synthesises strategies were derived concern to given specifications correctly.
+The~model checking within these analysis processed over the~MDP in the~average of size $6825$ and DTMC in the~average size of $6457$.
+The~minimal synthesis takes 2189 CEGAR and 3463 CEGIS iterations,~and maximal 3491 and 5573 iterations respectively.
+
