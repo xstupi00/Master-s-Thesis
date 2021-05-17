@@ -107,19 +107,19 @@ An~integrated \emph{multi-property} synthesis slows down both approaches,~althou
 An~\emph{optimal} synthesis slows down only the~hybrid approach,~yet it is still incomparably faster than naive one-by-one enumeration.
 Moreover,~a~hybrid oracle supports $\varepsilon$-optimal synthesis,~which is even faster.
 
-\paragraph{\toolname{} scalability.}
+% \paragraph{\toolname{} scalability.}
 
-\begin{table}[h!]
-\centering
-\begin{tabular} {l|c|c|c|c|c|c}
-{\multirow{2}{*}{model}} & 1-by-1 & CEGIS & \multicolumn{2}{c|}{AR} & \multicolumn{2}{c}{\textbf{hybrid}} \\
-& time & time & iters & time & (CEGIS,AR) iters & time \\
-\hline
-{\emph{Herman-5k}} & 1m & \textcolor{red}{$\geq$24h} & 531 & \textcolor{red}{3m} & (571, 7) & \textbf{12s} \\ \hline
-{\emph{Herman-3M}} & 27h & \textcolor{red}{$\geq$48h} & 83k & \textcolor{red}{55h} & (16197, 3) & \textbf{17m} \\ \hline
-\end{tabular}
-\caption{Efficiency of synthesis methods for synthesising optimal \emph{Herman's stabilisation algorithm}.} 
-\end{table}
+% \begin{table}[h!]
+% \centering
+% \begin{tabular} {l|c|c|c|c|c|c}
+% {\multirow{2}{*}{model}} & 1-by-1 & CEGIS & \multicolumn{2}{c|}{AR} & \multicolumn{2}{c}{\textbf{hybrid}} \\
+% & time & time & iters & time & (CEGIS,AR) iters & time \\
+% \hline
+% {\emph{Herman-5k}} & 1m & \textcolor{red}{$\geq$24h} & 531 & \textcolor{red}{3m} & (571, 7) & \textbf{12s} \\ \hline
+% {\emph{Herman-3M}} & 27h & \textcolor{red}{$\geq$48h} & 83k & \textcolor{red}{55h} & (16197, 3) & \textbf{17m} \\ \hline
+% \end{tabular}
+% \caption{Efficiency of synthesis methods for synthesising optimal \emph{Herman's stabilisation algorithm}.} 
+% \end{table}
 
 
 \section{Performance Evaluation of Combined Synthesis}
@@ -147,7 +147,7 @@ Figure~\ref{fig:maze} depicts the synthesised strategy of the selected controlle
 Arrows depict the~direction of steering concerning the~current memory value (number at the~start of an~arrow) and the~corresponding memory update (number at the~end of an~arrow).
 For instance,~when an~agent is currently in cell $3$,~it moves to the~east when the~memory value is equal to $0$ and moves to the~west when the~memory contains 0,~while the~value of the~memory remains unchanged in both cases.
 
-\begin{figure}[ht!]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=0.4\textwidth]{figures/maze.pdf}
 \caption{The state-space of the~\textit{Maze} model with a~marked target state and the~observation groups. A~right side represents the~found optimal strategy to reach the~target location within the~minimal expected time. The~initial state is selected randomly with a~memory value of 0.}%
@@ -156,3 +156,10 @@ For instance,~when an~agent is currently in cell $3$,~it moves to the~east when 
 
 When an~agent is in the~cell with enclosing walls (cells 0,~2 and 4),~it can navigate to the~exit since it knows its current position within the~maze.
 Likewise,~when the~agent navigates from cells $11$ or $13$,~it selects always to the~north to reach cells $0$ or $4$ eventually.
+Otherwise,~when the~agent is located in purple or orange cells,~it must first determine its current position within the~maze by moving in one direction.
+For instance,~the~agent deployed at cell $1$ or $3$ moves first to the~west (recall that the~memory is initially set to 0),~where it reaches the~cell to determine the~current position.
+Similarly,~when the~agent deployed at cell $5$-$10$,~it moves to the~north.
+In this observation group,~it is indeed more beneficial to move to the~north since the~robot is twice as likely to be deployed when starting at locations 5/7/8/10 compared to locations 6 and 9.
+
+The~synthesised expected time to reach the~maze's exit for obtained strategy is ${\approx} \, 9.80$ steps. 
+We note that this result cannot be improved by adding more bits to the~controller's memory.
