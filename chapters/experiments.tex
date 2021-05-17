@@ -107,6 +107,21 @@ An~integrated \emph{multi-property} synthesis slows down both approaches,~althou
 An~\emph{optimal} synthesis slows down only the~hybrid approach,~yet it is still incomparably faster than naive one-by-one enumeration.
 Moreover,~a~hybrid oracle supports $\varepsilon$-optimal synthesis,~which is even faster.
 
+\paragraph{\toolname{} scalability.}
+
+\begin{table}[h!]
+\centering
+\begin{tabular} {l|c|c|c|c|c|c}
+{\multirow{2}{*}{model}} & 1-by-1 & CEGIS & \multicolumn{2}{c|}{AR} & \multicolumn{2}{c}{\textbf{hybrid}} \\
+& time & time & iters & time & (CEGIS,AR) iters & time \\
+\hline
+{\emph{Herman-5k}} & 1m & \textcolor{red}{$\geq$24h} & 531 & \textcolor{red}{3m} & (571, 7) & \textbf{12s} \\ \hline
+{\emph{Herman-3M}} & 27h & \textcolor{red}{$\geq$48h} & 83k & \textcolor{red}{55h} & (16197, 3) & \textbf{17m} \\ \hline
+\end{tabular}
+\caption{Efficiency of synthesis methods for synthesising optimal \emph{Herman's stabilisation algorithm}.} 
+\end{table}
+
+
 \section{Performance Evaluation of Combined Synthesis}
 
 \section{Applicability}
