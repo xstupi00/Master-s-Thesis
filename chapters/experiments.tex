@@ -200,4 +200,11 @@ Whenever a~process eventually decides to keep the~token,~the memory is reset to 
 Thus,~the~process is more likely to keep its token for a long time until it eventually passed it further.
 The~system can,~on average,~stabilise in four rounds when using this synthesised strategy.
 
+\paragraph{Combined Synthesis.}
+Up to now,~we presented the~\textit{topology} synthesis.
+Its constraints cause the~sketch to contain four parameters with 25 values representing different coin biases combined variable and memory value.
+When we refine this topology synthesis by considering $250$ coin biases from the~same interval $[0.0, 0.25]$,~the synthesis problem is intractable as the~family size increases about the~factor $10k$.
+Therefore,~we consider an~alternative formulation of the~synthesis problem where we replace these discrete options with continuous transition parameters over the~same interval.
+The~combined synthesis method requires around $53$ minutes and guarantees the optimal solution over the~continuous parameters space compared to the~first version,~where were considered only discrete steps.
+
 % Figure~\ref{fig:herman} depicts one round of Herman's protocol.
