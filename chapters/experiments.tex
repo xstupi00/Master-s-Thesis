@@ -126,7 +126,7 @@ Moreover,~a~hybrid oracle supports $\varepsilon$-optimal synthesis,~which is eve
 
 \section{Applicability}
 
-\subsection{Maze.} 
+\subsection{Maze} 
 This synthesis problem considers an~instance of POMDP synthesis of the~controller.
 Figure~\ref{fig:maze} depicts a~\emph{maze} in which operates an~agent starting at a~random location.
 The~agent has simple sensor detecting walls,~but it cannot recognise cells within the~maze that have walls at identical directions \,--\,~e.g. cells $5$ and $10$,~or $1$ and $3$.
@@ -163,3 +163,41 @@ In this observation group,~it is indeed more beneficial to move to the~north sin
 
 The~synthesised expected time to reach the~maze's exit for obtained strategy is ${\approx} \, 9.80$ steps. 
 We note that this result cannot be improved by adding more bits to the~controller's memory.
+
+\subsection{Herman}
+This model represents a~unidirectional token ring containing an~odd number of connected processes.
+Each process has a~Boolean variable and access to its neighbour's variables.
+We say that a~process holds a~token if the~value of its variable is equal to the~neighbour.
+When only one token remains in the~ring,~such a~situation is denoted a~stable one,~and all other situations are denoted as unstable.
+When the~token ring passes from an~unstable to stable configuration,~we say a~protocol is self-stabilising.
+An~expected number of rounds to reach a~stable configuration represents a~stabilisation time,~considered a~performance metric.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/herman_coins.pdf}
+\caption{A~round of Herman's protocol with nine processes within ring,~where three processes holds a~token in the~current configuration.}%
+\label{fig:herman}%
+\end{figure}
+
+We consider a version of \textit{Herman's randomised self-stabilisation protocol}~\cite{herman1,herman2}.
+All processes behave the~same in this protocol,~and therefore a~stabilisation cannot be solved in a~deterministic way in such anonymous networks.
+This protocol is synchronised,~and in each round,~a~process that does not hold token flips the~value of its variable (see Figure~\ref{fig:herman}(b)).
+On the~contrary,~each process that has a~token must decide whether to pass it or not and,~according to this decision,~set the~value of its variable.
+A~token disappears from the~circle if two tokens collide in one process.
+The original version of the~protocol resolves this decision by a~single biased coin flip.
+Figure~\ref{fig:herman}(c) illustrates a~situation when processes $1$ and $5$ remain the~same value of their variable (they keep the~token) and process $7$ decided to flip the~value of its variable (it pass the~token).
+However,~we are interested in the~synthesis of alternatives.
+
+We give each station an~additional single bit of memory and the~choice between multiple different coin biases.
+We consider a~sketch of this protocol where the~holes represent the~choices of a~coin based on the~memory value and memory updates.
+Subsequently,~we obtain the~same protocol for each process by resolving the~individual choices.
+The~synthesiser aims to identify the~protocol version that minimises stabilisation time from an~initial configuration,~where each process has a~variable set to true.
+We consider a~set of parameters to describe a~family of $3.1M$ candidate programs.
+
+\toolname{} synthesised the~optimal protocol in around $18$ minutes,~while the~naive one-by-one enumeration takes more than one day when we consider a~sketch containing a~system with five processes.
+The~synthesised optimal strategy uses the~fairest coins (bias ${\approx} \, 0.25$) and maintains the~values of memory set at true,~when starting from the~initial configuration.
+Whenever a~process eventually decides to keep the~token,~the memory is reset to $0$,~and the~process starts using highly unfair coins (bias ${\approx} \, 0.07$). 
+Thus,~the~process is more likely to keep its token for a long time until it eventually passed it further.
+The~system can,~on average,~stabilise in four rounds when using this synthesised strategy.
+
+% Figure~\ref{fig:herman} depicts one round of Herman's protocol.
