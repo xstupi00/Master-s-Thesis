@@ -123,6 +123,85 @@ Moreover,~a~hybrid oracle supports $\varepsilon$-optimal synthesis,~which is eve
 
 
 \section{Performance Evaluation of Combined Synthesis}
+This section aims to demonstrate the~performance of the~designed and implemented method for combined probabilistic synthesis.
+We remind that this synthesis problem included both kinds of parameters,~those that affect the~topology of MCs and those that affect the~transition probabilities of MCs.
+We only present the~results achieved by our tool \toolname{},~as there is no other tool that would support this combined synthesis of probabilistic programs.
+For each considered case study,~we report the~results for \textit{optimal synthesis} and its \textit{relative} variant with $\varepsilon = 0.05$,~as in the~previous section.
+Such a~task representing the~optimal synthesis is the~most advanced and,~therefore,~most suitable for measuring the~performance of the~designed method because it has to explore the~whole design space.
+We consider the~following case studies:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.0}$ & $\mathbf{\varepsilon = 0.05}$ \\ \hline
+4 & 2 & 7 & $4k \times 2 \cdot \lvert 0.50 \rvert$ & 13 & 8m & 50s \\ \hline
+\end{tabular}
+\caption{\textbf{Knuth-Yao Die:}}
+\end{table}
+
+\paragraph{Knuth \& Yao Die.}
+This case study considers a~probabilistic program modelling a~fair dice using only fair coins.
+The program starts at the~initial state $s_0$ and repeatedly tosses a~coin.
+Whenever tail appears,~it takes the~one branch,~and when headers appear,~another branch,~and in this way it branching own state tree (see Figure~\ref{fig:kydie}).
+This continues until the~value of the~dice is decided.
+We consider six specifications representing the~probability of reaching a~final state $s_7$ (depicted as blue in Figure~\ref{fig:kydie}) with a~specific dice value to prove that the~program is correct.
+Further,~we minimise the~expected number of coin tosses to obtain the~specific dice value.
+We consider a~sketch with four parameters affecting the~model topology (depicted as \circled{?} in Figure~\ref{fig:kydie}(a)) that have simultaneously undefined transition probabilities $p_0$ and $p_1$.
+Since each parameter affecting topology can represent arbitrary model state $s_0, \dots, s_7$,~we obtain the~sketch describing of $8^4 = 4096$ various pMCs.
+The~probability parameters $p_0$ and $p_1$ are defined over the~interval $[0.0, 0.5]$ since they cover the~transitions asymmetrically.
+\toolname{} synthesised an~optimal solution depicted in Figure~\ref{fig:kydie}(b) in $8$ minutes with $\varepsilon = 0.0$ and $50$ seconds when computes with $\varepsilon = 0.05$. 
+We have found that the~minimum expected number of coin tosses is $\frac{11}{3}$.
+The~synthesised strategy chooses for the~searched states always states $s_3, \dots, s_6$ in arbitrary order,~and the~transition probabilities representing the~fair coin (${\approx} \, 0.5$).
+We emphasise that with this case study,~we have also verified the~correctness of our implementation,~as a~result corresponds to what is expected.
+
+\begin{figure*}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{figures/kydie.pdf}
+\caption{A.}%
+\label{fig:kydie}%
+\end{figure*}
+
+\paragraph{NAND multiplexing.}
+This case study concerns NAND multiplexing,~a technique for constructing reliable computation from unreliable devices.
+It describes fault-tolerant hardware by having copies of a~NAND unit all doing the~same work~\cite{nand}.
+In the considered model,~we assumed that the~inputs $X$ and $Y$ are identically distributed (with probability $prob1$ of being stimulated),~and the~NAND gates suffer from a~von Neumann fault (inverted output) with probability $perr$.
+We verify one optimal target describing that the~system will reach the~target state,~and the~resulting value will be correct concerning the~error considered.
+Parameters are the~probabilities of the~faultiness of the~units ($prob1$) and the~probabilities of erroneous inputs ($perr$).
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = \todo{?}}$ & $\mathbf{\varepsilon = 0.15}$ \\ \hline
+0 & 2 & 1 & $2 \cdot \lvert 0.12 \rvert$ & 1M & \todo{?} & 1h \\ \hline
+\end{tabular}
+\caption{\textbf{NAND multiplexing:}}
+\end{table}
+
+\paragraph{Herman.}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.0}$ & $\mathbf{\varepsilon = 0.05}$ \\ \hline
+3 & 4 & 1 & $8 \times 4 \cdot \lvert 0.25 \rvert$ & 1.5k & \todo{?} & 52m \\ \hline
+\end{tabular}
+\caption{\textbf{Herman:}}
+\end{table}
+
+\paragraph{DPM.}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.0}$ & $\mathbf{\varepsilon = 0.05}$ \\ \hline
+7 & 2 & 2 & $16k \times 2 \cdot \lvert 0.20 \rvert$ & 400 & 2.8h & 2.1h \\ \hline
+\end{tabular}
+\caption{\textbf{DPM:}}
+\end{table}
 
 \section{Applicability}
 
