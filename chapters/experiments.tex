@@ -137,7 +137,7 @@ We consider the~following case studies:
 $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.0}$ & $\mathbf{\varepsilon = 0.05}$ \\ \hline
 4 & 2 & 7 & $4k \times 2 \cdot \lvert 0.50 \rvert$ & 13 & 8m & 50s \\ \hline
 \end{tabular}
-\caption{\textbf{Knuth-Yao Die:}}
+\caption{\textbf{Knuth-Yao Die:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
 \paragraph{Knuth \& Yao Die.}
@@ -158,7 +158,7 @@ We emphasise that with this case study,~we have also verified the~correctness of
 \begin{figure*}[h!]
 \centering
 \includegraphics[width=1.0\textwidth]{figures/kydie.pdf}
-\caption{A.}%
+\caption{Models represent the state space of the program for the Knuth \& Yao case study.}%
 \label{fig:kydie}%
 \end{figure*}
 
@@ -179,22 +179,14 @@ We chose such an~instance to get large MCs,~as the~considered family contains tw
 $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = \todo{?}}$ & $\mathbf{\varepsilon = 0.15}$ \\ \hline
 0 & 2 & 1 & $2 \cdot \lvert 0.12 \rvert$ & 1M & \todo{?} & 1h \\ \hline
 \end{tabular}
-\caption{\textbf{NAND multiplexing:}}
-\end{table}
-
-\paragraph{Herman.}
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|}
-\hline
-$\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.0}$ & $\mathbf{\varepsilon = 0.05}$ \\ \hline
-3 & 4 & 1 & $8 \times 4 \cdot \lvert 0.25 \rvert$ & 1.5k & \todo{?} & 52m \\ \hline
-\end{tabular}
-\caption{\textbf{Herman:}}
+\caption{\textbf{NAND multiplexing:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
 \paragraph{DPM.}
+This case study has been precisely introduced in Section~\ref{sec:dpm}.
+We consider the~domains parameters representing queue capacity,~four power profiles and three thresholds,~and two probabilistic parameters representing time resolutions.
+Analysed family describes $16k$ parametric candidates that including two parameters with an~interval length of $0.2$.
+We are interested in the~expected power consumption and expected number of lost requests.
 
 \begin{table}[h!]
 \centering
@@ -203,7 +195,22 @@ $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert
 $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.0}$ & $\mathbf{\varepsilon = 0.05}$ \\ \hline
 7 & 2 & 2 & $16k \times 2 \cdot \lvert 0.20 \rvert$ & 400 & 2.8h & 2.1h \\ \hline
 \end{tabular}
-\caption{\textbf{DPM:}}
+\caption{\textbf{DPM:} Performance evaluation of combined probabilistic synthesis.}
+\end{table}
+
+\paragraph{Herman.}
+This case study will be in more detail introduced and described in Section~\ref{sec:herman}.
+Domains parameters represent the memory updates, and the probability parameters represent different coin biases based on the variable and memory value.
+The~synthesis target is to identify the~protocol version that minimises stabilisation time.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+$\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.0}$ & $\mathbf{\varepsilon = 0.05}$ \\ \hline
+3 & 4 & 1 & $8 \times 4 \cdot \lvert 0.25 \rvert$ & 1.5k & \todo{?} & 52m \\ \hline
+\end{tabular}
+\caption{\textbf{Herman:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
 \section{Applicability}
@@ -246,7 +253,7 @@ In this observation group,~it is indeed more beneficial to move to the~north sin
 The~synthesised expected time to reach the~maze's exit for obtained strategy is ${\approx} \, 9.80$ steps. 
 We note that this result cannot be improved by adding more bits to the~controller's memory.
 
-\subsection{Herman}
+\subsection{Herman} \label{sec:herman}
 This model represents a~unidirectional token ring containing an~odd number of connected processes.
 Each process has a~Boolean variable and access to its neighbour's variables.
 We say that a~process holds a~token if the~value of its variable is equal to the~neighbour.

@@ -267,9 +267,18 @@ Therefore,~we design a~\textit{greedy splitting} strategy based on the~domain si
 
 This strategy selects from the~parameters set $K \cup V$,~which includes both kinds of parameters,the~parameter with the~greatest number of possible options or parameter containing the~longest interval,~respectively.
 The~domain of the~selected parameter is splitting in half,~and the~analysed family is refined according to that.
-We note that parameter space partitioning is applicable only when parts of a~region are well-defined,~as the~well-definedness of a~region is effectively decidable. 
+We note that parameter space partitioning is applicable only when parts of a~region are well-defined,~as the~well-definedness of a~region is effectively decidable.
 Other (sub-)regions can simply be tagged as not well-defined treated as being inconclusive.
 This naive strategy offers space for improvement in the~future,~and it is in our plans to improve it concerning the~model of the~analysed family.
+
+Since the~considered parameter spaces are continuous,~they can be potentially parted infinitely many times in case of inconclusive results.
+Therefore,~we need to introduce a~termination condition that decides that the~interval will no longer be divided.
+In our case,~we construct the termination condition based on the~results of MDP model checking.
+The~MDP model checking is performed by \storm{},~which has been defined the~accuracy with which it performs iterative methods or with what accuracy it returns results,~respectively.
+We set a~threshold whose value is reduced ten times concerning this accuracy.
+The~family with the~inconclusive result,~but with an~absolute difference of MDP results for some specification less than the~threshold,~will be not subsequently split and not further analysed.
+At the~end of the~synthesis,~we will provide to user the information on how many such families have been discarded and,~if necessary,~can increase the~accuracy and repeat the~synthesis.
+
 
 % \begin{algorithm}[h!]
 % \hspace*{\algorithmicindent} \textbf{Input:} A. \\
