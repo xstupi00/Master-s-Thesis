@@ -166,8 +166,11 @@ We emphasise that with this case study,~we have also verified the~correctness of
 This case study concerns NAND multiplexing,~a technique for constructing reliable computation from unreliable devices.
 It describes fault-tolerant hardware by having copies of a~NAND unit all doing the~same work~\cite{nand}.
 In the considered model,~we assumed that the~inputs $X$ and $Y$ are identically distributed (with probability $prob1$ of being stimulated),~and the~NAND gates suffer from a~von Neumann fault (inverted output) with probability $perr$.
-We verify one optimal target describing that the~system will reach the~target state,~and the~resulting value will be correct concerning the~error considered.
+We verify one optimal target describing that the~system will reach the~target state,~and the~resulting value of gate will be correct.
 Parameters are the~probabilities of the~faultiness of the~units ($prob1$) and the~probabilities of erroneous inputs ($perr$).
+The intervals for these parameters are taken from the following paper~\cite{nand}.
+We consider instance $(20, 13)$,~where $N=20$ represents the~number of inputs in each bundle and $K=13$ the~number of restorative stages.
+We chose such an~instance to get large MCs,~as the~considered family contains two probability parameters,~and thus we obtained case study with different properties.
 
 \begin{table}[h!]
 \centering

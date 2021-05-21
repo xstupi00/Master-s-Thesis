@@ -184,3 +184,37 @@ The~synthesis problem is described by the~sketch,~which covers a~family around 4
 \toolname{} solves this synthesis problem within 10~hours,~whereas the~naive enumeration takes more than one~month.
 
 \paragraph{Combined Synthesis.}
+Further,~we have expanded this model to create a~case study for combined synthesis as well.
+Because of this,~we had to find some probabilistic transitions in the~system template,~which we omit and let them synthesize.
+Therefore, let us first consider the following sketch described the module of a~service provider (SP):
+\begin{verbatim}
+module PM
+    // waiting states: 3 - sleep to idle, 4 - idle to active
+    sp  :  [0..4] init 0; // 0 - sleep, 1 - idle, 2 - active
+    [tick1] sp <= 2 & pm <= sp -> (sp'=pm);
+    [tick1] sp <= 2 & pm > sp -> (sp'=sp+3);
+    [tick1] sp = 3 -> 0.8 : (sp'=sp-2) + 0.2 : true;
+    [tick1] sp = 4 -> 0.6 : (sp'=sp-2) + 0.4 : true;
+endmodule
+\end{verbatim}
+\noindent
+We can see that there are states where SP has no control,~so it contains transient states ($\mathtt{sp = 3}$ and $\mathtt{sp = 4}$).
+Such transient states have been introduced since a~time resolution has been considered when modelling this system to correctly model transitions with delays longer than this time resolution.
+Thus,~these states are used to model the~non-unitary time transition between the~states of SP.
+We decided to parameterise the~probabilistic transitions of these transient states,~which allow us to think about different time resolutions.
+Therefore,~we consider the~following changes to the~SP template,~including two parameters $p_0$ and $p_1$ that affect transition probabilities:
+\begin{verbatim}
+    [tick1] sp = 3 -> p_0 : (sp'=sp-2) + (1-p0) : true;
+    [tick1] sp = 4 -> p_1 : (sp'=sp-2) + (1-p1) : true;
+\end{verbatim}
+\noindent
+Note that larger values of these parameters represent a~lower time resolution because the system will switch earlier between individual states.
+At the~same time,~a~lower resolution time will also ensure lower power consumption.
+For these parameters,~we consider intervals of length $0.2$: $p_0 \in [0.7, 0.9]$ and $p_1 \in [0.6, 0.8]$.
+The~synthesis target remained unchanged,~and we are still looking for a~specific power manager that minimises power consumption,~and the~expected number of lost requests is below one.
+
+We recall that the~considered family includes $16k$ parametric candidates compared to the~previous task of topology synthesis,~which represents a~much more difficult task due to the~continuous parameters.
+\toolname{} synthesised an optimal solution in $2.8$ hours,~and the~synthesised strategy remains unchanged compared to the~presented above.
+For the~sake of completeness,~we will only add that the~upper limits of the interval have been set behind the~values of the~parameters ($p_0 \approx 0.90$ and $p_1 \approx 0.8$),~which ensure the~lowest power consumption in the~lowest time resolution.
+We emphasise that we have also demonstrated the correctness of the~design of our implementation for combined synthesis with this result.
+
