@@ -1,11 +1,21 @@
 \chapter{Final Considerations}\label{chap:conclusion}
 
-\section{Future Research}
-Our future work will focus on ...
+\paragraph{Future Research}
+Our future work will focus on increasing the~efficiency of our novel hybrid synthesis technique for all kinds of synthesis problems.
+First,~it would be desirable to introduce an~improved refinement strategy because the~designed method for combined synthesis currently uses only the~naive round-robin splitting strategy.
+In addition,~the~existing splitting strategy implemented within the~AR loop does not scale and has problems with large MDP models.
+A~new splitting strategy should consider the~structure of the~MDP and,~based on the~knowledge obtained from it,~derive the~most appropriate refinement of the~currently analysed family.
+In addition,~it should scale appropriately when analysing large models so as not to reduce the~efficiency of the~entire synthesis process.
+Last but not least,~within the~AR loop,~we will investigate the~construction of counter-examples for MDPs,~which could bring more efficient pruning of the~family space and higher efficiency of synthesis processes.
 
-\section{Conclusions}
+Furthermore,~we would like to research also more interesting challenges outside the~scope of the~existing framework for probabilistic synthesis.
+Since a~model checking of a~Markov chain against to given specification represents a~core stage of the~entire synthesis process,~we want to adapt the~state-space aggregation approaches developed in~\cite{roman-DP}.
+Deciding the~monotonicity of parameters represents another open challenge,~which could help the~designer synthesise probabilistic systems and provide valuable feedback.
+Other open problems include synthesising infinite families of infinite-state Markov chains.
+
+\paragraph{Conclusions}
 In this thesis,~we considered the~problem of automated synthesis of probabilistic systems.
-We designed and implemented support for \emph{multi-property} specifications and \emph{optimal} synthesis within all oracles \,--\, CEGIS, AR and especially Hybrid.
+We designed and implemented support for \emph{multi-property} specifications and \emph{optimal} synthesis within all oracles \,--\,~CEGIS,~AR and especially Hybrid.
 We evaluated the~performance of these advanced methods to synthesise probabilistic programs on the~various benchmarks.
 Performed experiments on practically relevant benchmarks demonstrated that a~\textit{novel integrated} synthesis algorithm retains proven performance comparing to state-of-the-art synthesis approaches.
 Further,~we designed a~method to perform \emph{combined} probabilistic synthesis consisting of both \emph{topology} and \emph{parameter} synthesis.
@@ -14,5 +24,5 @@ All these designed methods supporting various synthesis tasks were integrated wi
 Additionally,~\toolname{} is the~first tool that supports the~combined synthesis,~including unknown topology as well as transition probabilities.
 
 Our tool paper presenting PAYNT has been recently accepted at CAV'21,~an~A* conference.
-Moreover,~we presented \toolname{} also at the~students' conference Excel@FIT'21,~where we got the award from the~expert panel to develop of the~tool that significantly expands the~possibilities of designing probabilistic systems.
+Moreover,~we presented \toolname{} also at the~students' conference Excel@FIT'21,~where we got the~award from the~expert panel to develop of the~tool that significantly expands the~possibilities of designing probabilistic systems.
 At this conference,~we also won an~award from the~professional public.

@@ -18,7 +18,7 @@
 %   projekt-30-prilohy-appendices-en.tex - přílohy v angličtině / appendices in English
 %==============================================================================
 % \documentclass[]{fitthesis} % bez zadání - pro začátek práce, aby nebyl problém s překladem
-\documentclass[english]{fitthesis} % without assignment - for the work start to avoid compilation problem
+% \documentclass[english]{fitthesis} % without assignment - for the work start to avoid compilation problem
 %\documentclass[zadani]{fitthesis} % odevzdani do wisu a/nebo tisk s barevnými odkazy - odkazy jsou barevné
 % \documentclass[english,enslovak,zadani]{fitthesis} % for submission to the IS FIT and/or print with color links - links are color
 %\documentclass[zadani,print]{fitthesis} % pro černobílý tisk - odkazy jsou černé
@@ -39,7 +39,7 @@
 %   je zapotřebí u třídy použít parametry english a enslovak následovně:
 %   If the work is written in English with the Slovak abstract, etc., 
 %   it is necessary to use parameters english and enslovak as follows:
-%      \documentclass[english,enslovak]{fitthesis}
+\documentclass[english,enslovak,zadani]{fitthesis}
 
 % Základní balíčky jsou dole v souboru šablony fitthesis.cls
 % Basic packages are at the bottom of template file fitthesis.cls
@@ -149,6 +149,14 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{example}{Example}
 
+\makeatletter
+\newenvironment{chapquote}[2][2em]
+  {\setlength{\@tempdima}{#1}%
+   \def\chapquote@author{#2}%
+   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+   \itshape}
+  {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
 
 % Kompilace po částech (rychlejší, ale v náhledu nemusí být vše aktuální)
 % Compilation piecewise (faster, but not all parts in preview will be up-to-date)
@@ -249,23 +257,38 @@
   supervisor.title.p={RNDr.},   %titul před jménem (nepovinné) / title before the name (optional)
   supervisor.title.a={Ph.D.},    %titul za jménem (nepovinné) / title after the name (optional)
   % Klíčová slova / keywords
-  keywords.cs={Sem budou zapsána jednotlivá klíčová slova v českém (slovenském) jazyce, oddělená čárkami.}, % klíčová slova v českém či slovenském jazyce / keywords in czech or slovak language
-  keywords.en={Sem budou zapsána jednotlivá klíčová slova v anglickém jazyce, oddělená čárkami.}, % klíčová slova v anglickém jazyce / keywords in english
+  keywords.cs={automatizovaná syntéza, pravdepododnostné programy, Markovské modely, model checking}, % klíčová slova v českém či slovenském jazyce / keywords in czech or slovak language
+  keywords.en={automated synthesis, probabilistic programs, Markov models, model checking}, % klíčová slova v anglickém jazyce / keywords in english
   %keywords.en={Here, individual keywords separated by commas will be written in English.},
   % Abstrakt / Abstract
-  abstract.cs={Do tohoto odstavce bude zapsán výtah (abstrakt) práce v českém (slovenském) jazyce.}, % abstrakt v českém či slovenském jazyce / abstract in czech or slovak language
-  abstract.en={Do tohoto odstavce bude zapsán výtah (abstrakt) práce v anglickém jazyce.}, % abstrakt v anglickém jazyce / abstract in english
+  abstract.cs={
+Pravdepodobnostné programy zohrávajú rozhodujúcu úlohu v rôznych technických doménach, ako napríklad počítačové siete, vstavané systémy, stratégie riadenia spotreby energie alebo softvérové produčkné linky.
+\toolname{} je nástroj na automatizovanú syntézu pravdepodobnostných programov vyhovujúcich zadaným špecifikáciam.
+V tejto práci rozširujeme tento nástroj predovšetkým o podporu optimálnej syntézy a syntézy viacerých špecifikácií.
+Ďalej sme navrhli a implementovali novú metódu, ktorá dokáže efektívne syntetizovať  parametre so spojitým definičným oborom ovplyvňujúce pravdepodobnostné prechody popri syntéze topológie programov, t.j., podporu pre syntézu topológie aj parametrov súčasne.
+Demonštrujeme užitočnosť a výkonnosť nástroja PAYNT na širokej škále prípadových štúdií z rôznych aplikačných domén ktoré majú uplatnenie v reálnom svete.
+Pri náročných problémoch syntézy môže PAYNT výrazne znížiť dobu behu až z dní na minúty a zároveň zaistiť úplnosť procesu syntézy.
+  
+  }, % abstrakt v českém či slovenském jazyce / abstract in czech or slovak language
+  abstract.en={
+Probabilistic programs play a~crucial role in various engineering domains,~including computer networks,~embedded systems,~power management policies,~or software product lines.
+\toolname{} is a tool for the~automatic synthesis of probabilistic programs satisfying the given specifications. 
+In this thesis,~we extend this tool primarily to support optimal synthesis and synthesis for multi-property specifications.
+Further, we have proposed and implemented a~new method that can efficiently synthesise continuous parameters affecting the transition probabilities alongside the synthesis of a program topology,~i.e.,~support of both topology and parameter synthesis at the same time.
+We demonstrate the~usefulness and performance of \toolname{} on a~wide range of real-world case studies from various application domains.
+For challenging synthesis problems,~\toolname{} can significantly decrease the~run-time from days to minutes while ensuring the~completeness of the~synthesis process.
+  
+  }, % abstrakt v anglickém jazyce / abstract in english
   %abstract.en={An abstract of the work in English will be written in this paragraph.},
   % Prohlášení (u anglicky psané práce anglicky, u slovensky psané práce slovensky) / Declaration (for thesis in english should be in english)
-  declaration={Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně pod vedením pana X...
-Další informace mi poskytli...
-Uvedl jsem všechny literární prameny, publikace a další zdroje, ze kterých jsem čerpal.},
+  declaration={Hereby I declare that this master's thesis was prepared as an~original author’s work under the~supervision of RNDr. Milan Češka, Ph.D.
+  The~supplementary information was provided by consultant Ing. Roman Andriuschenko.
+  All the~relevant information sources, which were used during preparation of this thesis, are properly cited and included in the~list of references.},
   %declaration={I hereby declare that this Bachelor's thesis was prepared as an original work by the author under the supervision of Mr. X
 % The supplementary information was provided by Mr. Y
 % I have listed all the literary sources, publications and other sources, which were used during the preparation of this thesis.},
   % Poděkování (nepovinné, nejlépe v jazyce práce) / Acknowledgement (optional, ideally in the language of the thesis)
-  acknowledgment={V této sekci je možno uvést poděkování vedoucímu práce a těm, kteří poskytli odbornou pomoc
-(externí zadavatel, konzultant apod.).},
+  acknowledgment={I would like to express my sincere gratitude to my supervisor,~RNDr. Milan Češka, Ph.D.,~for his guidance and continuous support throughout my master’s studies,~and Ing. Roman Andriuschenko for his advices and cooperation on the~development of our work. Last but not least, a sincere thanks goes to my girlfriend Dominika, family and friends for their never-ending support and encouragement during the inevitable hard times.},
   %acknowledgment={Here it is possible to express thanks to the supervisor and to the people which provided professional help
 %(external submitter, consultant, etc.).},
   % Rozšířený abstrakt (cca 3 normostrany) - lze definovat zde nebo níže / Extended abstract (approximately 3 standard pages) - can be defined here or below
@@ -278,7 +301,27 @@ Uvedl jsem všechny literární prameny, publikace a další zdroje, ze kterých
 }
 
 % Rozšířený abstrakt (cca 3 normostrany) - lze definovat zde nebo výše / Extended abstract (approximately 3 standard pages) - can be defined here or above
-%\extendedabstract{Do tohoto odstavce bude zapsán výtah (abstrakt) práce v českém (slovenském) jazyce.}
+\extendedabstract{Náhodnosť je kľúčová pre výskumné oblasti, ako sú napríklad pravdepodobnostné programovanie, spoľahlivosť (systémové komponenty s neistotou), distribuované výpočty (porušenie symetrie), a plánovanie (neznáme a neisté prostredia). 
+Pravdepodobnostné programy sú výkonným modelovacím nástrojom pre systémy obsahujúce pravdepodobnostnú neistotu. 
+Systémy s nespoľahlivým a nepredvídateľným správaním si vyžadujú použitie takéhoto matematického aparátu založeného na teórii pravdepodobnosti. 
+Návrh takýchto systémov vykazujúcich žiadúce správanie \,--\, napr. výber optimálnej stratégie riadenia spotreby energie alebo výber sieťového protokolu zvyšujúceho priepustnosť paketov \,--\, je náročný z hľadiska uvažovania o viacerých alternatívnych prevedeniach daného systému. Aplikácie takýchto systémov pokrývajú širokú škálu výskumných oblastí, vrátane analýzy (kvantitatívnych) softvérových produktových liniek~\cite{sw-product-lines,spl2}, syntézy stratégie pri plánovaní za čiastočnej pozorovateľnosti~\cite{pomdp1,pomdp2} alebo návrh komunikačných protokolov~\cite{herman1,herman2}.
+
+Sada deklaratívnych časových obmedzení často vyjadruje účinnosť a správnosť pravdepodobnostných programov.
+Nástroje pre kontrolu modelov pravdepodobnostných systémov, ako \storm{}~\cite{STORM} alebo \prism{}~\cite{KNP11}, vykonávajú automatizované overenie takýchto obmedzení.
+Tieto nástroje pre kontrolu pravdepodobnostných modelov však vyžadujú model alebo systém s pevnou topológiou, na rozdiel od požiadaviek na použitie týchto nástrojov pri modelovaní pravdepodobnostných programov.
+Vývojári by mali čo najskôr počas procesu vývoja systému overiť jeho návrhy, aby náklady na vývoj boli čím lacnejšie a udržateľnejšie. Návrh systému je v počiatočných fázach vývoja prevažne neúplný, pretože vo väčšine prípadov nie sú známe všetky špecifikácie systému alebo sú zámerne vynechané. 
+Tieto nedefinované špecifikácie systému sa nazývajú diery a môžu napríklad odrážať nešpecifikovanú komponentu alebo čiastočne implementovaný radič. 
+Primárnym účelom syntézy je odhaliť konkrétny (optimálny) subsystém s plne definovaným správaním. Zásadným aspektom návrhového cyklu je prieskum množiny návrhov, t.j. preskúmanie všetkých možných návrhov uvažovaného systému.
+Keď považujeme Markovský reťazec za matematický aparát pravdepodobnostného programu, potom návrhový priestor predstavuje rodinu takýchto reťazcov a úlohou syntézy je nájsť ten reťazec, ktorý spĺňa dané špecifikácie.
+
+Typicky sa syntéza programu považuje za problém pri deduktívnom dokazovaní, ktoré odvodzuje program, ktorý vyhovuje zadaným špecifikáciam, od konštruktívneho dôkazu~\cite{deductive-synthesis}.
+V poslednej dobe prichádza do popredia alternatívny prístup k syntéze, keď návrhári, okrem špecifikácie, poskytujú aj syntaktickú šablónu pre požadovaný program.
+Uvažujeme o prístupe využívajúcom náčrt systému, keď návrhár skonštruuje čiastkový program s neúplnými podrobnosťami a syntetizátor doplní chýbajúce podrobnosti oproti uvedeným špecifikáciám~\cite{sketching1}.
+Ďalej môžeme problémy syntézy pre parametrické pravdepodobnostné systémy rozdeliť do dvoch kategórií. 
+Najskôr zvážime úlohu syntézy topológie za predpokladu konečnej sady parametrov, ktoré ovplyvňujú topológiu modelu, kde jednotlivé parametre predstavujú nedefinované špecifikácie systému.
+Táto úloha sa zameriava na rodiny Markovských reťazcov, ktoré majú rozdielne topológie stavového priestoru a v dôsledku toho rôzne množiny dosiahnuteľných stavov.
+Avšak iná oblasť úloh syntézy uvažuje o Markovskom reťazci s pevnou topológiou, ale nedefinovanými pravdepodobnosťami prechodu v rámci modelu.
+}
 
 % nastavení délky bloku s titulkem pro úpravu zalomení řádku - lze definovat zde nebo výše / setting the length of a block with a thesis title for adjusting a line break - can be defined here or above
 %\titlelength{14.5cm}

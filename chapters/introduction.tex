@@ -1,73 +1,93 @@
 \chapter{Introduction}
 
+\label{introduction}
+\begin{chapquote}{Bill Gates}
+``The~first rule of any technology used in a~business is that automation applied to an~efficient operation will magnify the~efficiency.~The~second is that automation applied to an~inefficient operation will magnify the~inefficiency.''
+\end{chapquote}
+
 Randomisation is essential to research areas such as \textit{probabilistic programming},~dependability (system components with uncertainty),~distributed computing (symmetry breaking),~and planning (unknown and noisy environments).
 Probabilistic programs are powerful modelling apparatus of systems containing probabilistic uncertainty.
 Systems with unreliable and unpredictable behaviour require the~use of such a~mathematical apparatus established on probability theory.
 Designing such systems exhibiting a~desirable behaviour \,--\, e.g. selecting the~optimal power management strategy or a~network protocol increasing the~packet throughput \,--\, is challenging for reasoning over multiple alternative designs.
 Their applications cover a~broad range of research areas,~including,~e.g. analysis of (quantitative) software product lines~\cite{sw-product-lines,spl2},~strategy synthesis in planning under partial observability~\cite{pomdp1,pomdp2},~or design of communication protocols~\cite{herman1,herman2}.
 
+%for wireless specification 
+% \MC{Divna veta, opravit/zjednodusit The~synthesis's primary purpose is through analysis reveals a~concrete subsystem with fully-defined behaviour and eventually reveals optimal designs when they are requested.}
+
 A~set of declarative temporal constraints often expresses the~efficiency and correctness of the~probabilistic programs.
 The~model checkers for probabilistic systems,~such as \storm{}~\cite{STORM} or \prism{}~\cite{KNP11},~provide automated verification of such constraints.
 However,~these probabilistic model checkers require a~fixed model or a~fixed program,~contrary to their usage requirements when modelling probabilistic programs.
 Developers need to verify the~system designs as early as possible at the~developing process to maintain its costs tractable and as best as possible.
 System designs are prevailingly incomplete at the~initial development phases because,~in most cases,~there are no known all system specifications or intentionally left out potentially.
-These undefined system specifications are called \textit{holes},~and they can,~e.g.,~reflect an~unspecified component   
-%for wireless specification 
-or a~partially implemented controller.
-\MC{Divna veta, opravit/zjednodusit The~synthesis's primary purpose is through analysis reveals a~concrete subsystem with fully-defined behaviour and eventually reveals optimal designs when they are requested.}
-A~vital aspect of the design cycle is design space explorations,~i.e. exploring all possible designs.
+These undefined system specifications are called \textit{holes},~and they can,~e.g.,~reflect an~unspecified component  or a~partially implemented controller.
+The~synthesis primary purpose is to reveal a~concrete (optimal) subsystem with fully defined behaviour.
+A~vital aspect of the~design cycle is design space explorations,~i.e. exploring all possible designs.
 When considering a~Markov chain (MC) as the~mathematical apparatus of a~probabilistic program,~then the~design space represents a~family of such chains,~and the~synthesis task is to find the~one that satisfies a~given specifications.
 
-A~\textit{one-by-one} approach can naively solve the~synthesis problem by analysing all unique designs~\cite{profeat,onebyone}.
-On the contrary,~the whole design space can also be modelled as a~single \textit{all-in-one} Markov decision process~\cite{profeat,allinone}.
-However,~enumerating all members of design space (realisations) is unfeasible due to its combinatorial explosion, and the size of such all-in-one MDP is proportional to the number of candidate designs.
-Unfortunately,~the~double state-space explosion problem renders both of these approaches infeasible for large families.
-Other approaches consider evolutionary search algorithms for the~synthesis of software systems~\cite{spl2}.
-These methods remain incomplete and cannot efficiently solve more challenging systems,~e.g.,~which design satisfies the specification \textit{optimally}.
+% \MC{Tady pozor a presneji. Mluvil bych o idnuktivni synteze a Roman nebyl prvni, prvni byl nas TACAS a FM paper}
+% \MC{Navrhuju ty predchozi odstavce trochu zmenit a rozsirit: hned rict, ze se uvazuje synteza topologii a parametru. Zminit exisujicic pristupy a pak rict, ze se zamerujes na vyvoj nastroje, ktery rozsiruje moznosti syntezi zejmena o tu kombinovanou syntezu -- pak navazat s tim key contribution.}
 
-\MC{Tady pozor a presneji. Mluvil bych o idnuktivni synteze a Roman nebyl prvni, prvni byl nas TACAS a FM paper} In this work,~we will focus on a~complete state-of-the-art approach for the~synthesis of probabilistic programs.
-This approach was first introduced in \textit{Andriushchenko} master’s thesis~\cite{roman-DP}, followed~by its improvement in~\cite{tacas21}.
-It combines two sophisticated methods providing an~analysis of whole design sub-families at once.
-The~first method analyses each design from a~given sub-family individually and constructs critical sub-systems of counter-examples to prune all designs behaving incorrectly \,--\, the~so-called \textit{counter-example guided inductive synthesis} (CEGIS)~\cite{cegis}.
-The~second method,~called abstraction refinement (AR)~\cite{cegar},~immediately analyses the~entire design space and refines it into design sub-families when the~analysis yields inconclusive results.
-Both of these methods have shown convincing results,~although each faces certain limitations.
-They are incomparable because one method can be more suitable for specific probabilistic programs classes and conversely.
-The~approach presented in this work integrates both these methods and it manages to significantly outperform them,~sometimes by a~margin of orders of magnitude.
-
-All these presented methods consider \textit{topology synthesis} task assuming a~finite set of parameters that affect the~model topology,~where the~individual parameters represent the~undefined system specifications.
+Classically,~program synthesis is considered a~problem in deductive theorem proving,~whi\-ch derives a~program holding the~desired specifications from the~constructive proof of the~theorem~\cite{deductive-synthesis}.
+An~alternative approach to synthesis has recently come to the~fore where the~designers,~except the~specification,~provide a~syntactic template for the~desired program.
+We consider an~approach using the~\emph{sketch} of the~system,~where a~designer constructs a~partial program with incomplete details,~and the~synthesizer fills in the~missing details against the~given specifications~\cite{sketching1}.
+Further,~the~synthesis problems for parametric probabilistic systems can be divided into two categories.
+First consider \textit{topology synthesis} task assuming a~finite set of parameters that affect the~model topology,~where the~individual parameters represent the~undefined system specifications.
 This task focuses on Markov chains families having different topologies of the~state space and,~as a~consequence,~different sets of reachable states.
 However,~another area of synthesis tasks considers a~Markov chain with fixed topology but undefined transition probabilities.
-This area has been discussed by approaches of model repairing~\cite{model-repair-usage,pathak-et-al-nfm-2015} and techniques for \textit{parameter synthesis}~\cite{ceska2014robustness,Quatmann2016}.
-When modelling real-world systems,~combining the two tasks can quickly occur,~but the~support to solve such a~\textit{combined synthesis} task does not exist.
 
-\MC{Navrhuju ty predchozi odstavce trochu zmenit a rozsirit: hned rict, ze se uvazuje synteza topologii a parametru. Zminit exisujicic pristupy a pak rict, ze se zamerujes na vyvoj nastroje, ktery rozsiruje moznosti syntezi zejmena o tu kombinovanou syntezu -- pak navazat s tim key contribution.}
+This area has been discussed by approaches of model repairing~\cite{model-repair-usage,pathak-et-al-nfm-2015} and techniques for \textit{parameter synthesis}~\cite{ceska2014robustness,Quatmann2016}.
+A~\textit{one-by-one} approach can naively solve the~topology synthesis problem by analysing all unique designs~\cite{profeat,onebyone}.
+On the~contrary,~the~whole design space can also be modelled as a~single \textit{all-in-one} Markov decision process~\cite{profeat,allinone}.
+However,~enumerating all members of design space (realisations) is unfeasible due to its combinatorial explosion,~and the~size of such all-in-one MDP is proportional to the~number of candidate designs.
+Unfortunately,~the~double state-space explosion problem renders both of these approaches infeasible for large families.
+Other approaches consider evolutionary search algorithms for the~synthesis of software systems~\cite{spl2}.
+These methods remain incomplete and cannot efficiently solve more challenging systems,~e.g.,~which design satisfies the~specification \textit{optimally}.
+
+When modelling real-world systems,~combining both topology and parameter synthesis problems can quickly occur,~but the~support to solve such a~\textit{combined synthesis} task does not exist.
+This thesis focus on the~development of a~tool \toolname{} that expands the~possibilities of synthesis,~especially combined synthesis.
+~\toolname{} is able to efficiently synthesise the~topology of the~program as well as continuous parameters affecting the~transition probabilities -- this is a~unique feature.
+In further,~we will focus on complete state-of-the-art approaches for the~synthesis of probabilistic programs.
+
+The~first approach analyses each design from a~given sub-family individually and constructs critical sub-systems of counter-examples to prune all designs behaving incorrectly \,--\, the~so-called \textit{counter-example guided inductive synthesis} (CEGIS)~\cite{cegis}.
+The~second approach,~called abstraction refinement (AR)~\cite{cegar},~immediately analyses the~entire design space and refines it into design sub-families when the~analysis yields inconclusive results.
+Both of these approaches have shown convincing results,~although each faces certain limitations.
+They are incomparable because one approach can be more suitable for specific probabilistic programs classes and conversely.
+Therefore,~we focus on approach introduced in \textit{Andriushchenko} master’s thesis~\cite{roman-DP},~followed~by its improvement in~\cite{tacas21},~which combines these sophisticated methods providing an~analysis of whole design sub-families at once.
+It manages to significantly outperform them,~sometimes by a~margin of orders of magnitude.
 
 \subsubsection*{Key Contributions.}
-This thesis considers a~novel integrated method introduced in the~previous works~\cite{roman-DP,tacas21} as a~cornerstone for the topology synthesis.
+This thesis considers a~novel integrated method introduced in the~previous works~\cite{roman-DP,tacas21} as a~cornerstone for the~topology synthesis.
 Initially,~this method was designed only for feasibility synthesis task with one specification.
 However,~probabilistic programs often have to satisfy specifications expressed as a~conjunction of several temporal logic constraints.
-Therefore, we designed an~extension of this method to support \textit{multi-property specifications} and \textit{optimal synthesis} task.
-The~designed extension for multi-properties is performed in the~same loop as the~origin single-property synthesis, with~necessary modifications: \textit{AR} need to analyse satisfiable specifications within inference sub-families no longer,~and \textit{CEGIS} analyses each specification individually and constructs counter-examples whenever a~given specification is unsatisfiable.
+Therefore,~we designed an~extension of this method to support \textit{multi-property specifications} and \textit{optimal synthesis} task.
+The~designed extension for multi-properties is performed in the~same loop as the~origin single-property synthesis,~with~necessary modifications of individual methods.
+% \textit{AR} need to analyse satisfiable specifications within inference sub-families no longer,~and \textit{CEGIS} analyses each specification individually and constructs counter-examples whenever a~given specification is unsatisfiable.
 Consequently,~the~novel integrated method inherits the~benefits of \textit{AR} and \textit{CEGIS} in its favour also at multi-property synthesis.
 \textit{Optimal synthesis} is a~particular instance of \textit{multi-property synthesis},~and it can find an application in various domains.
-In particular,~specification set includes so-called violation property representing the currently optimal solution,~and its threshold is updated whenever a~new optimal solution is found.
+In particular,~specification set includes so-called violation property representing the~currently optimal solution,~and its threshold is updated whenever a~new optimal solution is found.
 Moreover,~we designed support for the~relaxed variant of the~optimal synthesis,~so-called $\varepsilon$-optimal synthesis,~which is in most cases even faster.
 We evaluate designed extensions on an~extensive set of real-world case studies. 
-We confirm the~results of a~novel approach presented in the~previous works and found the~following conclusions relating to these extensions.
-A~novel integrated method is orders of magnitude faster than one-by-one enumeration when analysing the~single property.
-A~multi-property synthesis slows down both approaches,~although the~novel method slow down is almost negligible.
-An~optimal synthesis slows down only the~integrated approach,~yet it is still incomparably faster than enumeration.
-The~assumption that $\varepsilon$-optimal synthesis can significantly speed up the~whole optimal synthesis process was also confirmed.
+% We confirm the~results of a~novel approach presented in the~previous works and found the~following conclusions relating to these extensions.
+% A~novel integrated method is orders of magnitude faster than one-by-one enumeration when analysing the~single property.
+% A~multi-property synthesis slows down both approaches,~although the~novel method slow down is almost negligible.
+% An~optimal synthesis slows down only the~integrated approach,~yet it is still incomparably faster than enumeration.
+% The~assumption that $\varepsilon$-optimal synthesis can significantly speed up the~whole optimal synthesis process was also confirmed.
 
-\MC{ten popis, jak je co efektivni mi prijde prilis dlouhy na tuto cast intra -- zkratit a prejit na tu parameter shynthesis}
+% \MC{ten popis, jak je co efektivni mi prijde prilis dlouhy na tuto cast intra -- zkratit a prejit na tu parameter shynthesis}
 
-\todo{Parameter synthesis ...}
+Furthermore,~we design a~method to perform a~\emph{combined} synthesis problem,~which supports both topology and parameter synthesis.
+This method is based mainly on a~conceptually simple technique for verifying probabilistic models introduced in~\cite{Quatmann2016}.
+We integrated this method within tool \toolname{} regarding the~functionality of the~novel integrated method,~and also with the~support of both multi-property and optimal synthesis tasks.
+Our tool paper presenting \toolname{} has been recently accepted at CAV'21,~an~A* conference.
+Moreover,~we presented \toolname{} also at the~students' conference Excel@FIT'21,~where we got the~award from the~expert panel to develop of the~tool that significantly expands the~possibilities of designing probabilistic systems.
+At this conference,~we also won an~award from the~professional public.
 
 
 \subsubsection*{Structure of this paper.}
-In Chapter~\ref{chap:synthesis},~we formulate a~probabilistic synthesis problem and introduce a~state-of-the-art novel integrated method based on two modern approaches \textit{CEGIS} and \textit{AR}.
-Chapter~\ref{chap:advanced} develops vital ideas associated with integrating the \textit{multi-property} synthesis and \textit{optimal} synthesis within the presented integrated method.
-Then, in Chapter~\ref{chap:combined}, we develop critical ideas associated with integrating the combined synthesis \,--\, consists of topology and parameter synthesis \,--\, within the considered method.
+Chapter~\ref{chap:preliminaries} summarises the~necessary theory regarding parametric probabilistic models and formulates a~probabilistic synthesis problem. 
+Chapter~\ref{chap:synthesis_methods} advocates the~probabilistic synthesis in the~broader frame of automated system development and introduces a~state-of-the-art novel integrated method based on two modern approaches \textit{CEGIS} and \textit{AR}.
+Chapter~\ref{chap:advanced} develops vital ideas associated with integrating the~\textit{multi-property} synthesis and \textit{optimal} synthesis within the~presented integrated method.
+Further,~in this chapter,~we develop critical ideas associated with integrating the~combined synthesis \,--\, consists of topology and parameter synthesis \,--\, within the~considered method.
 Chapter~\ref{chap:paynt} introduces a~new tool called \toolname{} and its architecture,~which implemented the~presented methods.
 Chapter~\ref{chap:experiments} evaluates our solutions on a~broad range set of real-world case studies and compares them with the~baseline enumeration approach.
 Finally,~Chapter~\ref{chap:conclusion} closes this thesis with the~notes

@@ -8,12 +8,12 @@ All experiments are run on a~Debian~GNU/Linux~10 machine with Intel(R) Core(TM) 
 This section aims to demonstrate the~performance of advanced integrated methods for both \textit{multi-property} and \textit{optimal} synthesis on various synthesis problems from different application domains.
 In particular,~we compare its performance with the~\emph{one-by-one} enumeration representing the~baseline algorithm implemented in the~existing synthesis tools such as QFLan~\cite{qflan} and ProFeat~\cite{profeat}.
 Experiments in previous papers~\cite{cegar,cegis} have shown that the~synthesis methods implemented in these tools have evident deficits on the~investigated benchmarks.
-Moreover, experiments in~\cite{roman-DP} have shown that presented hybrid method significantly outperform both state-of-the art synthesis approaches \,--\, CEGIS and AR.
+Moreover,~experiments in~\cite{roman-DP} have shown that presented hybrid method significantly outperform both state-of-the~art synthesis approaches \,--\, CEGIS and AR.
 These facts is supported by comparing the~hybrid approach only with the~one-by-one enumeration we present in this section.
 For each case study,~we report the~results for \textit{unfeasibility} problems with one property and two properties,~and \textit{optimal} synthesis problem and its \textit{relative} variant with $\varepsilon = 0.05$.
 In all cases,~the~synthesis methods have to explore the~whole design space.
 The~metrics marks with * represent the~qualified estimates.
-We consider the following case studies:
+We consider the~following case studies:
 
 \paragraph{Herman.}
 This model represents distributed asynchronous protocol for rings with self-stabilisation~\cite{herman1,herman2}.
@@ -38,6 +38,7 @@ It represents a~partial information scheduler for a~disk power manager motivated
 This model have been precise described in Section~\ref{sec:dpm}.
 We are interested primarily in the~expected energy consumption and expected number of lost requests.
 
+\vspace*{-0.4cm}
 \begin{table}[h!]
 \centering
 \begin{tabular}{l|cccc}
@@ -49,10 +50,11 @@ We are interested primarily in the~expected energy consumption and expected numb
 \caption{\textbf{DPM}:  Family size: $43M$, Number of parameters: $16$, Average MC size: $3.6k$.}
 \end{table}
 
+\vspace*{-0.4cm}
 \paragraph{Maze.}
-It represents a planning problem typically modelled as POMDP~\cite{maze}.
+It represents a~planning problem typically modelled as POMDP~\cite{maze}.
 The~family includes all deterministic strategies which are based on observation,~and containing small memory with a~fixed upper bound.
-We are interested primarily in the~expected time to the \emph{goal}.
+We are interested primarily in the~expected time to the~\emph{goal}.
 
 \begin{table}[h!]
 \centering
@@ -65,9 +67,10 @@ We are interested primarily in the~expected time to the \emph{goal}.
 \caption{\textbf{Maze}:  Family size: $9.4M$, Number of parameters: $22$, Average MC size: $0.2k$.}
 \end{table}
 
+\vspace*{-0.4cm}
 \paragraph{Pole.}
-It models balancing a pole in an unknown and noisy environment~\cite{pole}.
-A~model controller optimises an~expected behaviour during the deployment without dependence on the~current (hidden) environment since it is preferred before the~finite set of environment behaviours.
+It models balancing a~pole in an~unknown and noisy environment~\cite{pole}.
+A~model controller optimises an~expected behaviour during the~deployment without dependence on the~current (hidden) environment since it is preferred before the~finite set of environment behaviours.
 The~family described schedulers that are independent of hidden information.
 We are interested mainly in the~expected time until \emph{failure}.
 
@@ -82,6 +85,7 @@ We are interested mainly in the~expected time until \emph{failure}.
 \caption{\textbf{Pole}:  Family size: $1.3M$, Number of parameters: $17$, Average MC size: $5.6k$.}
 \end{table}
 
+\vspace*{-0.4cm}
 \paragraph{Grid.}
 It represents a~model describing again partially observable MDPs (POMDPs)~\cite{pomdp1}.
 There is an~agent who tries to locate a~target cell in a~4x4 grid.
@@ -98,7 +102,7 @@ We are interested in lower- and upper- bounded properties on the~expected number
 \caption{\textbf{Grid}: Family size: $65k$, Number of parameters: $8$, Average MC size: $1.2k$.}
 \end{table}
     
-
+\vspace*{-0.4cm}
 \paragraph{Evaluation.}
 As we have already said,~we are based on what has already been shown in previous articles~\cite{roman-DP,cegar,cegis}.
 As a~basis,~we know that a~hybrid oracle is orders of magnitude faster than one-by-one enumeration when analysing single property.
@@ -140,9 +144,10 @@ $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert
 \caption{\textbf{Knuth-Yao Die:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
+\vspace*{-0.4cm}
 \paragraph{Knuth \& Yao Die.}
 This case study considers a~probabilistic program modelling a~fair dice using only fair coins.
-The program starts at the~initial state $s_0$ and repeatedly tosses a~coin.
+the~program starts at the~initial state $s_0$ and repeatedly tosses a~coin.
 Whenever tail appears,~it takes the~one branch,~and when headers appear,~another branch,~and in this way it branching own state tree (see Figure~\ref{fig:kydie}).
 This continues until the~value of the~dice is decided.
 We consider six specifications representing the~probability of reaching a~final state $s_7$ (depicted as blue in Figure~\ref{fig:kydie}) with a~specific dice value to prove that the~program is correct.
@@ -158,17 +163,17 @@ We emphasise that with this case study,~we have also verified the~correctness of
 \begin{figure*}[h!]
 \centering
 \includegraphics[width=1.0\textwidth]{figures/kydie.pdf}
-\caption{Models represent the state space of the program for the Knuth \& Yao case study.}%
+\caption{Models represent the~state space of the~program for the~Knuth \& Yao case study.}%
 \label{fig:kydie}%
 \end{figure*}
 
 \paragraph{NAND multiplexing.}
-This case study concerns NAND multiplexing,~a technique for constructing reliable computation from unreliable devices.
+This case study concerns NAND multiplexing,~a~technique for constructing reliable computation from unreliable devices.
 It describes fault-tolerant hardware by having copies of a~NAND unit all doing the~same work~\cite{nand}.
-In the considered model,~we assumed that the~inputs $X$ and $Y$ are identically distributed (with probability $prob1$ of being stimulated),~and the~NAND gates suffer from a~von Neumann fault (inverted output) with probability $perr$.
+In the~considered model,~we assumed that the~inputs $X$ and $Y$ are identically distributed (with probability $prob1$ of being stimulated),~and the~NAND gates suffer from a~von Neumann fault (inverted output) with probability $perr$.
 We verify one optimal target describing that the~system will reach the~target state,~and the~resulting value of gate will be correct.
 Parameters are the~probabilities of the~faultiness of the~units ($prob1$) and the~probabilities of erroneous inputs ($perr$).
-The intervals for these parameters are taken from the following paper~\cite{nand}.
+The~intervals for these parameters are taken from the~following paper~\cite{nand}.
 We consider instance $(20, 13)$,~where $N=20$ represents the~number of inputs in each bundle and $K=13$ the~number of restorative stages.
 We chose such an~instance to get large MCs,~as the~considered family contains two probability parameters,~and thus we obtained case study with different properties.
 
@@ -176,12 +181,13 @@ We chose such an~instance to get large MCs,~as the~considered family contains tw
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-$\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = \todo{?}}$ & $\mathbf{\varepsilon = 0.15}$ \\ \hline
-0 & 2 & 1 & $2 \cdot \lvert 0.12 \rvert$ & 1M & \todo{?} & 1h \\ \hline
+$\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.05}$ & $\mathbf{\varepsilon = 0.15}$ \\ \hline
+0 & 2 & 1 & $2 \cdot \lvert 0.12 \rvert$ & 1M & 22.6h & 1h \\ \hline
 \end{tabular}
 \caption{\textbf{NAND multiplexing:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
+\vspace*{-0.4cm}
 \paragraph{DPM.}
 This case study has been precisely introduced in Section~\ref{sec:dpm}.
 We consider the~domains parameters representing queue capacity,~four power profiles and three thresholds,~and two probabilistic parameters representing time resolutions.
@@ -198,9 +204,10 @@ $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert
 \caption{\textbf{DPM:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
+\vspace*{-0.4cm}
 \paragraph{Herman.}
 This case study will be in more detail introduced and described in Section~\ref{sec:herman}.
-Domains parameters represent the memory updates, and the probability parameters represent different coin biases based on the variable and memory value.
+Domains parameters represent the~memory updates,~and the~probability parameters represent different coin biases based on the~variable and memory value.
 The~synthesis target is to identify the~protocol version that minimises stabilisation time.
 
 \begin{table}[h!]
@@ -208,12 +215,23 @@ The~synthesis target is to identify the~protocol version that minimises stabilis
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
 $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert$ & $\lvert \mathcal{\mathbf{F}} \rvert$ & $\overline{\mathbf{\lvert MC \rvert}}$ & $\mathbf{\varepsilon = 0.0}$ & $\mathbf{\varepsilon = 0.05}$ \\ \hline
-3 & 4 & 1 & $8 \times 4 \cdot \lvert 0.25 \rvert$ & 1.5k & \todo{?} & 52m \\ \hline
+3 & 4 & 1 & $8 \times 4 \cdot \lvert 0.25 \rvert$ & 1.5k & 20.2h & 52m \\ \hline
 \end{tabular}
 \caption{\textbf{Herman:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
+\vspace*{-0.4cm}
+\paragraph{Evaluation.}
+The~obtained results cannot be generalised because the~complexity of the~synthesis process in combined synthesis depends on several factors. 
+The~effectivity of splitting the~space of candidate solutions is mainly influenced by the~density of solutions in the~vicinity of the~optimal solution.
+If the~density is high,~the~parameter intervals must reach a~small grain size for the~result to be decisive,~and the~synthesis thus requires many more iterations.
+Of course,~this property also affects the~correlation between the~synthesis run-times of optimal and $\varepsilon$-optimal synthesis.
+Other factors influencing the~efficiency of the~combined synthesis process also include the~influence of parameters influencing the~topology,~the~number of various parametric candidates,~or the~size of the~corresponding parametric models.
+
 \section{Applicability}
+
+This section demonstrates the~applicability of \toolname{} and interprets the~synthesis results for two of the~considered case studies.
+Firstly,~we briefly introduce the~model,~then describe which sketch is considered for the~synthesis problem and against which specifications it will be synthesised,~and finally,~we demonstrate the~synthesised result.
 
 \subsection{Maze} 
 This synthesis problem considers an~instance of POMDP synthesis of the~controller.
@@ -224,22 +242,22 @@ The~agent performs the~actions representing the~movements in the~four available 
 However,~these movements are performed with some level of non-determinism,~i.e.,~they are subject to a~random error.
 For instance,~when the~agent wants to move to the~west,~there is a~small probability that it will move to the~east.
 
-We design a sketch for the~agent's controller that helps it reach the target cell representing the~maze's exit \,--\, cell 12.
+We design a~sketch for the~agent's controller that helps it reach the~target cell representing the~maze's exit \,--\, cell 12.
 The~controller has one bit of memory available which is initially set to value $0$.
 The~holes in this sketch represent the~available actions concerning the~current observation.
 The~direction for steering and setting a~new value of the~memory represents actions,~and observation is represented by the~current memory value and detected walls in the~current cell.
-This sketch describes a family with $9.4M$ various programs.
+This sketch describes a~family with $9.4M$ various programs.
 Our target is to synthesise a~program that minimises the~expected number of steps to achieve the~maze's exit.
 
-\toolname{} explores the set of candidate programs in $one$ hour,~whereas the~naive one-by-one enumeration takes more than one day.
-Figure~\ref{fig:maze} depicts the synthesised strategy of the selected controller,~which is optimal given the~expected number of steps to reach the~exit.
+\toolname{} explores the~set of candidate programs in $one$ hour,~whereas the~naive one-by-one enumeration takes more than one day.
+Figure~\ref{fig:maze} depicts the~synthesised strategy of the~selected controller,~which is optimal given the~expected number of steps to reach the~exit.
 Arrows depict the~direction of steering concerning the~current memory value (number at the~start of an~arrow) and the~corresponding memory update (number at the~end of an~arrow).
 For instance,~when an~agent is currently in cell $3$,~it moves to the~east when the~memory value is equal to $0$ and moves to the~west when the~memory contains 0,~while the~value of the~memory remains unchanged in both cases.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.4\textwidth]{figures/maze.pdf}
-\caption{The state-space of the~\textit{Maze} model with a~marked target state and the~observation groups. A~right side represents the~found optimal strategy to reach the~target location within the~minimal expected time. The~initial state is selected randomly with a~memory value of 0.}%
+\caption{The~state-space of the~\textit{Maze} model with a~marked target state and the~observation groups. A~right side represents the~found optimal strategy to reach the~target location within the~minimal expected time. The~initial state is selected randomly with a~memory value of 0.}%
 \label{fig:maze}%
 \end{figure}
 
@@ -268,12 +286,12 @@ An~expected number of rounds to reach a~stable configuration represents a~stabil
 \label{fig:herman}%
 \end{figure}
 
-We consider a version of \textit{Herman's randomised self-stabilisation protocol}~\cite{herman1,herman2}.
+We consider a~version of \textit{Herman's randomised self-stabilisation protocol}~\cite{herman1,herman2}.
 All processes behave the~same in this protocol,~and therefore a~stabilisation cannot be solved in a~deterministic way in such anonymous networks.
 This protocol is synchronised,~and in each round,~a~process that does not hold token flips the~value of its variable (see Figure~\ref{fig:herman}(b)).
 On the~contrary,~each process that has a~token must decide whether to pass it or not and,~according to this decision,~set the~value of its variable.
 A~token disappears from the~circle if two tokens collide in one process.
-The original version of the~protocol resolves this decision by a~single biased coin flip.
+The~original version of the~protocol resolves this decision by a~single biased coin flip.
 Figure~\ref{fig:herman}(c) illustrates a~situation when processes $1$ and $5$ remain the~same value of their variable (they keep the~token) and process $7$ decided to flip the~value of its variable (it pass the~token).
 However,~we are interested in the~synthesis of alternatives.
 
@@ -285,15 +303,15 @@ We consider a~set of parameters to describe a~family of $3.1M$ candidate program
 
 \toolname{} synthesised the~optimal protocol in around $18$ minutes,~while the~naive one-by-one enumeration takes more than one day when we consider a~sketch containing a~system with five processes.
 The~synthesised optimal strategy uses the~fairest coins (bias ${\approx} \, 0.25$) and maintains the~values of memory set at true,~when starting from the~initial configuration.
-Whenever a~process eventually decides to keep the~token,~the memory is reset to $0$,~and the~process starts using highly unfair coins (bias ${\approx} \, 0.07$). 
-Thus,~the~process is more likely to keep its token for a long time until it eventually passed it further.
+Whenever a~process eventually decides to keep the~token,~the~memory is reset to $0$,~and the~process starts using highly unfair coins (bias ${\approx} \, 0.07$). 
+Thus,~the~process is more likely to keep its token for a~long time until it eventually passed it further.
 The~system can,~on average,~stabilise in four rounds when using this synthesised strategy.
 
 \paragraph{Combined Synthesis.}
 Up to now,~we presented the~\textit{topology} synthesis.
 Its constraints cause the~sketch to contain four parameters with 25 values representing different coin biases combined variable and memory value.
-When we refine this topology synthesis by considering $250$ coin biases from the~same interval $[0.0, 0.25]$,~the synthesis problem is intractable as the~family size increases about the~factor $10k$.
+When we refine this topology synthesis by considering $250$ coin biases from the~same interval $[0.0, 0.25]$,~the~synthesis problem is intractable as the~family size increases about the~factor $10k$.
 Therefore,~we consider an~alternative formulation of the~synthesis problem where we replace these discrete options with continuous transition parameters over the~same interval.
-The~combined synthesis method requires around $53$ minutes and guarantees the optimal solution over the~continuous parameters space compared to the~first version,~where were considered only discrete steps.
+The~combined synthesis method requires around $53$ minutes and guarantees the~optimal solution over the~continuous parameters space compared to the~first version,~where were considered only discrete steps.
 
 % Figure~\ref{fig:herman} depicts one round of Herman's protocol.

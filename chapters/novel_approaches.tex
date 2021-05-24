@@ -3,27 +3,28 @@ The~developed framework for \textit{integrated} synthesis has been designed for 
 However,~probabilistic programs often have to satisfy specifications expressed as a~\textit{conjunction} of several temporal logic constraints,~potentially including the~\textit{optimal} objective.
 Therefore,~we design extensions to generalise the~\textit{hybrid} method to handle \textit{multi-property} specifications and treat \textit{optimal} synthesis.
 In the~following,~we introduce these extensions to adapt the~integrated synthesis for both advanced methods. 
-We design them individually for both \emph{CEGIS} and \emph{AR} loop,~whereas the overall framework of the~hybrid method is unchanged.
+We design them individually for both \emph{CEGIS} and \emph{AR} loop,~whereas the~overall framework of the~hybrid method is unchanged.
 
 \section{Multi-Property Synthesis}
-When considering \textit{multi-property} specifications,~the basic ideas of both oracles (\textit{CEGIS} and \textit{AR}) remain the~same.
-When \textit{AR} analyses the quotient MDP concerning multiple properties, it yields multiple probability bounds.
+When considering \textit{multi-property} specifications,~the~basic ideas of both oracles (\textit{CEGIS} and \textit{AR}) remain the~same.
+When \textit{AR} analyses the~quotient MDP concerning multiple properties,~it yields multiple probability bounds.
 \textit{CEGIS} loop constructs a~separate conflict for each unsatisfied property whenever it meets an~unsatisfiable realisation.
-Moreover,~it uses the~corresponding probability bounds obtained at the~\textit{AR} loop to improve the quality of generated counter-examples.
+Moreover,~it uses the~corresponding probability bounds obtained at the~\textit{AR} loop to improve the~quality of generated counter-examples.
 
 \paragraph{CEGIS.}
 The~CEGIS performs the~\textit{multi-property} synthesis in the~almost same manner as the~\textit{feasibility} synthesis for a~single property,~but there are a~few differences.
 We decided to analyse each property $\varphi_i \in \varPhi$ for each considered realisation $r \in \rlz$,~even if we come across a~property that the~given realisation does not satisfy.
 We construct the~counter-examples whenever the~analysed realisation $r$ does not satisfy the~given specification $\varphi_{i}$.
 In this way,~we~prune the~design space of the~analysed family more efficiently because each constructed counter-example throws out a~certain number of family members.
-The core of the loop stays the same.
+The~core of the~loop stays the~same.
 We pick the~concrete realisation $r \in \rlz$,~then construct the~corresponding MC $\mathcal{D}_r$ and perform the~model checking against to current specification $\varphi_i$.
 The~synthesis terminates when a~satisfying realisation against the~whole specification set $\varPhi$ is found,~or the~whole state space is exhausted,~indicating that no feasible solution in the~analysed family exists.
+This approach is summarised in Algorithm~\ref{alg:cegis_multi}.
 
 
 \begin{algorithm}[h!]
-\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a set of properties $\varPhi = \{ \varphi_0, \dots, \varphi_{N-1} \}$. \\
-\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ such that $\forall \; 0 \leq i < N. \; \mathcal{D}_r \models \varphi_i$, if such exists, otherwise $\mathtt{UNSAT}$. \\
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the~set $\rlz \subseteq \rlzf$ of realisations,~and a~set of properties $\varPhi = \{ \varphi_0, \dots, \varphi_{N-1} \}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ such that $\forall \; 0 \leq i < N. \; \mathcal{D}_r \models \varphi_i$,~if such exists,~otherwise $\mathtt{UNSAT}$. \\
 \vspace*{-1.5em}
 \begin{algorithmic}[1]
     \WHILE{$\rlz \neq \emptyset$}
@@ -60,14 +61,15 @@ For each selected sub-family $\fml$ is then performed the~MDP model checking on 
 We analyse these obtained results concerning current specification,~mainly whether it is \textit{safety} or \textit{liveness} specification,~from their feasibility and decidability.
 
 When holds $x_{min} > \lambda$ for safety property or $x_{max} < \lambda$ for liveness property ($\neg \mathtt{sat}$) then all realisations $r \in \rlz$ violate specification $\varphi_{i}$,~and the~algorithm continues on the~next sub-family or terminates with $\mathtt{UNSAT}$ result.
-On the contrary,~when holds $x_{max} \leq \lambda$ for safety property or $x_{min} \geq \lambda$ for liveness property then each family member satisfy specification $\varphi_{i}$,~and~the~algorithm continues on the~next specification $\varphi_{i+1}$ or yields any realisation $r \in \rlz$ as the~solution to the~synthesis task.
+On the~contrary,~when holds $x_{max} \leq \lambda$ for safety property or $x_{min} \geq \lambda$ for liveness property then each family member satisfy specification $\varphi_{i}$,~and~the~algorithm continues on the~next specification $\varphi_{i+1}$ or yields any realisation $r \in \rlz$ as the~solution to the~synthesis task.
 Finally,~when holds $x_{min} \leq \lambda \leq x_{max}$ for both kinds of properties,~then we have to check whether the~corresponding scheduler $\sigma$ is consistent or not.
 When it is consistent,~it represents a~family member satisfying the~specification $\varphi_{i}$,~since it has $x_{min} \leq \lambda$ for safety and $x_{max} \geq \lambda$ for liveness property.
 Otherwise,~the~synthesis task is still undecided,~and the~currently analysed sub-family $\rlz$ will be split.
+This procedure is summarised in Algorithm~\ref{alg:ar_multi}.
 
 \begin{algorithm}[h!]
-\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a properties set $\varPhi_{\fml} = \{\varphi_0, \dots, \varphi_M \}$. \\
-\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ s.t. $\forall \; 0 \leq i < M. \; \mathcal{D}_r \models \varphi_i$, if such exists, otherwise $\mathtt{UNSAT}$. \\
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the~set $\rlz \subseteq \rlzf$ of realisations,~and a~properties set $\varPhi_{\fml} = \{\varphi_0, \dots, \varphi_M \}$. \\
+\hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r \in \rlz$ s.t. $\forall \; 0 \leq i < M. \; \mathcal{D}_r \models \varphi_i$,~if such exists,~otherwise $\mathtt{UNSAT}$. \\
 \vspace*{-1.5em}
 \begin{algorithmic}[1]
     \STATE $U \leftarrow \{ \rlz \}$
@@ -101,8 +103,8 @@ Otherwise,~the~synthesis task is still undecided,~and the~currently analysed sub
 \section{Optimal Synthesis}
 \textit{Optimal} synthesis is designed similarly to the~\textit{feasibility} synthesis,~with one significant difference.
 An~\textit{optimising} property represents the~given \textit{optimal} property,~and its threshold is updated whenever satisfactory realisation is found.
-The goal is to exclude this solution from the~searched state space.
-For instance,~this update translates to decreasing the~threshold of the minimising property when the~\textit{minimal} synthesis considered.
+The~goal is to exclude this solution from the~searched state space.
+For instance,~this update translates to decreasing the~threshold of the~minimising property when the~\textit{minimal} synthesis considered.
 The~optimal synthesis yield the~optimal solution when all family members were explored.
 
 \paragraph{CEGIS.}
@@ -118,13 +120,13 @@ We do this to not analyse for realisations worse than the~current one in subsequ
 
 Otherwise,~when $\mathcal{D}_r \not\models \varPhi_{min}$ or the~current result is not better than the~current minimum,~we compute a~critical set $C$ for $\mathcal{D}_r$ and $\varphi_{min}$.
 This critical set $C$ represents a~fragment of the~whole state space $S$ of the~analysed family $\fml$.
-Subsequently,~the algorithm~constructs the~sub-system $\mathcal{D}\!\downarrow\!C$ as a~counter-example concerning computed critical set $C$.
+Subsequently,~the~algorithm~constructs the~sub-system $\mathcal{D}\!\downarrow\!C$ as a~counter-example concerning computed critical set $C$.
 We then subtract these constructed counter-examples from the~set $\fml$ of candidate solutions. 
 We repeat this procedure until either the~whole state space is exhausted and at the~end returns the~found minimising realisation $\mathtt{r^*}$ and corresponding value $\mathtt{min^*}$.
 This approach is summarised in Algorithm~\ref{alg:ar_optimal}.
 
 \begin{algorithm}[h!]
-\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the~set $\rlz \subseteq \rlzf$ of realisations,~and a~property $\varphi_{min}$. \\
 \hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r^* \in \rlz$ according to Definition~\ref{def:minimality}. \\
 \vspace*{-1.5em}
 \begin{algorithmic}[1]
@@ -148,18 +150,18 @@ This approach is summarised in Algorithm~\ref{alg:ar_optimal}.
 \end{algorithm}
 
 \paragraph{Abstraction Refinement.}
-We illustrate the~\textit{minimality} synthesis process within the AR loop by Algorithm~\ref{alg:ar_optimal}.
+We illustrate the~\textit{minimality} synthesis process within the~AR loop by Algorithm~\ref{alg:ar_optimal}.
 We remind that the~synthesis target is to find realisation $r^* \in \rlzf$ that minimises the~satisfaction probability $\mathtt{min^*}$ of the~minimal objective.
 A~set $U$ serves to store sub-families of the~given family of realisations $\rlz$ that have not been yet analysed.
 The~algorithm starts with building the~quotient MDP for the~whole analysed family $\fml$ concerning the~current realisations set $\rlz \subseteq \rlzf$.
 Subsequently,~it restricts the~set of realisations to obtain the~corresponding sub-family for every $\rlz \in U$,~concerning the~quotient MDP $\mathcal{M}^\fml$. 
-Then,~the~algorithm continues with running the standard MDP model checking to compute the~minimal and maximal probability and corresponding schedulers,~respectively.
+Then,~the~algorithm continues with running the~standard MDP model checking to compute the~minimal and maximal probability and corresponding schedulers,~respectively.
 
 The~main difference between the~AR loop when feasibility synthesis is performed and now is the~interpretation of the~underlying MDP model checking results.
 The~algorithm can discard $\rlz$ when the~$\mathtt{min}$ probability for $\rlz$ is above $\mathtt{min^*}$.
 Otherwise,~it is required to check whether the~corresponding scheduler $\sigma_{min}$ is \textit{consistent} or not.
-When it is consistent,~we can discard $\rlz$ and updated the current $\mathtt{min^*}$ and $\sigma_{min}$, respectively.
-When the scheduler is not consistent but $\mathtt{max < min^*}$ is valid,~we can still update the~current $\mathtt{min^*}$ and enhance the~pruning process.
+When it is consistent,~we can discard $\rlz$ and updated the~current $\mathtt{min^*}$ and $\sigma_{min}$,~respectively.
+When the~scheduler is not consistent but $\mathtt{max < min^*}$ is valid,~we can still update the~current $\mathtt{min^*}$ and enhance the~pruning process.
 In such a~situation,~some realisations in $\rlz$ induce a~lower probability than current $\mathtt{min^*}$,~but actually,~we do not know which ones.
 However,~when the~scheduler is not consistent,~regardless of whether $\mathtt{min^*}$ has been updated,~the~algorithm has to split the~analysed realisations set $\rlz$.
 Consequently,~the~algorithm subsequently has to analyse the~derive sub-families since they can cover the~minimising realisation.
@@ -170,7 +172,7 @@ The~termination is guaranteed since only a~finite number of subfamilies realisat
 We summarise this procedure in Algorithm~\ref{alg:ar_optimal}.
 
 \begin{algorithm}[h!]
-\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the set $\rlz \subseteq \rlzf$ of realisations, and a property $\varphi_{min}$. \\
+\hspace*{\algorithmicindent} \textbf{Input:} A family $\fml$ of MCs with the~set $\rlz \subseteq \rlzf$ of realisations,~and a~property $\varphi_{min}$. \\
 \hspace*{\algorithmicindent} \textbf{Output:}  A realisation $r^* \in \rlz$ according to Definition~\ref{def:minimality}. \\
 \vspace*{-1.5em}
 \begin{algorithmic}[1]
@@ -200,7 +202,7 @@ We summarise this procedure in Algorithm~\ref{alg:ar_optimal}.
 \end{algorithm}
 
 \section{Combined Probabilistic Synthesis}
-We present the~main ideas behind a novel adaptation of the~hybrid methods towards the~\textit{parameter} and \textit{combined} synthesis.
+We present the~main ideas behind a~novel adaptation of the~hybrid methods towards the~\textit{parameter} and \textit{combined} synthesis.
 Recall that we need to operate with parameters having continuous domains and affecting the~transition probabilities of Markov chains.
 We build on a~\emph{parameter substitution}~\cite{Quatmann2016}
 that replaces each parametric transition by two non-deterministic choices corresponding to the~two extremes of its domain.
@@ -209,16 +211,16 @@ These models can be subsequently verified using the~off-the-shelf,~efficient alg
 Consequently,~this technique boils down to verify an~MDP and avoids computing of the~rational functions and SMT solving.
 The~attractiveness of this technique is that it can be applied to parametric MC and parametric MDPs without much further trouble and exhausting analysis.
 
-In more precise, a well-defined region $R$ represents the \textit{parameter} space.
+% In more precise, a well-defined region $R$ represents the \textit{parameter} space.
 
 \paragraph{CEGIS.}
 An~inductive oracle adapts the~computational environment in the~following way.
 A~family of pMCs $\fml = \family$ and the~given set of specifications $\varPhi$ represent the~input to this method.
-The family is encoded as SAT formula concerning both kinds of parameters, where the parameters affecting topology from the set $K$ are encoded as the list of possible options that they can have.
-On the~contrary,~the~encoding of the~parameters representing probability transition from the set $V$ must be adapted and encoded as the~individual interval for each such parameter.
-We remind each \textit{CEGIS} iteration then analyses a~concrete family member represented by an~MC built concerning the~assignment of the parameters yielded by the~SAT solver.
+The~family is encoded as SAT formula concerning both kinds of parameters,~where the~parameters affecting topology from the~set $K$ are encoded as the~list of possible options that they can have.
+On the~contrary,~the~encoding of the~parameters representing probability transition from the~set $V$ must be adapted and encoded as the~individual interval for each such parameter.
+We remind each \textit{CEGIS} iteration then analyses a~concrete family member represented by an~MC built concerning the~assignment of the~parameters yielded by the~SAT solver.
 
-When the~analysed family member does not satisfy some specification $\varphi \in \varPhi$,~the~construction of counter-examples is triggered, which yields a~conflict set with generalised parameters.
+When the~analysed family member does not satisfy some specification $\varphi \in \varPhi$,~the~construction of counter-examples is triggered,~which yields a~conflict set with generalised parameters.
 When the~parameter is generalised,~it does not matter its value within the~whole sub-family,~and all its options,~or interval,~respectively,~can be excluded.
 Constructing counter-examples for families including continuous parameters requires additional reasoning as excluding the~concrete value from the~continuous interval is not feasible. 
 Therefore,~we design a~strategy trying to exclude a~specific part of the~interval,~which preserves the~CE generalisation. 
@@ -227,7 +229,7 @@ When the~analysis of this MDP yields unsatisfiable results,~these neighbourhoods
 Otherwise,~the~neighbourhoods are gradually refined until the~unsatisfiable result is obtained.
 
 \begin{algorithm}[h!]
-\hspace*{\algorithmicindent} \textbf{Input:} An pMC $\mathcal{D}$ and a set of specifications $\varPhi_{\neg}$ s.t. $\forall \varphi_{\neg} \in \varPhi_{\neg}. \; \mathcal{D} \not\models \varphi_{\neg}$. \\
+\hspace*{\algorithmicindent} \textbf{Input:} An~pMC $\mathcal{D}$ and a~set of specifications $\varPhi_{\neg}$ s.t. $\forall \varphi_{\neg} \in \varPhi_{\neg}. \; \mathcal{D} \not\models \varphi_{\neg}$. \\
 \hspace*{\algorithmicindent} \textbf{Output:} A well-defined region $r$ s.t. $\forall \varphi_{\neg} \in \varPhi_{\neg}. \; \mathcal{D}, r \not\models \varphi_{\neg}. $ \\
 \vspace*{-1.5em}
 \begin{algorithmic}[1]
@@ -241,26 +243,26 @@ Otherwise,~the~neighbourhoods are gradually refined until the~unsatisfiable resu
     \ENDWHILE
     \RETURN $r$
 \end{algorithmic}
-\caption{CEGIS loop: CE generalisation for continuous parameters from a set $V$.}
+\caption{CEGIS loop: CE generalisation for continuous parameters from a~set $V$.}
 \label{alg:cegis_ce_combined}
 \end{algorithm}
 Algorithm~\ref{alg:cegis_ce_combined} illustrates described strategy to exclude a~specific part of the~parameter interval.
 It takes a~concrete family member from the~currently analysed family of pMCs $\fml$ represented as a~pMC $\mathcal{D}$,~and a~set of specifications $\varPhi_{\neg}$ that the~given family member does not satisfy.
 First,~we construct the~region concerning the~parameter assignment of the~analysed family member,~where each parameter $v_i \in V$ represents the~neighbourhood of its valuation $u(v_i)$ created according to the~current $\varepsilon$ value.
 Subsequently,~we construct an~MDP $\mathcal{D}_{sub}^r$ representing a~substitution of pMC concerning the~original model $\mathcal{D}$ and constructed region $r$.
-Then we deduce whether $\mathcal{D}, r \not\models \varphi_{\neg}$ for each $\varphi_{\neg} \in \varPhi_{\neg}$ by applying the standard technique for MDP model checking.
+Then we deduce whether $\mathcal{D}, r \not\models \varphi_{\neg}$ for each $\varphi_{\neg} \in \varPhi_{\neg}$ by applying the~standard technique for MDP model checking.
 When this does not hold for some specification,~we refine region $r$ by reducing the~neighbourhood of one parameter $v_i$ which is selected concerning the~current iteration number $i$.
 In this way,~we may perform more iteration of MDP model checking,~but we will avoid unnecessarily shrinking of regions and exclude the~most extensive possible region.
 
 \paragraph{Abstraction Refinement.}
 We remind that the~\textit{abstraction refinement} loop analyses a~whole family $\rlz \subseteq \rlzf$ represented as a~pMDP model $\mathcal{M}$ against to given set of specifications $\varPhi$ at once.
-In addition,~a well-defined region $r$ is given which serves as parameter space.
+In addition,~a~well-defined region $r$ is given which serves as parameter space.
 Since the~loop takes at the~input a~pMDP $\mathcal{M}$ and wants to analyse it,~we need to construct a~parameter substitution $\mathcal{M}_{sub}^r$ of the~given MDP model $\mathcal{M}$ concerning the~parameter region $r$ (applying Definition~\ref{def:sub_mdp}).
 Since the~topology of the~substituted model $\mathcal{M}_{sub}^r \models \varphi$ is independent of the~region,~for checking multiple regions,~we only substitute the~probabilities according to the~region of interest.
 This parameter substitution yields a~stochastic game,~and by analysing it,~we can derive whether holds that $\mathcal{M}_{sub}^r \models \varphi$ for each $\varphi \in \varPhi$ (see Theorem~\ref{the:mdp_stochastic}).
 
 This regional model checking (see Section~\ref{sec:regional_model}) of the~constructed stochastic game yields the~refinable lower and upper bounds on probabilities correspond to the~current parameter space intervals.
-Abstraction refinement oracle works without the~change in the following~processing than presented loop for topology synthesis,~except refinement strategy when the~analysis result is inconclusive.
+Abstraction refinement oracle works without the~change in the~following~processing than presented loop for topology synthesis,~except refinement strategy when the~analysis result is inconclusive.
 A~refinement strategy that mitigates the~overhead of analysing sub-families,~presented in~\cite{cegar},~is not directly applicable to this type of task.
 Therefore,~we design a~\textit{greedy splitting} strategy based on the~domain size,~which does not analyse the~MDP structure,~and performs as follows.
 
@@ -273,11 +275,11 @@ This naive strategy offers space for improvement in the~future,~and it is in our
 
 Since the~considered parameter spaces are continuous,~they can be potentially parted infinitely many times in case of inconclusive results.
 Therefore,~we need to introduce a~termination condition that decides that the~interval will no longer be divided.
-In our case,~we construct the termination condition based on the~results of MDP model checking.
+In our case,~we construct the~termination condition based on the~results of MDP model checking.
 The~MDP model checking is performed by \storm{},~which has been defined the~accuracy with which it performs iterative methods or with what accuracy it returns results,~respectively.
 We set a~threshold whose value is reduced ten times concerning this accuracy.
 The~family with the~inconclusive result,~but with an~absolute difference of MDP results for some specification less than the~threshold,~will be not subsequently split and not further analysed.
-At the~end of the~synthesis,~we will provide to user the information on how many such families have been discarded and,~if necessary,~can increase the~accuracy and repeat the~synthesis.
+At the~end of the~synthesis,~we will provide to user the~information on how many such families have been discarded and,~if necessary,~can increase the~accuracy and repeat the~synthesis.
 
 
 % \begin{algorithm}[h!]

@@ -13,13 +13,13 @@ The~aim is to take a~formal specification and search backwards for a~program tha
 Some of the~synthesisers in this area relied on the~successes of automated theorem provers,~which they used to compile proof of program accuracy. 
 Others used a~comprehensive set of rewriting rules in an attempt to transform a~specification into an~equivalent program. 
 This approach is similar to a~regular compiler transforming the~input program into an~output program using rewriting rules from specified grammar. 
-However,~the~rewriting rules of the~synthesiser should be complete \,--\, the~synthesiser tries to find the optimal program \,--\, and should be able to transform the~specification into every equivalent program.
-The~landmarks in this area are works based on super-optimisation~\cite{superoptimiser} and the Synthesis kernel~\cite{kernel}.
+However,~the~rewriting rules of the~synthesiser should be complete \,--\, the~synthesiser tries to find the~optimal program \,--\, and should be able to transform the~specification into every equivalent program.
+The~landmarks in this area are works based on super-optimisation~\cite{superoptimiser} and the~Synthesis kernel~\cite{kernel}.
 
 \paragraph{Syntax-Guided Synthesis.}
-The~obstacle of deductive synthesis is that it requires both a~complete formal specification and a~complete axiomatisation of the program target language.
+The~obstacle of deductive synthesis is that it requires both a~complete formal specification and a~complete axiomatisation of the~program target language.
 The~second wave of synthesis research focuses on the~\textit{syntax-driven} synthesis,~trying to relax these requirements. 
-The~input to the \textit{syntax-guided} synthesis problem consists of a~semantic correctness specification for the~desired program given by a~logical formula and a~syntactic set of candidate programs.
+The~input to the~\textit{syntax-guided} synthesis problem consists of a~semantic correctness specification for the~desired program given by a~logical formula and a~syntactic set of candidate programs.
 This set is described by a~sketch~\cite{sketching} (program template) containing undefined locations described as yet unknown system properties or maybe intentionally omitted. 
 Approaches of this second wave have recently come to the~fore,~and our approach is also based on them. 
 
@@ -33,7 +33,7 @@ Finding a~family member that satisfies given specifications is \textit{NP}-compl
 An~alternative approach models the~family of MCs by an~MDP and uses off-the-shelf algorithms for MDP model-checking~\cite{allinone}.
 Tools such as \emph{QFLan}~\cite{qflan} and \emph{ProFeat}~\cite{profeat} implements these approaches to quantitatively analyse alternative designs of software product lines~\cite{sw-product-lines}.
 These tools provide the~complete methods to solve synthesis tasks,~but they are limited strictly to small families,~so they do not scale.
-Inductive techniques,~motivated from these basic approaches,~form on abstraction-refinement (\emph{AR}) over the MDP representation~\cite{cegar},~and counterexample guided inductive synthesis (\emph{CEGIS}) for MCs~\cite{cegis} have been proposed to achieve better scalability.
+Inductive techniques,~motivated from these basic approaches,~form on abstraction-refinement (\emph{AR}) over the~MDP representation~\cite{cegar},~and counterexample guided inductive synthesis (\emph{CEGIS}) for MCs~\cite{cegis} have been proposed to achieve better scalability.
 Experiments in previous papers~\cite{cegar,cegis} have shown that the~synthesis methods implemented in \emph{ProFeat} or \emph{QFLan} have evident deficits on the~benchmarks investigated also in this thesis.
 This synthesis task is closely connected to controller synthesis for partially observed MDPs (POMPDs),~representing,~for instance,~a~famous Maze~\cite{maze} model for AI planning under uncertainty,~to which we will pay attention later.
 Other techniques to solve the~controller synthesis for POMDPs also use neural network oracles to lead search~\cite{pomdp-2} and adaptive learning schemes based on imitation learning~\cite{POMDP3}.
@@ -44,15 +44,15 @@ It analyses how the~parameter values affect the~behaviour of Markov chains (or M
 \textit{Parameter} synthesis problems targets finding parameter values for which the~parametric model (optimal) satisfies the~specification.
 The~state-of-the-art probability model checkers \storm{}~\cite{STORM} and \prism{}~\cite{KNP11} provide approximate techniques for parameter synthesis that solve the~same parameters in various transitions independently.
 We note that these model checkers and others with the~same focus are primarily determined to verify concrete MC and not to the~whole MCs family.
-On the contrary,~exact techniques construct rational functions for symbolic reachability probabilities have been proposed in~\cite{DBLP:conf/ictac/Daws04} and further improved in~\cite{dehnert2015prophesy}.
+On the~contrary,~exact techniques construct rational functions for symbolic reachability probabilities have been proposed in~\cite{DBLP:conf/ictac/Daws04} and further improved in~\cite{dehnert2015prophesy}.
 % The~application of this synthesis task can be found, for instance,~in the~field of model repair problems~\cite{model-repair-1}.
 Parametric probabilistic models have several applications in a~wide range of areas.
-For instance, in~\cite{ceska-biochemical} synthesised the~rate parameters in stochastic biochemical networks,~in~\cite{model-repair-usage} tuned the~model parameters exploiting the~parametric Markov chains.
-Moreover,~parametric models have applications also when ranking the patches in the~software repair~\cite{learning-correct-code} and for computing perturbation bounds~\cite{nested-approximation}.
+For instance,~in~\cite{ceska-biochemical} synthesised the~rate parameters in stochastic biochemical networks,~in~\cite{model-repair-usage} tuned the~model parameters exploiting the~parametric Markov chains.
+Moreover,~parametric models have applications also when ranking the~patches in the~software repair~\cite{learning-correct-code} and for computing perturbation bounds~\cite{nested-approximation}.
 
 \noindent \\
-\emph{Search-based} approaches can handle both synthesis tasks,~but they do not guarantee an~exhaustive exploration of the parameter space.
-Genetic algorithms and evolutionary techniques belong to these approaches group, and the tool \rodes{}~\cite{rodes} implements their combination with parameter synthesis.
+\emph{Search-based} approaches can handle both synthesis tasks,~but they do not guarantee an~exhaustive exploration of the~parameter space.
+Genetic algorithms and evolutionary techniques belong to these approaches group,~and the~tool \rodes{}~\cite{rodes} implements their combination with parameter synthesis.
 However,~these approaches are not complete and can only effectively solve a~feasible instance within the~feasibility synthesis task.
 In the~case of an~unfeasible instance or optimally synthesis task,~they cannot be applied to them.
 Thus,~we omit comparison with the~incomplete methods that cannot treat these types of synthesis tasks.
@@ -62,18 +62,18 @@ Existing methods for a~probabilistic programs synthesis can be separated into tw
 The~first class involves complete methods that prove the~non-existence,~or potentially optimally,~of the~given probabilistic program.
 On the~contrary,~incomplete methods handling various evolutionary techniques and intelligent search strategies form the~second one~\cite{spl2}.
 However,~these incomplete methods cannot treat unfeasible and optimal synthesis problems compared to the~complete methods.
-Therefore, we focus on the~complete state-of-the-art methods even though the~incomplete methods provide a~valuable flexibility level.
+Therefore,~we focus on the~complete state-of-the-art methods even though the~incomplete methods provide a~valuable flexibility level.
 As a~reference and baseline method,~we consider a~\textit{one-by-one} approach that enumerates through each design space member~\cite{onebyone}.
-An~explosion of the~design space renders this technique unfeasible for large families,~necessitating using advanced approaches utilising the~arbitrary structure of~the Markov chain family.
+An~explosion of the~design space renders this technique unfeasible for large families,~necessitating using advanced approaches utilising the~arbitrary structure of~the~Markov chain family.
 
 This thesis focuses on the~complete methods considered within the~\textit{oracle-guided} synthesis approach~\cite{oracle1,oracle2}.
 The~control unit called \textit{learner} selects a~realisation $r$ from the~designs family and passes it to the~performing unit called \textit{oracle}.
-This unit provides an~answer to whether realisation $r$ satisfies a given specification $\varPhi$.
+This unit provides an~answer to whether realisation $r$ satisfies a~given specification $\varPhi$.
 Whenever it is not this case,~it provides supplementary information representing counterexample (CEGIS) or bounds from MC model checking (AR).
-For purposes of this thesis, two various orthogonal oracles can be considered:
+For purposes of this thesis,~two various orthogonal oracles can be considered:
 \begin{enumerate}[label=(\roman*)]
     \item \textbf{Inductive Oracle} (CE): It tries to infer the~declarations (counter-examples) about other family members by analysing individual realisation~\cite{cegis}.
-    \item \textbf{Deductive Oracle} (AR): Abstraction refinement oracle considers more family members at once and then infers the consequences of these members' constructed aggregation~\cite{cegar}.
+    \item \textbf{Deductive Oracle} (AR): Abstraction refinement oracle considers more family members at once and then infers the~consequences of these members' constructed aggregation~\cite{cegar}.
 \end{enumerate}
 
 \paragraph{Inductive Oracle.}
@@ -84,7 +84,7 @@ We consider the~counter-examples related to critical sub-systems:
 
 \begin{definition}[Counter-example]
 Let $D = \mc$ be an MC with $s_{\bot} \notin S$.
-An MC $D \! \downarrow \! C = (S \cup \{ s_{\bot} \}, s_0, \mathbf{P}')$ induced by $C \subseteq S$ is sub-MC of MC $D$, where the transition probability matrix $\mathbf{P}'$ is defined as follows:
+An MC $D \! \downarrow \! C = (S \cup \{ s_{\bot} \}, s_0, \mathbf{P}')$ induced by $C \subseteq S$ is sub-MC of MC $D$, where the~transition probability matrix $\mathbf{P}'$ is defined as follows:
 \begin{align*}
     \mathbf{P}'(s) = 
     \begin{cases}
@@ -92,12 +92,12 @@ An MC $D \! \downarrow \! C = (S \cup \{ s_{\bot} \}, s_0, \mathbf{P}')$ induced
         [ s_{\bot} \mapsto 1 ] \quad & \l otherwise.  
     \end{cases}
 \end{align*}
-For the~given specification $\reachability{\leq}{\lambda}{T}$,~when holds $D \! \downarrow \! C \not \models \reachability{\leq}{\lambda}{(T \cap (C \cup \{ s_0 \}))}$, then we call the~sub-system $D \! \downarrow \! C$ as a~\textit{counter-example} (CE).
+For the~given specification $\reachability{\leq}{\lambda}{T}$,~when holds $D \! \downarrow \! C \not \models \reachability{\leq}{\lambda}{(T \cap (C \cup \{ s_0 \}))}$,~then we call the~sub-system $D \! \downarrow \! C$ as a~\textit{counter-example} (CE).
 \end{definition}
 
 Let $D_r$ be an~MC that violates the~given specification $\phi$.
-The inductive oracle constructs the critical sub-system $D_r \! \downarrow \! C$ to compute other realisations that also violate $\phi$.
-Subsequently, it uses this constructed sub-system to infer a set called \textit{conflict} for $D_r$ and $\phi$.
+The~inductive oracle constructs the~critical sub-system $D_r \! \downarrow \! C$ to compute other realisations that also violate $\phi$.
+Subsequently,~it uses this constructed sub-system to infer a~set called \textit{conflict} for $D_r$ and $\phi$.
 
 \begin{definition}[Conflict] \label{def:conflict_set}
 For MCs family $\fml = \family$,~and the~set $C \subseteq S$,~the~conflict set $K_C$ is given by $\bigcup_{s \in C} supp(\mathcal{B}(s))$ and consist of relevant parameters.
@@ -107,28 +107,29 @@ For MCs family $\fml = \family$,~and the~set $C \subseteq S$,~the~conflict set $
 As we said above,~a~\textit{quotient} MDP over-approximates the~behaviours of each Markov chain in the~currently analysed family $\fml$.
 The~\textit{deductive} oracle performs the~model checking of this MDP,~and it can yields the~following results.
 We consider the~following specification against which is performed relevant model checking: $\reachability{\geq}{\lambda}{T}$.
-The model checking itself returns the corresponding lower ($x_{min}$) and upper ($x_{max}$) bounds, as well as the minimising ($\sigma_{min}$) and maximising ($\sigma_{max}$) schedulers on the considered reachability probability.
+The~model checking itself returns the~corresponding lower ($x_{min}$) and upper ($x_{max}$) bounds,~as well as the~minimising ($\sigma_{min}$) and maximising ($\sigma_{max}$) schedulers on the~considered reachability probability.
 When $x_{max} < \lambda$,~the~synthesis task is unfeasible since for each family member $r \in \rlz^\fml$ holds that $\mathcal{D}_r \not\models \phi$.
 On the~contrary,~when $x_{min} >= \lambda$,~the~oracle can return an~arbitrary family member as a~solution to the~synthesis task since each satisfies $\phi$.
 Last but not least,~when $x_{min} \leq \lambda \leq x_{max}$,~we cannot decide this case,~except when the~scheduler $\sigma_{max}$ is consistent.
-Such scheduler represents the~valid member of the~analysed family with $x_{max} \geq \lambda$,~so it is a solution to the~synthesis task.
+Such scheduler represents the~valid member of the~analysed family with $x_{max} \geq \lambda$,~so it is a~solution to the~synthesis task.
 Otherwise,~when scheduler $\sigma_{max}$ is not consistent,~the~considered abstraction is too over-approximate,~and the~problem is undecided.
 
 \begin{figure*}[h!]
 \centering
 \includegraphics[width=0.70\textwidth]{figures/ar_loop.pdf}
 \caption{An \textit{Abstraction Refinement} (AR) analysing loop.}%
-\label{fig:architecture}%
+\label{fig:cegar_loop}%
 \end{figure*}
 
 
-In such a~case, we split the~undecidable family of Markov chains into two derived subfamilies. 
+In such a~case,~we split the~undecidable family of Markov chains into two derived subfamilies. 
 Then each of them represents the~input for deductive oracle,~which analyse them using the~technique introduced above.
-When derived subfamilies are still undecidable, we refine them into smaller and smaller subfamilies until we find a~feasible solution or explore the~whole family.
+When derived subfamilies are still undecidable,~we refine them into smaller and smaller subfamilies until we find a~feasible solution or explore the~whole family.
 When the~sub-family represents concrete realisation,~so it induces an~MC and not MDP ($x_{min} = x_{max}$),~such family is necessarily decided and have not split.
 Moreover,~since the~family size is finite,~the~presented technique has guaranteed the~termination for these two reasons.
+Figure~\ref{fig:cegar_loop} depicts described deductive approach.
  
-\paragraph{TODO NAME.} The~novel integrated approach,~the~so-called \textit{hybrid} method,~combines both these oracles and can thus take advantage of the~benefits offered by both approaches~\cite{roman-DP,tacas21}.
+\paragraph{Hybrid methods.} The~novel integrated approach,~the~so-called \textit{hybrid} method,~combines both these oracles and can thus take advantage of the~benefits offered by both approaches~\cite{roman-DP,tacas21}.
 We illustrate the~cooperation between the~individual units within this method in Figure~\ref{fig:adaptivesynt}.
 The~learner unit maintains the~subfamilies queue $\rlz' \subseteq \rlzf$ for subsequent processing and decides which oracle is selected based on their previous efficiency.
 The~\textit{CE-Oracle} analyses the~family member $r$ and,~when it satisfies the~given specification $\varPhi$,~then returns it as a~solution.
@@ -137,9 +138,9 @@ Moreover,~this oracle exploits the~MDP bounds when constructing counterexamples,
 The~\textit{Abstr-Oracle} analyses a~given sub-family $\rlz \subseteq \rlzf$,~and according to the~result,~it performs the~subsequent action.
 When all realisations $r \in \rlz$ satisfy $\varPhi$,~then it returns the~overall synthesis result as feasible.
 In another case,~when all realisations violate $\varPhi$,~the~whole analysed sub-family $\rlz$ will be discarded from the~families queue $\rlzf$ by the~learner.
-The last option returns safe bounds on the best- and worst-case behaviour of all realisations in $\rlz$ considered $\varPhi$ when the analysis result is inconclusive.
+The~last option returns safe bounds on the~best- and worst-case behaviour of all realisations in $\rlz$ considered $\varPhi$ when the~analysis result is inconclusive.
 
-\begin{figure}[ht!]
+\begin{figure}[t!]
     \centering
      \begin{tikzpicture}
     \node[rectangle, draw, inner sep=8pt] (learner) {Learner};
@@ -169,16 +170,9 @@ The last option returns safe bounds on the best- and worst-case behaviour of all
     \vspace{-1em}
 \end{figure}
 
-\paragraph{Hybrid Method.}
-An~extended synthesis approach was introduced in~\cite{roman-DP,tacas21} using the~abstraction refinement to family prune and accelerating the~construction of counter-examples by CE-oracle.
-Its main idea is to perform a~limited number of abstraction refinement loops and then invoke CEGIS to one of the~refined sub-families.
-It turned out that a~moment of the~switching can be crucial,~and therefore,~the~method has to detect the~rightest moment.
-One AR iteration is typically significantly slower than one CEGIS iteration since the~AR iteration involves an~MDP model-checking,~which inspires whole method workflow.
-The~advance of the~hybrid methods is also constructing counter-examples within the~CEGIS loop,~where it uses a~fast greedy approach providing smaller generalisations.
-
-\begin{algorithm}[H]
-\hspace*{\algorithmicindent} \textbf{Input:} A MCs family $\fml$, a reachability property $\varphi$. \\
-\hspace*{\algorithmicindent} \textbf{Output:} $Realization\; r \in \rlzf \; s.t. \; \mathcal{D}_r \models \varphi$, otherwise UNSAT. \\
+\begin{algorithm}[h!]
+\hspace*{\algorithmicindent} \textbf{Input:} A~MCs family $\fml$,~a~reachability property $\varphi$. \\
+\hspace*{\algorithmicindent} \textbf{Output:} $Realization\; r \in \rlzf \; s.t. \; \mathcal{D}_r \models \varphi$,~otherwise UNSAT. \\
 \vspace*{-1.5em}
 \begin{algorithmic}[1]
     \STATE $\rlzf \leftarrow \{ \rlz^{\fml} \}$ \hfill \textbf{// each analysed (sub)-family also holds bounds}
@@ -203,6 +197,12 @@ The~advance of the~hybrid methods is also constructing counter-examples within t
 \label{alg:hybrid}
 \end{algorithm}
 
+An~extended synthesis approach was introduced in~\cite{roman-DP,tacas21} using the~abstraction refinement to family prune and accelerating the~construction of counter-examples by CE-oracle.
+Its main idea is to perform a~limited number of abstraction refinement loops and then invoke CEGIS to one of the~refined sub-families.
+It turned out that a~moment of the~switching can be crucial,~and therefore,~the~method has to detect the~rightest moment.
+One AR iteration is typically significantly slower than one CEGIS iteration since the~AR iteration involves an~MDP model-checking,~which inspires whole method workflow.
+The~advance of the~hybrid methods is also constructing counter-examples within the~CEGIS loop,~where it uses a~fast greedy approach providing smaller generalisations.
+
 As we said above,~this \textit{novel integrated} method combines inductive and deductive oracles,~and we briefly summarise their operation.
 CEGIS iterates through all family members (realisations) until it reached the~satisfying realisation,~if such exists,~or when it explores the~whole design space.
 Moreover,~it constructs counter-examples whenever the~analysed realisation $r \in \fmlr$ unsatisfying the~given specification $\varPhi$.
@@ -211,4 +211,4 @@ On the~other hand,~an AR loop builds MDP models from the~sub-families queue $\rl
 When the~analysis results are inconclusive,~an AR refines the~analysed sub-family and  stores the~obtained satisfiability bounds for further processing within CEGIS loop.
 Method allocates the~time per both loop according to their performance,~e.g.,~it can consider the~number of pruned MCs per timed unit and estimates an~efficiency from it.
 Namely,~when it notices that AR prunes sub-families twice as slow as CEGIS,~it increases time twice in the~next round for CEGIS.
-The resulting algorithm is summarised in Algorithm~\ref{alg:hybrid},~adapted from~\cite{tacas21}.
+The~resulting algorithm is summarised in Algorithm~\ref{alg:hybrid},~adapted from~\cite{tacas21}.
