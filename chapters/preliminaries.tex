@@ -119,57 +119,26 @@ An~pMC induced by pMDP $\mathcal{M} = (S, V, s_0, Act, \mathcal{P})$ and $\sigma
 \end{align*}
 \end{definition}
 
+% \section{Probabilistic Synthesis}
+% \MC{Potrebujeme tu definici sketch -- navrhuji to vynechat a definici ruznych syn problemu udelat az v 2.4. nad family of MC -- potom v te sekci pridat veticku, ze modeluje pomoci sketching language, ktery je popsan v 5.2}
+% We use a~\textit{sketch}~\cite{sketching1,sygus},~which represents a~incomplete high-level description of a~probabilistic system,~to describe the~family of MCs.
+% It usually describes the~modelled system's fixed behaviour,~but it also contains the~undefined one represented by \textit{holes}.
+% They represent the~incomplete parts of a~program that must be instantiated so that the~final description satisfies a~given specification.
+% We note that the~holes correspond to parameters,~and their instantiation yields a~concrete Markov chain.
+% At follow,~we formalise the~sketch defining the~set of designs:
 
-\section{Probabilistic Synthesis}
-We use a~\textit{sketch}~\cite{sketching1,sygus},~which represents a~incomplete high-level description of a~probabilistic system,~to describe the~family of MCs.
-It usually describes the~modelled system's fixed behaviour,~but it also contains the~undefined one represented by \textit{holes}.
-They represent the~incomplete parts of a~program that must be instantiated so that the~final description satisfies a~given specification.
-We note that the~holes correspond to parameters,~and their instantiation yields a~concrete Markov chain.
-At follow,~we formalise the~sketch defining the~set of designs:
-
-\begin{definition}[Sketch]
-% \todo{Add parameters}
-Let $\sketch$ be a~sketch containing holes from the~set $\mathcal{H} = \left\{ H_k \right \}_k$ with $R_k$ being the~set of options available for hole $H_k$.
-Let $\rlzf = \prod_k R_k$ denote the~set of all hole assignments (realizations),~$\sketch[r]$ denote the~program induced by a~substitution $r \in \rlzf$ and $\mathcal{D}_r$ denote the~underlying MC.
-Note that the~set $\rlzf$ is exponential in $\lvert \mathcal{H} \rvert$.
-\end{definition}
-\noindent
-We consider \textit{reachability} properties and \textit{expected reward} properties as specifications.
-
-\begin{definition}[Specification]
-In our work,~we focus on the~conjunctions of specifications with \textit{reachability} and \textit{expected rewards}.
-Let $T$ be a~set of target states,~then the~reachability property $\varphi \equiv \reachability{\bowtie}{\lambda}{T}$ where $\bowtie \in \{<, \leq, >, \geq\}$ and $0 \leq \lambda \leq 1$ expresses that the~probability of reaching $T$ refers to $\lambda \in [0,1]$ in agreement with $\bowtie$.
-Expected reward property $\phi \equiv \reward {\bowtie}{\lambda}{T}$ expresses that the~expected reward accumulated before $T$ is reached refers to $\lambda \in \mathbb{R}^+$ in accordance with $\bowtie \, \in \{<, \leq \}$.
-Let $\mathcal{P}[r]$ be a~program induced by the~realisation $r$,~we denote $\mathcal{P}[r] \models \varphi$ when this program satisfies the~specification $\varphi$.
-Let $\varPhi = \{ \varphi_i \}_{i \in I}$ be a~finite set of specifications,~when $\forall i \in I: \mathcal{P}[r] \models \varphi_i$ then we write $\mathcal{P}[r] \models \varPhi$.
-\end{definition}
-
-We aim to two kinds of synthesis tasks for a~given probabilistic program described with a~realisation set $\rlzf$,~and a~specification set $\varPhi$.
-The~first task tries to identify just one realisation $r \in \rlzf$ that satisfy the~given specification set $\varPhi$.
-This task represents a~special instance of the~threshold synthesis,~which tries to divide the~realisation set $\rlzf$ into two subsets based on their satisfiability.
-We do not address this synthesis task in our work.
-The~second task on which we focus our attention is finding a~realisation that minimises or maximises a~given objective.
-
-\begin{definition}[Feasibility]
-Find a~realisation $r \in \rlzf$ such that $\mathcal{P}[r] \models \varPhi$. 
-\end{definition}
-
-\begin{definition}[Minimality] \label{def:minimality}
-For property $\phi_{\min}$,~find a~realisation $r^* \in \rlzf$ such that:
-$$r^* \in \argmin_{r \in \rlzf} \left \{ \prob[\sketch[r] \models \phi_{\max}] \mid \sketch[r] \models \varPhi \right \}.$$.
-\end{definition}
-
-We defined only minimal synthesis task for probability property,~but its variants for maximisation and expected rewards may be defined analogously.
-Moreover,~we focus also to a~relaxed variant of minimal synthesis,~the~so-called \textit{$\varepsilon$-minimal synthesis},~defined as follows: $\mathcal{P}[r^*] \models \varPhi \; and \; 
-\mathbb{P}[\mathcal{P}[r^*] \models \varphi_{min}] \leq (1 - \varepsilon) \cdot \min_{r \in \mathcal{\overline{R}}} \{ \mathbb{P}[\mathcal{P}[r] \models \varphi_{min}] \; \lvert \; \mathcal{P}[r] \models \varPhi \}.$
-
-\begin{example} (Synthesis problem)
-Assume an~MCs family $\fml$ from Example~\ref{exam:mcfamily} and the~specification $\phi = \reachability{\geq}{0.1}{\{s_1\}}$.
-The~solution to the~feasibility synthesis problem is,~for example,~the~realisation $r_0$,~since $\mathcal{D}_{r_0}$ has a~probability of $\frac{2}{3}$ to reach state $s_1$.
-For $\varPhi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $\mathcal{D}_{r_2}$ has a~probability equal to one to reach state $s_1$.
-\end{example}
+% \begin{definition}[Sketch]
+% % \todo{Add parameters}
+% Let $\sketch$ be a~sketch containing holes from the~set $\mathcal{H} = \left\{ H_k \right \}_k$ with $R_k$ being the~set of options available for hole $H_k$.
+% Let $\rlzf = \prod_k R_k$ denote the~set of all hole assignments (realizations),~$\sketch[r]$ denote the~program induced by a~substitution $r \in \rlzf$ and $\mathcal{D}_r$ denote the~underlying MC.
+% Note that the~set $\rlzf$ is exponential in $\lvert \mathcal{H} \rvert$.
+% \end{definition}
+% \noindent
 
 \section{Region Model Checking} \label{sec:regional_model}
+% \MC{Pridat nejakou motivacni vetu, proc je to dulezite v kontextu syntezy -- dovoluje nam to efektivne analyzovat mnoziny MC}
+When considering the~model checking of pMCs at parameter synthesis problem,~we have to analyse the~whole set of MCs representing the~individual parameters substitution. 
+For this purpose,~we introduce the~region model checking,~a~technique to practical analyses such sets of MCs.
 We consider valuation sets that mapping parameter to the~value within a~specified interval. 
 We introduce a~technique for approximate checking pMC instances concerning the~valuation in such a~set.
 Firstly,~we introduce definitions for \textit{regions} and the~considered task of model checking.
@@ -413,6 +382,40 @@ We note that these pMCs have a~different topology of the~underlying state space,
 \caption{A~family $\fml$ of four various realisations. Unreachable states are greyed out.}%
 \label{fig:mcfamily}%
 \end{figure}
+
+\begin{definition}[Specification]
+In our work,~we focus on the~conjunctions of specifications with \textit{reachability} and \textit{expected rewards}.
+Let $T$ be a~set of target states,~then the~reachability property $\varphi \equiv \reachability{\bowtie}{\lambda}{T}$ where $\bowtie \in \{<, \leq, >, \geq\}$ and $0 \leq \lambda \leq 1$ expresses that the~probability of reaching $T$ refers to $\lambda \in [0,1]$ in agreement with $\bowtie$.
+Expected reward property $\phi \equiv \reward {\bowtie}{\lambda}{T}$ expresses that the~expected reward accumulated before $T$ is reached refers to $\lambda \in \mathbb{R}^+$ in accordance with $\bowtie \, \in \{<, \leq \}$.
+Let $\mathcal{P}[r]$ be a~program induced by the~realisation $r$,~we denote $\mathcal{P}[r] \models \varphi$ when this program satisfies the~specification $\varphi$.
+Let $\varPhi = \{ \varphi_i \}_{i \in I}$ be a~finite set of specifications,~when $\forall i \in I: \mathcal{P}[r] \models \varphi_i$ then we write $\mathcal{P}[r] \models \varPhi$.
+\end{definition}
+
+We aim to two kinds of synthesis tasks for a~given probabilistic program described with a~realisation set $\rlzf$,~and a~specification set $\varPhi$.
+The~first task tries to identify just one realisation $r \in \rlzf$ that satisfy the~given specification set $\varPhi$.
+This task represents a~special instance of the~threshold synthesis,~which tries to divide the~realisation set $\rlzf$ into two subsets based on their satisfiability.
+We do not address this synthesis task in our work.
+The~second task on which we focus our attention is finding a~realisation that minimises or maximises a~given objective.
+
+\begin{definition}[Feasibility]
+Find a~realisation $r \in \rlzf$ such that $\mathcal{P}[r] \models \varPhi$. 
+\end{definition}
+
+\begin{definition}[Minimality] \label{def:minimality}
+For property $\phi_{\min}$,~find a~realisation $r^* \in \rlzf$ such that:
+$$r^* \in \argmin_{r \in \rlzf} \left \{ \prob[\sketch[r] \models \phi_{\max}] \mid \sketch[r] \models \varPhi \right \}.$$.
+\end{definition}
+
+We defined only minimal synthesis task for probability property,~but its variants for maximisation and expected rewards may be defined analogously.
+Moreover,~we focus also to a~relaxed variant of minimal synthesis,~the~so-called \textit{$\varepsilon$-minimal synthesis},~defined as follows: $\mathcal{P}[r^*] \models \varPhi \; and \; 
+\mathbb{P}[\mathcal{P}[r^*] \models \varphi_{min}] \leq (1 - \varepsilon) \cdot \min_{r \in \mathcal{\overline{R}}} \{ \mathbb{P}[\mathcal{P}[r] \models \varphi_{min}] \; \lvert \; \mathcal{P}[r] \models \varPhi \}.$
+
+\begin{example} (Synthesis problem)
+Assume an~MCs family $\fml$ from Example~\ref{exam:mcfamily} and the~specification $\phi = \reachability{\geq}{0.1}{\{s_1\}}$.
+The~solution to the~feasibility synthesis problem is,~for example,~the~realisation $r_0$,~since $\mathcal{D}_{r_0}$ has a~probability of $\frac{2}{3}$ to reach state $s_1$.
+For $\varPhi = [F \; \{s1\}]$,~the~solution to the~maximal synthesis problem on MCs family $\fml$ is the~realisation $r_2$,~as MC $\mathcal{D}_{r_2}$ has a~probability equal to one to reach state $s_1$.
+\end{example}
+
 
 \textit{Quotient} pMDP $\mathcal{M}^\fml$ simulates the~behaviours of each member of the~family $\fml$ and can even pass between them during the~execution.
 In more precise,~when the~path $s_0s_1s_2 \dots$ is executable in some family member $\mathcal{D}_r$,~then it is also executable in $\mathcal{M}^\fml$ as $s_0 \overset{r}{\rightarrow} s_1 \overset{r}{\rightarrow} \dots$.

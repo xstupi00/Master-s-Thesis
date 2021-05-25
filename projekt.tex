@@ -301,26 +301,44 @@ For challenging synthesis problems,~\toolname{} can significantly decrease the~r
 }
 
 % Rozšířený abstrakt (cca 3 normostrany) - lze definovat zde nebo výše / Extended abstract (approximately 3 standard pages) - can be defined here or above
-\extendedabstract{Náhodnosť je kľúčová pre výskumné oblasti, ako sú napríklad pravdepodobnostné programovanie, spoľahlivosť (systémové komponenty s neistotou), distribuované výpočty (porušenie symetrie), a plánovanie (neznáme a neisté prostredia). 
+\extendedabstract{Náhodnosť je kľúčová pre výskumné oblasti,~ako sú napríklad pravdepodobnostné programovanie,~spoľahlivosť (systémové komponenty s neistotou),~distribuované výpočty (poru\-šenie symetrie),~a plánovanie (neznáme a neisté prostredia). 
 Pravdepodobnostné programy sú výkonným modelovacím nástrojom pre systémy obsahujúce pravdepodobnostnú neistotu. 
 Systémy s nespoľahlivým a nepredvídateľným správaním si vyžadujú použitie takéhoto matematického aparátu založeného na teórii pravdepodobnosti. 
-Návrh takýchto systémov vykazujúcich žiadúce správanie \,--\, napr. výber optimálnej stratégie riadenia spotreby energie alebo výber sieťového protokolu zvyšujúceho priepustnosť paketov \,--\, je náročný z hľadiska uvažovania o viacerých alternatívnych prevedeniach daného systému. Aplikácie takýchto systémov pokrývajú širokú škálu výskumných oblastí, vrátane analýzy (kvantitatívnych) softvérových produktových liniek~\cite{sw-product-lines,spl2}, syntézy stratégie pri plánovaní za čiastočnej pozorovateľnosti~\cite{pomdp1,pomdp2} alebo návrh komunikačných protokolov~\cite{herman1,herman2}.
+Návrh takýchto systémov vykazujúcich žiadúce správanie \,--\, napr. výber optimálnej stratégie riadenia spotreby energie alebo výber sieťového protokolu zvyšujúceho priepustnosť paketov \,--\,~je náročný z hľadiska uvažovania o viacerých alternatívnych prevedeniach daného systému. Aplikácie takýchto systémov pokrývajú širokú škálu výskumných oblastí,~vrátane analýzy (kvantitatívnych) softvérových produktových liniek~\cite{sw-product-lines,spl2},~syntézy stratégie pri plánovaní za čiastočnej pozorovateľnosti~\cite{pomdp1,pomdp2} alebo návrh komunikačných protokolov~\cite{herman1,herman2}.
 
 Sada deklaratívnych časových obmedzení často vyjadruje účinnosť a správnosť pravdepodobnostných programov.
-Nástroje pre kontrolu modelov pravdepodobnostných systémov, ako \storm{}~\cite{STORM} alebo \prism{}~\cite{KNP11}, vykonávajú automatizované overenie takýchto obmedzení.
-Tieto nástroje pre kontrolu pravdepodobnostných modelov však vyžadujú model alebo systém s pevnou topológiou, na rozdiel od požiadaviek na použitie týchto nástrojov pri modelovaní pravdepodobnostných programov.
-Vývojári by mali čo najskôr počas procesu vývoja systému overiť jeho návrhy, aby náklady na vývoj boli čím lacnejšie a udržateľnejšie. Návrh systému je v počiatočných fázach vývoja prevažne neúplný, pretože vo väčšine prípadov nie sú známe všetky špecifikácie systému alebo sú zámerne vynechané. 
+Nástroje pre kontrolu modelov pravdepodobnostných systémov,~ako \storm{}~\cite{STORM} alebo \prism{}~\cite{KNP11},~vykonávajú automatizované overenie takýchto obmedzení.
+Tieto nástroje pre kontrolu pravdepodobnostných modelov však vyžadujú model alebo systém s pevnou topológiou,~na rozdiel od požiadaviek na použitie týchto nástrojov pri modelovaní pravdepodobnostných programov.
+Vývojári by mali čo najskôr počas procesu vývoja systému overiť jeho návrhy,~aby náklady na vývoj boli čím lacnejšie a udržateľnejšie. Návrh systému je v počiatočných fázach vývoja prevažne neúplný,~pretože vo väčšine prípadov nie sú známe všetky špecifikácie systému alebo sú zámerne vynechané. 
 Tieto nedefinované špecifikácie systému sa nazývajú diery a môžu napríklad odrážať nešpecifikovanú komponentu alebo čiastočne implementovaný radič. 
-Primárnym účelom syntézy je odhaliť konkrétny (optimálny) subsystém s plne definovaným správaním. Zásadným aspektom návrhového cyklu je prieskum množiny návrhov, t.j. preskúmanie všetkých možných návrhov uvažovaného systému.
-Keď považujeme Markovský reťazec za matematický aparát pravdepodobnostného programu, potom návrhový priestor predstavuje rodinu takýchto reťazcov a úlohou syntézy je nájsť ten reťazec, ktorý spĺňa dané špecifikácie.
+Primárnym účelom syntézy je odhaliť konkrétny (optimálny) subsystém s plne definovaným správaním. Zásadným aspektom návrhového cyklu je prieskum množiny návrhov,~t.j. preskúmanie všetkých možných návrhov uvažovaného systému.
+Keď považujeme Markovský reťazec za matematický aparát pravdepodobnostného programu,~potom návrhový priestor predstavuje rodinu takýchto reťazcov a úlohou syntézy je nájsť ten reťazec,~ktorý spĺňa dané špecifikácie.
 
-Typicky sa syntéza programu považuje za problém pri deduktívnom dokazovaní, ktoré odvodzuje program, ktorý vyhovuje zadaným špecifikáciam, od konštruktívneho dôkazu~\cite{deductive-synthesis}.
-V poslednej dobe prichádza do popredia alternatívny prístup k syntéze, keď návrhári, okrem špecifikácie, poskytujú aj syntaktickú šablónu pre požadovaný program.
-Uvažujeme o prístupe využívajúcom náčrt systému, keď návrhár skonštruuje čiastkový program s neúplnými podrobnosťami a syntetizátor doplní chýbajúce podrobnosti oproti uvedeným špecifikáciám~\cite{sketching1}.
+Typicky sa syntéza programu považuje za problém pri deduktívnom dokazovaní,~ktoré odvodzuje program,~ktorý vyhovuje zadaným špecifikáciam,~od konštruktívneho dôkazu~\cite{deductive-synthesis}.
+V poslednej dobe prichádza do popredia alternatívny prístup k syntéze,~keď návrhári,~okrem špecifikácie,~poskytujú aj syntaktickú šablónu pre požadovaný program.
+Uvažujeme o prístupe využívajúcom náčrt systému,~keď návrhár skonštruuje čiastkový program s neúplnými podrobnosťami a syntetizátor doplní chýbajúce podrobnosti oproti uvedeným špecifikáciám~\cite{sketching1}.
 Ďalej môžeme problémy syntézy pre parametrické pravdepodobnostné systémy rozdeliť do dvoch kategórií. 
-Najskôr zvážime úlohu syntézy topológie za predpokladu konečnej sady parametrov, ktoré ovplyvňujú topológiu modelu, kde jednotlivé parametre predstavujú nedefinované špecifikácie systému.
-Táto úloha sa zameriava na rodiny Markovských reťazcov, ktoré majú rozdielne topológie stavového priestoru a v dôsledku toho rôzne množiny dosiahnuteľných stavov.
-Avšak iná oblasť úloh syntézy uvažuje o Markovskom reťazci s pevnou topológiou, ale nedefinovanými pravdepodobnosťami prechodu v rámci modelu.
+Najskôr zvážime úlohu syntézy topológie za predpokladu konečnej sady parametrov,~ktoré ovplyvňujú topológiu modelu,~kde jednotlivé parametre predstavujú nedefinované špecifikácie systému.
+Táto úloha sa zameriava na rodiny Markovských reťazcov,~ktoré majú rozdielne topológie stavového priestoru a v dôsledku toho rôzne množiny dosiahnuteľných stavov.
+Druhá oblasť úloh syntézy uvažuje však o Markovskom reťazci s pevnou topológiou,~ale nedefinovanými pravdepodobnosťami prechodu v rámci modelu.
+
+Táto oblasť bola diskutovaná prístupmi pre opravu modeliov~\cite{model-repair-usage,pathak-et-al-nfm-2015} a technikami pre \textit{syntézu parametrov}~\cite{ceska2014robustness,Quatmann2016}.
+Prístup „one-by-one“ môže naivne riešiť problém syntézy topológie analýzou všetkých jedinečných návrhov~\cite{profeat,onebyone}.
+Naopak,~celý priestor návrhov je možné modelovať aj ako jediný Markovský rozhodovací proces typu „all-in-one“~\cite{profeat,allinone}.
+Vymenovanie všetkých členov návrhového priestoru (realizácie) je však nerealizovateľné kvôli kombinatorickej explózii tohto priestoru a veľkosť uvažovaného Markovského rozhodovacieho procesu typu „all-in-one“ je úmerná počtu kandidátných návrhov.
+Bohužiaľ,~problém s týmto dvojitým výbuchom v stavovom priestore spôsobuje,~že oba tieto prístupy sú pre veľké rodiny nerealizovateľné.
+Iné prístupy uvažujú o evolučných vyhľadávacích algoritmoch pre syntézu softvérových systémov~\cite{spl2}. 
+Tieto metódy zostávajú však neúplné a nemôžu efektívne vyriešiť náročnejšie úlohy,~napr. ktorý dizajn \textit{optimálne} vyhovuje zadanej špecifikácii.
+
+Pri modelovaní systémov v reálnom svete môže rýchlo nastať kombinácia problémov topológie aj syntézy parametrov,~ale podpora riešenia takejto kombinovanej úlohy syntézy neexistuje. Táto diplomová práca sa zameriava na vývoj nástroja PAYNT,~ktorý rozširuje možnosti syntézy,~najmä o podporu kombinovanej syntézy.
+PAYNT je schopný efektívne syntetizovať topológiu programu aj parametre so spojitým definičným oborom ovplyvňujúce pravdepodobnosť prechodu \,--\,~čo predstavuje jedinečná vlastnosť. 
+Ďalej sa zameriavame na úplné najmodernejšie prístupy k syntéze pravdepodobnostných programov.
+Prvý prístup analyzuje každý návrh z danej podskupiny kandidatných riešení jednotlivo a konštruuje kritické podsystémy protipríkladov s cieľom vylúčiť čo najväčší počet možných návrhov,~ktoré nespĺňajú danú špecifikáciu - tento prístup sa nazýva protipríkladmi riadená iduktívna syntéza (CEGIS)~\cite{cegis}.
+Druhý prístup,~ktorý nazývame zjemňovanie abstrakcie (AR)~\cite{cegar},~analyzuje celý návrhový priestor a pretvára ho do podrodín návrhov,~ak analýza prinesie nepresvedčivé výsledky.
+Oba tieto prístupy preukázali presvedčivé výsledky,~no aj napriek tomu každý z nich čelí určitým obmedzeniam.
+Navyše sú neporovnateľné,~pretože jeden prístup môže byť vhodnejší pre istú skupinu pravdepodobnostných programov a naopak.
+Preto sa zameriavame na prístup predstavený v diplomovej práci Andriushchenka~\cite{roman-DP},~po ktorom nasleduje jeho zdokonalenie v práci~\cite{tacas21},~ktorý kombinuje tieto sofistikované metódy poskytujúce analýzu celých podrodín návrhov naraz. 
+Tento prístup dokáže výrazne prekonať prezentované metódy,~niekedy až rádovo o niekoľko stupňov.
 }
 
 % nastavení délky bloku s titulkem pro úpravu zalomení řádku - lze definovat zde nebo výše / setting the length of a block with a thesis title for adjusting a line break - can be defined here or above

@@ -10,8 +10,8 @@ In particular,~we compare its performance with the~\emph{one-by-one} enumeration
 Experiments in previous papers~\cite{cegar,cegis} have shown that the~synthesis methods implemented in these tools have evident deficits on the~investigated benchmarks.
 Moreover,~experiments in~\cite{roman-DP} have shown that presented hybrid method significantly outperform both state-of-the~art synthesis approaches \,--\, CEGIS and AR.
 These facts is supported by comparing the~hybrid approach only with the~one-by-one enumeration we present in this section.
-For each case study,~we report the~results for \textit{unfeasibility} problems with one property and two properties,~and \textit{optimal} synthesis problem and its \textit{relative} variant with $\varepsilon = 0.05$.
-In all cases,~the~synthesis methods have to explore the~whole design space.
+For each case study,~we report the~results for \textit{unfeasibility} problems with one property and two properties,~and \textit{optimal} synthesis problem and its \textit{relative} variant with $\varepsilon = 0.05$,~which find the optimal value for a specific objective.
+In all cases,~the~synthesis methods have to explore the~whole design space to prove unsatisfiability and optimality.
 The~metrics marks with * represent the~qualified estimates.
 We consider the~following case studies:
 
@@ -38,7 +38,6 @@ It represents a~partial information scheduler for a~disk power manager motivated
 This model have been precise described in Section~\ref{sec:dpm}.
 We are interested primarily in the~expected energy consumption and expected number of lost requests.
 
-\vspace*{-0.4cm}
 \begin{table}[h!]
 \centering
 \begin{tabular}{l|cccc}
@@ -50,7 +49,6 @@ We are interested primarily in the~expected energy consumption and expected numb
 \caption{\textbf{DPM}:  Family size: $43M$, Number of parameters: $16$, Average MC size: $3.6k$.}
 \end{table}
 
-\vspace*{-0.4cm}
 \paragraph{Maze.}
 It represents a~planning problem typically modelled as POMDP~\cite{maze}.
 The~family includes all deterministic strategies which are based on observation,~and containing small memory with a~fixed upper bound.
@@ -67,7 +65,6 @@ We are interested primarily in the~expected time to the~\emph{goal}.
 \caption{\textbf{Maze}:  Family size: $9.4M$, Number of parameters: $22$, Average MC size: $0.2k$.}
 \end{table}
 
-\vspace*{-0.4cm}
 \paragraph{Pole.}
 It models balancing a~pole in an~unknown and noisy environment~\cite{pole}.
 A~model controller optimises an~expected behaviour during the~deployment without dependence on the~current (hidden) environment since it is preferred before the~finite set of environment behaviours.
@@ -85,7 +82,6 @@ We are interested mainly in the~expected time until \emph{failure}.
 \caption{\textbf{Pole}:  Family size: $1.3M$, Number of parameters: $17$, Average MC size: $5.6k$.}
 \end{table}
 
-\vspace*{-0.4cm}
 \paragraph{Grid.}
 It represents a~model describing again partially observable MDPs (POMDPs)~\cite{pomdp1}.
 There is an~agent who tries to locate a~target cell in a~4x4 grid.
@@ -102,7 +98,6 @@ We are interested in lower- and upper- bounded properties on the~expected number
 \caption{\textbf{Grid}: Family size: $65k$, Number of parameters: $8$, Average MC size: $1.2k$.}
 \end{table}
     
-\vspace*{-0.4cm}
 \paragraph{Evaluation.}
 As we have already said,~we are based on what has already been shown in previous articles~\cite{roman-DP,cegar,cegis}.
 As a~basis,~we know that a~hybrid oracle is orders of magnitude faster than one-by-one enumeration when analysing single property.
@@ -144,7 +139,6 @@ $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert
 \caption{\textbf{Knuth-Yao Die:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
-\vspace*{-0.4cm}
 \paragraph{Knuth \& Yao Die.}
 This case study considers a~probabilistic program modelling a~fair dice using only fair coins.
 the~program starts at the~initial state $s_0$ and repeatedly tosses a~coin.
@@ -167,6 +161,24 @@ We emphasise that with this case study,~we have also verified the~correctness of
 \label{fig:kydie}%
 \end{figure*}
 
+\paragraph{Synthesis progress.}
+Now,~we briefly describe the~combined synthesis process of this considered case study.
+The~\textit{hybrid} method takes $7.4k$ \emph{AR} and $3.6k$ \emph{CEGIS} iterations to synthesise the~presented optimal strategy.
+During these iterations,~\emph{AR} executed $44k$ MDP model checks and \emph{CEGIS} $14k$ model checks of MCs.
+We remind that when \emph{AR} comes across an~unsatisfiable candidate against one specification,~it discards this candidate and does not proceed further with its analysis.
+On the~contrary,~when the~analysed candidate holds for some specification,~it will not need to be further analysed against to satisfiable specifications in derived sub-families.
+\emph{CEGIS} analyses a~whole set of specifications in each iteration because whereas it seeks to cut through space with as many counter-examples as possible.
+These facts influence the~individual numbers of performed model checks.
+
+As we presented in Section~\ref{sec:combined},~\emph{AR} is firstly splitting the~parameters with options (affecting topology) because the~designed method chooses the~parameter to split according to the~number of options,~or interval length,~respectively.
+\emph{AR} split four option parameters during the~$617$ iterations,~and in the~remaining,~it chooses the probability parameters.
+Both these parameters are split $2.5k$ times within the \emph{AR} loop,~because they alternate between iterations due to the~halving of the~intervals.
+We note that the~remaining $1.7k$ iterations of AR ended up dropping the~family due to an~unsatisfiable specification.
+Further,~the~\emph{AR} analyses in $3.3k$ iterations the~family with unfilled probability parameters,~where the~remaining parameters have the~concrete value.
+\emph{CEGIS} constructs the~counter-examples in $7k$ cases and $4k$ times were generalised all parameters with options,~and the conflict set includes both probabilistic parameters.
+In other $1.1k$ cases,~the conflict involving only the~first probability parameter $p$ and remaining parameters were generalised.
+In the~remaining cases,~the conflict set also involving parameters affecting the~topology,~and thus a~smaller number of generalised parameters.
+
 \paragraph{NAND multiplexing.}
 This case study concerns NAND multiplexing,~a~technique for constructing reliable computation from unreliable devices.
 It describes fault-tolerant hardware by having copies of a~NAND unit all doing the~same work~\cite{nand}.
@@ -187,7 +199,6 @@ $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert
 \caption{\textbf{NAND multiplexing:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
-\vspace*{-0.4cm}
 \paragraph{DPM.}
 This case study has been precisely introduced in Section~\ref{sec:dpm}.
 We consider the~domains parameters representing queue capacity,~four power profiles and three thresholds,~and two probabilistic parameters representing time resolutions.
@@ -204,7 +215,6 @@ $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert
 \caption{\textbf{DPM:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
-\vspace*{-0.4cm}
 \paragraph{Herman.}
 This case study will be in more detail introduced and described in Section~\ref{sec:herman}.
 Domains parameters represent the~memory updates,~and the~probability parameters represent different coin biases based on the~variable and memory value.
@@ -220,7 +230,6 @@ $\lvert \mathbf{K} \rvert$ & $\lvert \mathbf{V} \rvert$ & $\lvert \varPhi \rvert
 \caption{\textbf{Herman:} Performance evaluation of combined probabilistic synthesis.}
 \end{table}
 
-\vspace*{-0.4cm}
 \paragraph{Evaluation.}
 The~obtained results cannot be generalised because the~complexity of the~synthesis process in combined synthesis depends on several factors. 
 The~effectivity of splitting the~space of candidate solutions is mainly influenced by the~density of solutions in the~vicinity of the~optimal solution.
@@ -313,5 +322,6 @@ Its constraints cause the~sketch to contain four parameters with 25 values repre
 When we refine this topology synthesis by considering $250$ coin biases from the~same interval $[0.0, 0.25]$,~the~synthesis problem is intractable as the~family size increases about the~factor $10k$.
 Therefore,~we consider an~alternative formulation of the~synthesis problem where we replace these discrete options with continuous transition parameters over the~same interval.
 The~combined synthesis method requires around $53$ minutes and guarantees the~optimal solution over the~continuous parameters space compared to the~first version,~where were considered only discrete steps.
-
+We concluded that the~appropriate use of both syntheses (topology and parameters) brings easier writing of the~program sketch,~coverage of the~continuous space of parameters,~and the~potentially better performance of the~synthesis itself.
+% \MC{Pridej nejakou vetu ze tento experiment jasne ukazuje benefit kombinovane syntezy ....}
 % Figure~\ref{fig:herman} depicts one round of Herman's protocol.
