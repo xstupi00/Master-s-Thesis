@@ -107,7 +107,7 @@ For MCs family $\fml = \family$,~and the~set $C \subseteq S$,~the~conflict set $
 As we said above,~a~\textit{quotient} MDP over-approximates the~behaviours of each Markov chain in the~currently analysed family $\fml$.
 The~\textit{deductive} oracle performs the~model checking of this MDP,~and it can yields the~following results.
 We consider the~following specification against which is performed relevant model checking: $\reachability{\geq}{\lambda}{T}$.
-The~model checking itself returns the~corresponding lower ($x_{min}$) and upper ($x_{max}$) bounds,~as well as the~minimising ($\sigma_{min}$) and maximising ($\sigma_{max}$) schedulers on the~considered reachability probability.
+The~model checking of the quotient MDP returns the~corresponding lower ($x_{min}$) and upper ($x_{max}$) bounds,~as well as the~minimising ($\sigma_{min}$) and maximising ($\sigma_{max}$) schedulers on the~considered reachability probability.
 When $x_{max} < \lambda$,~the~synthesis task is unfeasible since for each family member $r \in \rlz^\fml$ holds that $\mathcal{D}_r \not\models \phi$.
 On the~contrary,~when $x_{min} >= \lambda$,~the~oracle can return an~arbitrary family member as a~solution to the~synthesis task since each satisfies $\phi$.
 Last but not least,~when $x_{min} \leq \lambda \leq x_{max}$,~we cannot decide this case,~except when the~scheduler $\sigma_{max}$ is consistent.
